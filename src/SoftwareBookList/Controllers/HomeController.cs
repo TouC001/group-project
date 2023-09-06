@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace MarysToyStore.Controllers;
+namespace SoftwareBookList.Controllers;
 
 public class HomeController : Controller
 {
