@@ -13,6 +13,6 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        return new ContentResult { Content = "Hello world!" };
+        return View();
     }
 }
