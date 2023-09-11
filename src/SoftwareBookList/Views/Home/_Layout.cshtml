@@ -3,10 +3,44 @@
     <style>:root {--pathBase: "@Context.Request.PathBase";}</style> @* CSS path base variable: use var(--pathBase) when behind reverse proxy. *@
     <script>const pathBase = "@Context.Request.PathBase";</script> @* JavaScript path base variable: use pathBase when behind reverse proxy. *@
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/site.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
     <div class="container">
-        <h1>Software Book!!</h1>
+        <header>
+
+            <div class="top-bar">
+                <a href="login.html" class="login-button">Login</a>
+                <a href="signup.html" class="signup-button">Sign Up</a>
+            </div>
+
+            <h1 class="header-title">MySoftware BookList</h1>
+
+            <div>
+                <ul class="navbar-nav">
+                    <li>
+                        <a class="nav-link" href="@Url.Action("Index", "Home")">Home</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="@Url.Action("About", "Home")">About</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" href="@Url.Action("Contact", "Home")">Contact</a>
+                    </li>
+                </ul>
+            </div>
+
+        </header>
+
+        <div id="menu" class="nav-menu">
+            <div id="right-menu">
+                <form action="/search" method="GET" class="search-form">
+                    <input type="text" name="q" placeholder="Search..." class="search-input" />
+                    <button type="submit" class="search-button">Search</button>
+                </form>
+            </div>
+        </div>
+
         <div>
             @RenderBody()
         </div>
