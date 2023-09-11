@@ -21,7 +21,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Contact()
+    public IActionResult Rating()
     {
         return View();
     }
