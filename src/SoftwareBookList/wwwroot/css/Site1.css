@@ -1,4 +1,7 @@
-footer{color:#808080}
+body {
+    background-color: azure;
+    display: block;
+}
 
 h1 {
     font-size: 25px;
@@ -15,11 +18,19 @@ p {
     color: darkslategray;
 }
 
-body {
-    background-color: azure;
-    display: block;
+.navbar-nav {
+    list-style: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
 }
 
+.navbar-nav li {
+    display: inline-block; /* Display list items horizontally */
+    margin-right: 10px; /* Adjust spacing between items */
+}
+
+.navbar-nav li:last-child {
+    margin-right: 0; /* Remove margin from the last item */
+}
 
 .header-title {
     margin: 0; /* Remove default margin to align text properly */
@@ -57,24 +68,28 @@ body {
 }
 /* Position the login and sign-up buttons at the top right corner */
 
-
-table.home {
-    display: block;
-    border: 1px solid rgb(255, 255, 255);
-    border-collapse: collapse;
+tbody {
+    display: table-row-group;
+    vertical-align: middle;
+    border-color: inherit;
 }
 
-table {
-    background: linear-gradient(180deg, rgb(190, 215, 255), black);
-    width: auto;
-    border: 5px solid gray;
+td {
+    color: black;
+    font-weight: bold;
+    border: 3px solid gray;
+    line-height: 1.4em;
 }
 
-.content-wrapper {
-    background-color: black;
+#content-wrapper {
+    background-color: white;
     min-height: 555px;
     padding-bottom: 30px;
     position: relative;
+}
+
+#content-wrapper {
+    margin-bottom: 0;
 }
 
 .wishlist-button {
@@ -89,6 +104,10 @@ table {
 
 /* Remove bullet points from list items with class 'book-list' */
 .book-list {
-    list-style: none;  /*Remove (bullet points) */
-    padding-left: 0;  /*Remove left padding to align text properly */
+    list-style: none; /*Remove (bullet points) */
+    padding-left: 0; /*Remove left padding to align text properly */
+}
+
+footer {
+    color: gray;
 }
