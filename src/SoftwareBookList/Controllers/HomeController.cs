@@ -21,7 +21,7 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Rating()
+    public IActionResult Books()
     {
         return View();
     }
