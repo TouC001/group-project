@@ -2,98 +2,21 @@
     Layout = "_Layout";
 }
 
-<div id="content-wrapper">
+<div class="container">
 
-    <div>
-        <h1>Top Recomended</h1>
-    </div>
+    <div class="">
 
-    <div id="content">
+        <div class="row">
 
-        <div class="ppp">
-            <h2>Recomended Books by Our Users</h2>
-
-            <table border="0" cellpadding="0" cellspacing="0" width="100%" class="home">
-                <tbody>
-                    <tr class="table-header">
-                        <td class="rank">Rank</td>
-                        <td class="title">Title</td>
-                        <td class="score">Score</td>
-                        <td class="status">Status</td>
-                    </tr>
-
-                    <tr class="ranking-list">
-                        <td class="rank ac" valign="top">
-                            <span class="top-anime">1</span>
-                        </td>
-                        <td class="book-title"><p>C# 9.0 in a Nutshell: The Definitive Reference</p></td>
-                        <td class="score ac">
-                            <div style="width: 53.5469px">
-                                <i class="fas fa-star">
-                                    <span class="text-black scor-ac">10</span>
-                                </i>
-                            </div>
-                        </td>
-                        <td>
-                            <a href="#" class="wishlist-button">WishList</a>
-                        </td>
-                    </tr>
-
-                    <tr class="ranking-list">
-                        <td class="rank ac" valign="top">
-                            <span>2</span>
-                        </td>
-                        <td class="book-title"><p>C# Programming Yellow Book</p></td>
-                        <td class="score ac">
-                            <div style="width: 53.5469px">
-                                <i class="fas fa-star">
-                                    <span class="text-black scor-ac">9</span>
-                                </i>
-                            </div>
-                        </td>
-                        <td>
-                            <a href="#" class="wishlist-button">WishList</a>
-                        </td>
-                    </tr>
-
-                    <tr class="ranking-list">
-                        <td class="rank ac" valign="top">   
-                            <span>3</span>
-                        </td>
-                        <td class="book-title"><p>Pro C# 9 with .NET 5</p></td>
-                        <td class="score ac">
-                            <div style="width: 53.5469px">
-                                <i class="fas fa-star">
-                                    <span class="icon-score-star scor-ac">9</span>
-                                </i>
-                            </div>
-                        </td>
-                        <td>
-                            <a href="#" class="wishlist-button">WishList</a>
-                        </td>
-                    </tr>
-
-                    <tr class="ranking-list">
-                        <td class="rank ac" valign="top">
-                            <span>4</span>
-                        </td>
-                        <td class="book-title"><p>Clean Code: A Handbook of Agile Software Craftsmanship"</p></td>
-                        <td class="score ac">
-                            <div style="width: 53.5469px">
-                                <i class="fas fa-star">
-                                    <span class="text-black scor-ac">7</span>
-                                </i>
-                            </div>
-                        </td>
-                        <td>
-                            <a href="#" class="wishlist-button">WishList</a>
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
+            <div class="col">
+                <h2 class="m-2">Top Rating Software Books</h2>
+            </div>
+            <div class="col text-end mt-3 ms-5 m-2">
+                    <form id="search-form" action="" method="">
+                        <input type="text" id="search-input" name="q" placeholder="Search...">
+                        <button type="submit">Search</button>
+                    </form>
+            </div>
         </div>
-
     </div>
-
 </div>
