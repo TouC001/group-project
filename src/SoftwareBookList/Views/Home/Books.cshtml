@@ -1,6 +1,7 @@
 ﻿@{
     Layout = "_Layout";
 }
+@* @model List<RatingItem> *@
 
 <div class="container">
 
@@ -12,11 +13,43 @@
                 <h2 class="m-2">Top Rating Software Books</h2>
             </div>
             <div class="col text-end mt-3 ms-5 m-2">
-                    <form id="search-form" action="" method="">
-                        <input type="text" id="search-input" name="q" placeholder="Search...">
-                        <button type="submit">Search</button>
-                    </form>
+                <form action="@Url.Action("Search", "Books")" method="get">
+                    <input type="text" name="query" placeholder="Search by title...">
+                    <button type="submit">Search</button>
+                </form>
             </div>
         </div>
     </div>
+
+    <table class="table border border-2 border-dark">
+        <thead>
+            <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Title</th>
+                <th scope="col">Score</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>Mike</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>Mark</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>Mark</td>
+            </tr>
+        </tbody>
+    </table>
+
 </div>
