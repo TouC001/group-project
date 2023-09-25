@@ -11,10 +11,12 @@ namespace SoftwareBookList.Controllers
     public class BooksController : Controller
     {
         private readonly GoogleBooksService _googleBooksService;
+        private readonly GoogleBooksSettings _googleBooksSettings;
 
-        public BooksController(GoogleBooksService googleBooksService)
+        public BooksController(GoogleBooksService googleBooksService, IOptions<GoogleBooksSettings> googleBooksSettings)
         {
             _googleBooksService = googleBooksService;
+            _googleBooksSettings = googleBooksSettings.Value; // Check this value during debugging
         }
 
         [HttpGet]
