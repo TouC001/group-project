@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using SoftwareBookList.Data;
 using SoftwareBookList.Services;
 
 namespace SoftwareBookList
@@ -29,6 +31,7 @@ namespace SoftwareBookList
             services.AddHttpClient<GoogleBooksService>();
 
             // Add other service configurations here, e.g., database, authentication
+            services.AddDbContext<DataContext>((d) => d.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
         }
 
         // Configure is where the application's request pipeline and middleware are set up.
