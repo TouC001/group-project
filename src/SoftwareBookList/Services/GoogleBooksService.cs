@@ -1,4 +1,8 @@
-﻿namespace SoftwareBookList.Services
+﻿using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using SoftwareBookList.Models;
+
+namespace SoftwareBookList.Services
 {
     /// <summary>
     /// This class takes an instance of HttpClient through dependency injection
@@ -7,38 +11,54 @@
     public class GoogleBooksService
     {
         private readonly HttpClient _httpClient;
+        private readonly GoogleBooksSettings _googleBooksSettings;
 
-        public GoogleBooksService(HttpClient httpClient)
+        public GoogleBooksService(HttpClient httpClient, IOptions<GoogleBooksSettings> googleBooksSettings)
         {
             _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
+            _googleBooksSettings = googleBooksSettings.Value;
             _httpClient.BaseAddress = new Uri("https://www.googleapis.com/books/v1/"); // Base URL for Google Books API
         }
 
-        /// <summary>
-        /// This is where we make the GET request for books based on a search term we give.
-        /// We also are setting the maxResults to 40 to get 40 books back.
-        /// </summary>
-        /// <param name="query">This is the search term we are using when we search Google Books.</param>
-        /// <returns></returns>
-        public async Task<string> GetBooksAsync(string query)
+        public async Task<List<BookViewModel>> GetBooksAsync(string query)
         {
             try
             {
-                HttpResponseMessage response = await _httpClient.GetAsync($"volumes?q={query}&maxResults=40");
+                var apiKey = _googleBooksSettings.ApiKey;
+                var requestUrl = $"volumes?q={query}&maxResults=40&key={apiKey}";
 
-                if (response.IsSuccessStatusCode)
+                var response = await _httpClient.GetAsync(requestUrl);
+
+                response.EnsureSuccessStatusCode(); // Ensure HTTP success status
+
+                var result = await response.Content.ReadAsStringAsync();
+                var apiResponse = JsonConvert.DeserializeObject<GoogleBooksApiResponse>(result);
+
+                var bookViewModels = new List<BookViewModel>();
+
+                if (apiResponse != null && apiResponse.Items != null)
                 {
-                    return await response.Content.ReadAsStringAsync();
+                    foreach (var item in apiResponse.Items)
+                    {
+                        var bookViewModel = new BookViewModel
+                        {
+                            Title = item.VolumeInfo.Title,
+                            Authors = string.Join(", ", item.VolumeInfo.Authors),
+                            Description = item.VolumeInfo.Description,
+                            PublishedDate = item.VolumeInfo.PublishedDate
+                            // Map other properties as needed
+                        };
+
+                        bookViewModels.Add(bookViewModel);
+                    }
                 }
-                else
-                {
-                    // Handle API error responses here
-                    return null;
-                }
+
+                return bookViewModels;
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                // Handle exceptions here
+                // Handle the exception (e.g., log it, display an error message)
+                Console.WriteLine($"HttpRequestException: {ex.Message}");
                 return null;
             }
         }

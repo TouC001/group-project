@@ -1,4 +1,7 @@
-﻿using SoftwareBookList.Services;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using SoftwareBookList.Data;
+using SoftwareBookList.Services;
 
 namespace SoftwareBookList
 {
@@ -8,16 +11,27 @@ namespace SoftwareBookList
     /// </summary>
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         // ConfigureServices is where application services are configured and added to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             // Configure services required by the application
             services.AddControllersWithViews();
 
+            // Configure GoogleBooksSettings from appsettings.json
+            services.Configure<GoogleBooksSettings>(_configuration.GetSection("GoogleBooksSettings"));
+
             // Register HttpClient wtih Google Books
             services.AddHttpClient<GoogleBooksService>();
 
             // Add other service configurations here, e.g., database, authentication
+            services.AddDbContext<DataContext>((d) => d.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
         }
 
         // Configure is where the application's request pipeline and middleware are set up.
