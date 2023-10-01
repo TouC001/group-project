@@ -1,18 +1,36 @@
-﻿namespace SoftwareBookList.Models
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SoftwareBookList.Models
 {
-    public class BookList
-    {
-        public int BookListID { get; set; }
+	public class BookList
+	{
+		[Key]
+		public int BookListID { get; set; }
 
-        // Status property to represent the status of the BookList
-        public BookListStatus BookListStatus { get; set; }
+		[ForeignKey("BookListStatus")]
+		public int BookListStatusID { get; set; }
+
+		[ForeignKey("Book")]
+		public int BookID { get; set; }
+
+		[ForeignKey("List")]
+		public int LisID { get; set; }
 
 
-        // Navigation property to represent the User who owns this list
-        public User User { get; set; }
+		// Navigation property
+		public BookListStatus BookListStatus { get; set; }
 
 
-        // Navigation property to represent the books in this list
-        public ICollection<Book> Books { get; set; }
-    }
+
+		// Navigation property for the associated book
+		public Book Book { get; set; }
+
+
+
+		// Navigation property for the associated list
+		public List List { get; set; }
+	}
 }

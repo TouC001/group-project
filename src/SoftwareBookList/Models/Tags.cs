@@ -1,12 +1,19 @@
-﻿namespace SoftwareBookList.Models
-{
-    public class Tag
-    {
-        public int TagId { get; set; }
-        public string TagName { get; set; }
+﻿using System.ComponentModel.DataAnnotations;
 
-        // Navigation property to represent the many-to-many relationship with books
-        // ICollection just represents a collection of objects. So this represents a collection of Booktags.
-        public ICollection<BookTag> BookTags { get; set; }
-    }
+namespace SoftwareBookList.Models
+{
+	public class Tag
+	{
+		[Key] // Marks TagId as the primary key
+		public int TagId { get; set; }
+
+		[Required]
+		[StringLength(255)]
+		public string TagName { get; set; }
+
+
+
+		// Navigation property to represent the many-to-many relationship with books
+		public ICollection<BookTag> BookTags { get; set; }
+	}
 }

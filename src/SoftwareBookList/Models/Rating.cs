@@ -3,17 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SoftwareBookList.Models
 {
-    public class Rating
-    {
-        public int RatingID { get; set; }
-        public int RatingValue { get; set; }
+	public class Rating
+	{
+		[Key]
+		public int RatingID { get; set; }
 
-        // This is representing the User who provied the rating. It is referncing the User class.
-        // Could be replaced with using the UserID, but I am unsure.
-        public User User { get; set; }
+		[Required]
+		[Range(1, 10, ErrorMessage = "RatingValue must be between 1 and 10.")]
+		public int RatingValue { get; set; }
 
-        // This is representing the book that has been given a rating. It is referencing the Book class.
-        // Could be replaced with using the BookID, but I am unsure.
-        public Book RatedBook { get; set; }
-    }
+
+		// Navigation property for the one-to-many relationship with Review
+		public List<Review> Reviews { get; set; }
+
+	}
 }

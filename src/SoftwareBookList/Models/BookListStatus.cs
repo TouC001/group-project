@@ -1,9 +1,17 @@
-﻿namespace SoftwareBookList.Models
-{
-    public class BookListStatus
-    {
-        public int StatusID { get; set; }
+﻿using System.ComponentModel.DataAnnotations;
 
-        public string StatusDescription { get; set; }
-    }
+namespace SoftwareBookList.Models
+{
+	public class BookListStatus
+	{
+		[Key]
+		public int StatusID { get; set; }
+
+		[Required]
+		public string StatusName { get; set; }
+
+
+		// Navigation property for associated BookList entities
+		public ICollection<BookList> BookLists { get; set; }
+	}
 }
