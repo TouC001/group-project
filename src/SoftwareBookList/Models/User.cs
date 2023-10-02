@@ -22,9 +22,6 @@ namespace SoftwareBookList.Models
 		[Required]
 		public string PasswordHash { get; set; }
 
-		[Url]
-		public string ProfilePictureUrl { get; set; }
-
 
 		// Represents a collection of discussions associated with this user.
 		public ICollection<Discussion> Discussions { get; set; }

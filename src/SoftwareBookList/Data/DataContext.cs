@@ -15,7 +15,7 @@ namespace SoftwareBookList.Data
 		public DbSet<Discussion> Discussions { get; set; }
 		public DbSet<List> Lists { get; set; }
 		public DbSet<Message> Messages { get; set; }
-		public DbSet<Rating> Ratings { get; set; }
+		public DbSet<Rating> Ratings { get; set; }	
 		public DbSet<Review> Reviews { get; set; }
 		public DbSet<Tag> Tags { get; set; }
 		public DbSet<User> Users { get; set; }

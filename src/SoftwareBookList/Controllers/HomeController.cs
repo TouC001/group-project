@@ -21,15 +21,15 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult SignUp()
-    {
-        return View();
-    }
+    //public IActionResult SignUp()
+    //{
+    //    return View();
+    //}
 
-    public IActionResult LogIn()
-    {
-        return View();
-    }
+    //public IActionResult LogIn()
+    //{
+    //    return View();
+    //}
 
     public IActionResult Account()
     {
