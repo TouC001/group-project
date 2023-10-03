@@ -29,8 +29,36 @@
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="navbar-collapse collapse justify-content-center">
-                        <ul class="navbar-nav">
+                        <ul class="nav nav-tabs">
                             <li class="nav-item">
+                                <!--
+                                    <a class="nav-link text-warning" href="@Url.Action("Index", "Home")">Home</a>
+
+                                    Here we are routing the nav bar links to show which page the user is on. 
+                                -->
+                                <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("Index", "Home")">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "FindBooks" && ViewContext.RouteData.Values["Controller"].ToString() == "Books" ? "active" : "")" href="@Url.Action("FindBooks", "Books")">Books</a>
+                            </li>
+                            <li class="nav-item">
+                                @* <a class="nav-link text-warning" href="@Url.Action("Discussion", "Home")">Discussion</a> *@
+                                <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Discussion" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("Discussion", "Home")">Discussion</a>
+                            </li>
+                            <li class="nav-item">
+                                @* <a class="nav-link text-warning" href="@Url.Action("Account", "Home")">Account</a> *@
+                                <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Account" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("Account", "Home")">Account</a>
+                            </li>
+                            <li class="nav-item">
+                                @* <a class="nav-link text-warning" href="@Url.Action("FindBooks", "Books")">About</a> *@
+                                <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "About" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("About", "Home")">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                            </li>
+
+                            <!--
+                                <li class="nav-item">
                                 <a class="nav-link text-warning" href="@Url.Action("Index", "Home")">Home</a>
                             </li>
                             <li class="nav-item">
@@ -45,6 +73,7 @@
                             <li class="nav-item">
                                 <a class="nav-link text-warning" href="@Url.Action("About", "Home")">About</a>
                             </li>
+                            -->
                         </ul>
                     </div>
                 </div>
