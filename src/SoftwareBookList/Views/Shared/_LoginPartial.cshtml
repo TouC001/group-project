@@ -2,23 +2,22 @@
 
 @if (User.Identity.IsAuthenticated)
 {
-	<ul class="navbar-nav ms-auto">
-		<span class="navbar-text">
-			Hello, @User.Identity.Name
-		</span>
-		<li>
+	<div class="container">
+		<div class="d-grid gap-2 d-md-flex justify-content-md-end ps-5">
+			<span class="navbar-text">
+				Hello, @User.FindFirst(x => x.Type == "userName").Value
+			</span>
 			<a asp-controller="Account" asp-action="Logout" class="nav-link" role="button">Logout</a>
-		</li>
-	</ul>
+			
+		</div>
+	</div>
 }
 else
 {
-	<ul class="navbar-nav ms-auto">
-		<li>
-			<a asp-controller="Account" asp-action="SignUp" class="nav-link" role="button">Sign Up</a>
-		</li>
-		<li>
-			<a asp-controller="Account" asp-action="Login" class="nav-link" role="button">Login</a>
-		</li>
-	</ul>
+	<div class="container">
+		<div class="d-grid gap-2 d-md-flex justify-content-md-end ps-5">
+			<a asp-controller="Account" asp-action="SignUp" class="nav-link btn btn-light" role="button">Sing Up</a>
+			<a asp-controller="Account" asp-action="Login" class="nav-link btn btn-light" role="button">Login</a>
+		</div>
+	</div>
 }

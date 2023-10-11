@@ -15,7 +15,7 @@ namespace SoftwareBookList.Models
 		public int BookID { get; set; }
 
 		[ForeignKey("Rating")]
-		public int RateID { get; set; }
+		public int RatingID { get; set; }
 
 		[Required]
 		[MaxLength(1000)]

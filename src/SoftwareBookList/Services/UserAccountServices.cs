@@ -31,5 +31,24 @@ namespace SoftwareBookList.Services
 
 			return user;
 		}
+
+		public string GenerateRandomUserName()
+		{
+			Random random = new Random();
+
+			string username = "user" + random.Next(10000, 99999).ToString();
+
+			return username;
+		}
+
+		public bool IsUserNameUnique(string username)
+		{
+			// Check if there are any users in the database whose UserName property matches the provided username.
+			bool isUnique = !_dataContext.Users.Any(u => u.UserName == username);
+
+			// If no matching user with the same username is found, isUnique will be true.
+			// Otherwise, if a user with the same username exists, isUnique will be false.
+			return isUnique;
+		}
 	}
 }

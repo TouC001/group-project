@@ -19,6 +19,7 @@ namespace SoftwareBookList.Data
 		public DbSet<Review> Reviews { get; set; }
 		public DbSet<Tag> Tags { get; set; }
 		public DbSet<User> Users { get; set; }
+		public DbSet<UserAccount> Accounts { get; set; }
 
 
 		//public DbSet<BookViewModel> BookViewModel { get; set; }
@@ -94,6 +95,9 @@ namespace SoftwareBookList.Data
 
 			modelBuilder.Entity<User>()
 				.HasKey(user => user.UserID); // Specify the PK for User
+
+			modelBuilder.Entity<UserAccount>()
+				.HasKey(account => account.AccountID); // Specify the PK for BookTag
 
 			base.OnModelCreating(modelBuilder);
 		}

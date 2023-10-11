@@ -23,12 +23,12 @@ namespace SoftwareBookList.Models
 
 
 
-		// ID of the user who sent the message -- This acts as the FK because it relates to the UserID who sent the message.
+		// ID of the user who sent the message -- This can act as the FK because it relates to the UserID who sent the message.
 		public int SenderID { get; set; }
 
 
 
-		// ID of the user who is the recipient of the message -- This acts as the FK because it relates to the UserID who received the message.
+		// ID of the user who is the recipient of the message -- This can act as the FK because it relates to the UserID who received the message.
 		public int RecipientID { get; set; }
 
 

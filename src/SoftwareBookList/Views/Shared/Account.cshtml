@@ -7,14 +7,24 @@
         <!-- Profile Picture -->
         <div class="col-md-3">
             <h2>Profile Picture</h2>
-            <!-- Include user's profile picture here -->
+            <form method="post" enctype="multipart/form-data" asp-action="UpdateProfilePicture" asp-controller="UserProfile">
+                <input type="file" name="profilePicture" />
+                <button type="submit">Upload Profile Picture</button>
+            </form>
+
+            @* <form method="post" asp-action="Edit" asp-controller="UserAccount" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label asp-for="ProfilePicture">Profile Picture</label>
+                    <input asp-for="ProfilePicture" class="form-control" type="file">
+                </div>
+                <!-- Other user account properties -->
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form> *@
+
         </div>
         <!-- User Details -->
         <div class="col-md-9">
-           @*  <h2>@Model.UserName's Profile</h2>
-            <p>Email: @Model.Email</p>
-            <p>Location: @Model.Location</p> *@
-            <!-- Add more user details here -->
+
         </div>
     </div>
 </div>
@@ -29,15 +39,15 @@
     </ul>
 </div>
 
-<!-- Favorite Anime/Manga Section -->
+
 <div class="container mt-5">
     <h2>Favorite Software Book</h2>
     <div class="row">
-        <!-- Anime List -->
+
         <div class="col-md-6">
             <h3>Favorite Book</h3>
             <ul>
-                <!-- Add user's favorite anime items here -->
+
                 <li>Book 1</li>
                 <li>Book 2</li>
             </ul>

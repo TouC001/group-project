@@ -11,6 +11,7 @@ namespace SoftwareBookList.Models
 		[ForeignKey("User")]
 		public int UserID { get; set; }
 
+		[Required]
 		public string Name { get; set; }
 
 

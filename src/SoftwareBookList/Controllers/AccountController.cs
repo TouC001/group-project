@@ -28,7 +28,7 @@ public class AccountController : Controller
 
 	[HttpPost("sign-up")]
 	[AllowAnonymous]
-	public IActionResult Register(SignUpViewModel signUpViewModel)
+	public IActionResult SignUp(SignUpViewModel signUpViewModel)
 	{
 		if (!ModelState.IsValid)
 		{
@@ -46,12 +46,26 @@ public class AccountController : Controller
 
 		PasswordHasher<string> passwordHasher = new PasswordHasher<string>();
 
+		// Generate a random username
+		string randomUsername = _userAccountServices.GenerateRandomUserName();
+
+		// Check if the username is unique
+		bool isUniqueUsername = _userAccountServices.IsUserNameUnique(randomUsername);
+
+		// If not unique, generate a new one until it's unique
+		while (!isUniqueUsername)
+		{
+			randomUsername = _userAccountServices.GenerateRandomUserName();
+			isUniqueUsername = _userAccountServices.IsUserNameUnique(randomUsername);
+		}
+
 		User user = new User()
 		{
 			FirstName = signUpViewModel.FirstName,
 			LastName = signUpViewModel.LastName,
 			EmailAddress = signUpViewModel.EmailAddress,
-			PasswordHash = passwordHasher.HashPassword(null, signUpViewModel.Password)
+			PasswordHash = passwordHasher.HashPassword(null, signUpViewModel.Password),
+			UserName = randomUsername
 		};
 
 		_userAccountServices.AddUser(user);
@@ -102,6 +116,7 @@ public class AccountController : Controller
 			{
 				new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
 				new Claim(ClaimTypes.Name, user.FirstName),
+				new Claim( "userName", user.UserName)
 			};
 
 		var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -134,10 +149,5 @@ public class AccountController : Controller
 		return RedirectToAction("Index", "Home");
 	}
 
-	//[Route("access-denied")]
-	//[AllowAnonymous]
-	//public IActionResult AccessDenied()
-	//{
-	//	return View();
-	//}
+
 }

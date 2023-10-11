@@ -4,10 +4,10 @@ namespace SoftwareBookList.Models
 {
 	public class Book
 	{
-		public string GoogleID { get; set; }
-
 		[Key]
 		public int BookID { get; set; }
+
+		public string GoogleID { get; set; }
 
 		[Required]
 		public string Title { get; set; }
