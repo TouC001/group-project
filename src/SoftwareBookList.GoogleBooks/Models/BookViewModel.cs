@@ -1,4 +1,4 @@
-﻿namespace SoftwareBookList.Models
+﻿namespace SoftwareBookList.GoogleBooks
 {
     public class BookViewModel
     {

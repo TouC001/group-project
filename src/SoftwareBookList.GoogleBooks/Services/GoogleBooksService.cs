@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using SoftwareBookList.Models;
+using SoftwareBookList;
+using SoftwareBookList.GoogleBooks;
 
-namespace SoftwareBookList.Services
+namespace SoftwareBookList.GoogleBooks
 {
     /// <summary>
     /// This class takes an instance of HttpClient through dependency injection

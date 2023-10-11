@@ -1,4 +1,4 @@
-﻿namespace SoftwareBookList
+﻿namespace SoftwareBookList.GoogleBooks
 {
     public class GoogleBooksSettings
     {

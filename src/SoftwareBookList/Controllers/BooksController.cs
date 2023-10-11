@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using SoftwareBookList.Models;
-using SoftwareBookList.Services;
-using System.Collections.Generic;
-using System.Threading.Tasks;
+using SoftwareBookList.GoogleBooks;
 
 namespace SoftwareBookList.Controllers
 {
-    public class BooksController : Controller
+	public class BooksController : Controller
     {
         private readonly GoogleBooksService _googleBooksService;
         private readonly GoogleBooksSettings _googleBooksSettings;
