@@ -1,0 +1,7 @@
+.edit-forms {
+    display: none;
+}
+
+.edit-forms.active {
+    display: block;
+}

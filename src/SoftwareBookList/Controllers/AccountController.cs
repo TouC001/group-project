@@ -65,8 +65,9 @@ public class AccountController : Controller
 			LastName = signUpViewModel.LastName,
 			EmailAddress = signUpViewModel.EmailAddress,
 			PasswordHash = passwordHasher.HashPassword(null, signUpViewModel.Password),
-			UserName = randomUsername
+			UserName = randomUsername,
 		};
+
 
 		_userAccountServices.AddUser(user);
 

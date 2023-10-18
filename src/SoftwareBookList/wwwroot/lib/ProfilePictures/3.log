@@ -1,0 +1,80 @@
+2023-10-06T16:34:30.398Z INFO  - Starting container for site
+2023-10-06T16:34:30.400Z INFO  - docker run -d --expose=8080 --name softwarebooklist-test_0_e8647f44 -e WEBSITE_SITE_NAME=softwarebooklist-Test -e WEBSITE_AUTH_ENABLED=False -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=softwarebooklist-test.azurewebsites.net -e WEBSITE_INSTANCE_ID=3bc5c5d3a2dc8b915580d2b9d94d8bdad55600c0922e5181ee6b33768b3136db -e WEBSITE_USE_DIAGNOSTIC_SERVER=True appsvc/dotnetcore:6.0_20230908.2.tuxprod dotnet SoftwareBookList.dll 
+
+2023-10-06T16:34:30.400Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2023-10-06T16:34:32.053Z INFO  - Initiating warmup request to container softwarebooklist-test_0_e8647f44 for site softwarebooklist-test
+2023-10-06T16:34:34.283Z INFO  - Container softwarebooklist-test_0_e8647f44 for site softwarebooklist-test initialized successfully and is ready to serve requests.
+2023-10-06T18:09:13.380Z INFO  - Starting container for site
+2023-10-06T18:09:13.382Z INFO  - docker run -d --expose=8080 --name softwarebooklist-test_1_fdfc06be -e WEBSITE_SITE_NAME=softwarebooklist-Test -e WEBSITE_AUTH_ENABLED=False -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=softwarebooklist-test.azurewebsites.net -e WEBSITE_INSTANCE_ID=3bc5c5d3a2dc8b915580d2b9d94d8bdad55600c0922e5181ee6b33768b3136db -e WEBSITE_USE_DIAGNOSTIC_SERVER=True appsvc/dotnetcore:6.0_20230908.2.tuxprod dotnet SoftwareBookList.dll 
+
+2023-10-06T18:09:13.383Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2023-10-06T18:09:16.132Z INFO  - Initiating warmup request to container softwarebooklist-test_1_fdfc06be for site softwarebooklist-test
+2023-10-06T18:09:20.452Z INFO  - Container softwarebooklist-test_1_fdfc06be for site softwarebooklist-test initialized successfully and is ready to serve requests.
+2023-10-06T18:09:49.633Z INFO  - Starting container for site
+2023-10-06T18:09:49.635Z INFO  - docker run -d --expose=8080 --name softwarebooklist-test_2_2679fe6b -e WEBSITE_SITE_NAME=softwarebooklist-Test -e WEBSITE_AUTH_ENABLED=False -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=softwarebooklist-test.azurewebsites.net -e WEBSITE_INSTANCE_ID=3bc5c5d3a2dc8b915580d2b9d94d8bdad55600c0922e5181ee6b33768b3136db -e WEBSITE_USE_DIAGNOSTIC_SERVER=True appsvc/dotnetcore:6.0_20230908.2.tuxprod dotnet SoftwareBookList.dll 
+
+2023-10-06T18:09:49.636Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2023-10-06T18:09:53.037Z INFO  - Initiating warmup request to container softwarebooklist-test_2_2679fe6b for site softwarebooklist-test
+2023-10-06T18:09:56.286Z INFO  - Container softwarebooklist-test_2_2679fe6b for site softwarebooklist-test initialized successfully and is ready to serve requests.
+2023-10-06T18:19:34.496Z INFO  - Starting container for site
+2023-10-06T18:19:34.499Z INFO  - docker run -d --expose=8080 --name softwarebooklist-test_3_fe0c02fc -e WEBSITE_SITE_NAME=softwarebooklist-Test -e WEBSITE_AUTH_ENABLED=False -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=softwarebooklist-test.azurewebsites.net -e WEBSITE_INSTANCE_ID=3bc5c5d3a2dc8b915580d2b9d94d8bdad55600c0922e5181ee6b33768b3136db -e WEBSITE_USE_DIAGNOSTIC_SERVER=True appsvc/dotnetcore:6.0_20230908.2.tuxprod dotnet SoftwareBookList.dll 
+
+2023-10-06T18:19:34.500Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2023-10-06T18:19:36.883Z INFO  - Initiating warmup request to container softwarebooklist-test_3_fe0c02fc for site softwarebooklist-test
+2023-10-06T18:19:39.272Z INFO  - Container softwarebooklist-test_3_fe0c02fc for site softwarebooklist-test initialized successfully and is ready to serve requests.
+2023-10-06T18:20:24.405Z INFO  - Starting container for site
+2023-10-06T18:20:24.408Z INFO  - docker run -d --expose=8080 --name softwarebooklist-test_4_70ace0d8 -e WEBSITE_SITE_NAME=softwarebooklist-Test -e WEBSITE_AUTH_ENABLED=False -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=softwarebooklist-test.azurewebsites.net -e WEBSITE_INSTANCE_ID=3bc5c5d3a2dc8b915580d2b9d94d8bdad55600c0922e5181ee6b33768b3136db -e WEBSITE_USE_DIAGNOSTIC_SERVER=True appsvc/dotnetcore:6.0_20230908.2.tuxprod dotnet SoftwareBookList.dll 
+
+2023-10-06T18:20:24.411Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2023-10-06T18:20:26.205Z INFO  - Initiating warmup request to container softwarebooklist-test_4_70ace0d8 for site softwarebooklist-test
+2023-10-06T18:20:29.455Z INFO  - Container softwarebooklist-test_4_70ace0d8 for site softwarebooklist-test initialized successfully and is ready to serve requests.
+2023-10-06T18:21:19.808Z INFO  - Starting container for site
+2023-10-06T18:21:19.809Z INFO  - docker run -d --expose=8080 --name softwarebooklist-test_0_8aeadf69 -e WEBSITE_SITE_NAME=softwarebooklist-Test -e WEBSITE_AUTH_ENABLED=False -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=softwarebooklist-test.azurewebsites.net -e WEBSITE_INSTANCE_ID=3bc5c5d3a2dc8b915580d2b9d94d8bdad55600c0922e5181ee6b33768b3136db -e WEBSITE_USE_DIAGNOSTIC_SERVER=True appsvc/dotnetcore:6.0_20230908.2.tuxprod dotnet SoftwareBookList.dll 
+
+2023-10-06T18:21:19.813Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2023-10-06T18:21:20.829Z INFO  - Initiating warmup request to container softwarebooklist-test_0_8aeadf69 for site softwarebooklist-test
+2023-10-06T18:21:23.931Z INFO  - Container softwarebooklist-test_0_8aeadf69 for site softwarebooklist-test initialized successfully and is ready to serve requests.
+2023-10-06T18:23:55.589Z INFO  - Starting container for site
+2023-10-06T18:23:55.590Z INFO  - docker run -d --expose=8080 --name softwarebooklist-test_0_d7fc079f -e WEBSITE_SITE_NAME=softwarebooklist-Test -e WEBSITE_AUTH_ENABLED=False -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=softwarebooklist-test.azurewebsites.net -e WEBSITE_INSTANCE_ID=3bc5c5d3a2dc8b915580d2b9d94d8bdad55600c0922e5181ee6b33768b3136db -e WEBSITE_USE_DIAGNOSTIC_SERVER=True appsvc/dotnetcore:6.0_20230908.2.tuxprod dotnet SoftwareBookList.dll 
+
+2023-10-06T18:23:55.591Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2023-10-06T18:23:57.750Z INFO  - Initiating warmup request to container softwarebooklist-test_0_d7fc079f for site softwarebooklist-test
+2023-10-06T18:23:59.859Z INFO  - Container softwarebooklist-test_0_d7fc079f for site softwarebooklist-test initialized successfully and is ready to serve requests.
+2023-10-06T18:34:15.912Z INFO  - Starting container for site
+2023-10-06T18:34:15.914Z INFO  - docker run -d --expose=8080 --name softwarebooklist-test_1_0365f178 -e WEBSITE_SITE_NAME=softwarebooklist-Test -e WEBSITE_AUTH_ENABLED=False -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=softwarebooklist-test.azurewebsites.net -e WEBSITE_INSTANCE_ID=3bc5c5d3a2dc8b915580d2b9d94d8bdad55600c0922e5181ee6b33768b3136db -e WEBSITE_USE_DIAGNOSTIC_SERVER=True appsvc/dotnetcore:6.0_20230908.2.tuxprod dotnet SoftwareBookList.dll 
+
+2023-10-06T18:34:15.915Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2023-10-06T18:34:18.460Z INFO  - Initiating warmup request to container softwarebooklist-test_1_0365f178 for site softwarebooklist-test
+2023-10-06T18:34:22.664Z INFO  - Container softwarebooklist-test_1_0365f178 for site softwarebooklist-test initialized successfully and is ready to serve requests.
+2023-10-06T18:34:40.446Z INFO  - Starting container for site
+2023-10-06T18:34:40.447Z INFO  - docker run -d --expose=8080 --name softwarebooklist-test_2_be31f944 -e WEBSITE_SITE_NAME=softwarebooklist-Test -e WEBSITE_AUTH_ENABLED=False -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=softwarebooklist-test.azurewebsites.net -e WEBSITE_INSTANCE_ID=3bc5c5d3a2dc8b915580d2b9d94d8bdad55600c0922e5181ee6b33768b3136db -e WEBSITE_USE_DIAGNOSTIC_SERVER=True appsvc/dotnetcore:6.0_20230908.2.tuxprod dotnet SoftwareBookList.dll 
+
+2023-10-06T18:34:40.448Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2023-10-06T18:34:42.605Z INFO  - Initiating warmup request to container softwarebooklist-test_2_be31f944 for site softwarebooklist-test
+2023-10-06T18:34:45.732Z INFO  - Container softwarebooklist-test_2_be31f944 for site softwarebooklist-test initialized successfully and is ready to serve requests.
+2023-10-06T18:35:19.448Z INFO  - Starting container for site
+2023-10-06T18:35:19.454Z INFO  - docker run -d --expose=8080 --name softwarebooklist-test_3_22a2f1b6 -e WEBSITE_SITE_NAME=softwarebooklist-Test -e WEBSITE_AUTH_ENABLED=False -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=softwarebooklist-test.azurewebsites.net -e WEBSITE_INSTANCE_ID=3bc5c5d3a2dc8b915580d2b9d94d8bdad55600c0922e5181ee6b33768b3136db -e WEBSITE_USE_DIAGNOSTIC_SERVER=True appsvc/dotnetcore:6.0_20230908.2.tuxprod dotnet SoftwareBookList.dll 
+
+2023-10-06T18:35:19.478Z INFO  - Logging is not enabled for this container.
+Please use https://aka.ms/linux-diagnostics to enable logging to see container logs here.
+2023-10-06T18:35:21.137Z INFO  - Initiating warmup request to container softwarebooklist-test_3_22a2f1b6 for site softwarebooklist-test
+2023-10-06T18:35:25.098Z INFO  - Container softwarebooklist-test_3_22a2f1b6 for site softwarebooklist-test initialized successfully and is ready to serve requests.
+2023-10-06T18:41:34.316Z INFO  - Starting container for site
+2023-10-06T18:41:34.317Z INFO  - docker run -d --expose=8080 --name softwarebooklist-test_0_51011d98 -e WEBSITE_SITE_NAME=softwarebooklist-Test -e WEBSITE_AUTH_ENABLED=False -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=softwarebooklist-test.azurewebsites.net -e WEBSITE_INSTANCE_ID=3bc5c5d3a2dc8b915580d2b9d94d8bdad55600c0922e5181ee6b33768b3136db -e HTTP_LOGGING_ENABLED=1 -e WEBSITE_USE_DIAGNOSTIC_SERVER=True appsvc/dotnetcore:6.0_20230908.2.tuxprod dotnet SoftwareBookList.dll 
+
+2023-10-06T18:41:35.270Z INFO  - Initiating warmup request to container softwarebooklist-test_0_51011d98 for site softwarebooklist-test
+2023-10-06T18:41:37.420Z INFO  - Container softwarebooklist-test_0_51011d98 for site softwarebooklist-test initialized successfully and is ready to serve requests.
+2023-10-06T18:42:04.521Z INFO  - Starting container for site
+2023-10-06T18:42:04.523Z INFO  - docker run -d --expose=8080 --name softwarebooklist-test_1_c19ec55c -e WEBSITE_SITE_NAME=softwarebooklist-Test -e WEBSITE_AUTH_ENABLED=False -e WEBSITE_ROLE_INSTANCE_ID=0 -e WEBSITE_HOSTNAME=softwarebooklist-test.azurewebsites.net -e WEBSITE_INSTANCE_ID=3bc5c5d3a2dc8b915580d2b9d94d8bdad55600c0922e5181ee6b33768b3136db -e HTTP_LOGGING_ENABLED=1 -e WEBSITE_USE_DIAGNOSTIC_SERVER=True appsvc/dotnetcore:6.0_20230908.2.tuxprod dotnet SoftwareBookList.dll 
+
+2023-10-06T18:42:12.815Z INFO  - Initiating warmup request to container softwarebooklist-test_1_c19ec55c for site softwarebooklist-test
+2023-10-06T18:42:18.431Z INFO  - Container softwarebooklist-test_1_c19ec55c for site softwarebooklist-test initialized successfully and is ready to serve requests.

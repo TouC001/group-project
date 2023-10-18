@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SoftwareBookList.Models
 {
-	public class List
+    public class List
 	{
 		[Key]
 		public int ListID { get; set; }

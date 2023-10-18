@@ -1,0 +1,65 @@
+﻿@using SoftwareBookList.Models;
+@model UserProfileViewModel;
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="container mt-5">
+
+    <div class="row">
+
+        <div class="col-md-3">
+
+            <h2>Profile Picture</h2>
+
+            @if (!string.IsNullOrEmpty(Model.ProfilePicture))
+            {
+                @* Added a timestamp to make it so, when a user uploads a new image, it updates right away. *@
+                <img width="200" src="@(Model.ProfilePicture.Replace("wwwroot", "") + "?timestamp=" + DateTime.Now.Ticks)" alt="Profile Picture" />
+            }
+
+        </div>
+
+        <div class="col-md-9">
+
+            <p><strong>UserName:</strong> @Model.UserName</p>
+
+
+            <p><strong>Bio:</strong> @Model.Bio</p>
+
+
+            <p><strong>Birthday:</strong> @Model.Birthday.ToShortDateString()</p>
+
+            <a asp-controller="UserProfile" asp-action="EditProfile" class="btn btn-primary">Edit Profile</a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Activity Feed Section -->
+<div class="container mt-5">
+    <h2>Activity Feed</h2>
+    <ul class="list-group">
+        <!-- Add user's activity feed items here -->
+        <li class="list-group-item">Activity 1</li>
+        <li class="list-group-item">Activity 2</li>
+    </ul>
+</div>
+
+
+<div class="container mt-5">
+    <h2>Favorite Software Book</h2>
+    <div class="row">
+
+        <div class="col-md-6">
+            <h3>Favorite Book</h3>
+            <ul>
+
+                <li>Book 1</li>
+                <li>Book 2</li>
+            </ul>
+    </div>
+</div>

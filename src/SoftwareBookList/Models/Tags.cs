@@ -2,7 +2,7 @@
 
 namespace SoftwareBookList.Models
 {
-	public class Tag
+    public class Tag
 	{
 		[Key] // Marks TagId as the primary key
 		public int TagId { get; set; }

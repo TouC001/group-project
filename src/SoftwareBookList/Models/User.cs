@@ -45,6 +45,10 @@ namespace SoftwareBookList.Models
 		public ICollection<Review> ReviewsGiven { get; set; }
 
 
+		// Represents a collection of Accounts a User can Create.
+		public ICollection<UserAccount> UserAccounts { get; set; }
+
+
 
 		// Navigation property for the user's list
 		public List List { get; set; }

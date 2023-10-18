@@ -47,7 +47,7 @@
                             </li>
                             <li class="nav-item">
                                 @* <a class="nav-link text-warning" href="@Url.Action("Account", "Home")">Account</a> *@
-                                <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Account" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("Account", "Home")">Account</a>
+                                <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Account" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" asp-controller="UserProfile" asp-action="Account">Account</a>
                             </li>
                             <li class="nav-item">
                                 @* <a class="nav-link text-warning" href="@Url.Action("FindBooks", "Books")">About</a> *@

@@ -96,8 +96,13 @@ namespace SoftwareBookList.Data
 			modelBuilder.Entity<User>()
 				.HasKey(user => user.UserID); // Specify the PK for User
 
+			modelBuilder.Entity<User>()
+				.HasMany(u => u.UserAccounts)
+				.WithOne(ua => ua.User)
+				.HasForeignKey(ua => ua.UserID);
+
 			modelBuilder.Entity<UserAccount>()
-				.HasKey(account => account.AccountID); // Specify the PK for BookTag
+				.HasKey(account => account.AccountID); // Specify the PK for Account
 
 			base.OnModelCreating(modelBuilder);
 		}

@@ -11,6 +11,8 @@ namespace SoftwareBookList.Models
 		[ForeignKey("User")]
 		public int UserID { get; set; }
 
+		public string UserName { get; set; }
+
 		public string ProfilePicture { get; set; }
 
 		[StringLength(200)]
@@ -18,6 +20,8 @@ namespace SoftwareBookList.Models
 
 		[DataType(DataType.Date)]
 		public DateTime Birthday { get; set; }
+
+		public User User { get; set; }
 
 	}
 }
