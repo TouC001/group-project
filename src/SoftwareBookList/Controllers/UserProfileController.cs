@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -10,207 +12,213 @@ using System.Security.Claims;
 
 namespace SoftwareBookList.Controllers
 {
-    [Authorize]
-    //The Controller is like a workshop that we will be using to handle all the task related to the users account.
-    public class UserProfileController : Controller
-    {
-        // Dependecy Injection of the UserProfileServive that will have all the logic and services we will need for our controller such as methods.
-        // _userProfileServices is a way for us to use it to access the methods and logic within the UserProfileService class.
-        private readonly UserProfileService _userProfileServices;
+	[Authorize]
+	//The Controller is like a workshop that we will be using to handle all the task related to the users account.
+	public class UserProfileController : Controller
+	{
+		// Dependecy Injection of the UserProfileServive that will have all the logic and services we will need for our controller such as methods.
+		// _userProfileServices is a way for us to use it to access the methods and logic within the UserProfileService class.
+		private readonly UserProfileService _userProfileServices;
 
-        // Our Constructor that is invoked when an instance of the UserProfileController is created.
-        // It takes a DataContext type because it assumes that the UserProfileService Class depends on the DataContext class which it does.
-        public UserProfileController(DataContext userProfileServices)
-        {
-            // Constructor then initializes the private field by creating a new instance of the UserProfileService and passing in the DataContext.
-            // This will then make it appearent that this class will rely on UserProfileService class.
-            _userProfileServices = new UserProfileService(userProfileServices);
-        }
+		// Our Constructor that is invoked when an instance of the UserProfileController is created.
+		// It takes a DataContext type because it assumes that the UserProfileService Class depends on the DataContext class which it does.
+		public UserProfileController(DataContext userProfileServices)
+		{
+			// Constructor then initializes the private field by creating a new instance of the UserProfileService and passing in the DataContext.
+			// This will then make it appearent that this class will rely on UserProfileService class.
+			_userProfileServices = new UserProfileService(userProfileServices);
+		}
 
-        // When someone access the "Account" page via web browser.
-        [HttpGet("Account")]
-        //This will return an IActionResult which will return a result of the rendered page.
-        public IActionResult Account()
-        {
-            // Finding the UserID from the current user's claim. Claims are pieces of information that hold information about the user.
-            // It is looking for a claim with the name of "NameIdetifier that would have the UserID stashed in it.
-            // NameIdetifier will be found in out AccountController in the Login HTTP Post.
-            int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+		// When someone access the "Account" page via web browser.
+		[HttpGet("Account")]
+		//This will return an IActionResult which will return a result of the rendered page.
+		public IActionResult Account()
+		{
+			// Finding the UserID from the current user's claim. Claims are pieces of information that hold information about the user.
+			// It is looking for a claim with the name of "NameIdetifier that would have the UserID stashed in it.
+			// NameIdetifier will be found in out AccountController in the Login HTTP Post.
+			int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            // Using the GetUserProfile Method from the UserProfileService anad storing it in the variable of type UserProfileViewModel.
-            UserProfileViewModel userProfileView = _userProfileServices.GetUserProfile(UserID);
+			// Using the GetUserProfile Method from the UserProfileService anad storing it in the variable of type UserProfileViewModel.
+			UserProfileViewModel userProfileView = _userProfileServices.GetUserProfile(UserID);
 
-            return View(userProfileView);
-        }
+			return View(userProfileView);
+		}
 
-        [HttpGet("EditProfile")]
-        public IActionResult EditProfile()
-        {
-            int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+		[HttpGet("EditProfile")]
+		public IActionResult EditProfile()
+		{
+			int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            UserProfileViewModel userProfileView = _userProfileServices.GetUserProfile(UserID);
+			UserProfileViewModel userProfileView = _userProfileServices.GetUserProfile(UserID);
 
-            return View(userProfileView);
-        }
+			return View(userProfileView);
+		}
 
-        [HttpPost("EditProfile")]
-        public IActionResult EditProfile(UserProfileViewModel userProfileView)
-        {
+		[HttpPost("EditProfile")]
+		public IActionResult EditProfile(UserProfileViewModel userProfileView)
+		{
 
-            int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+			int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-            if (!ModelState.IsValid)
-            {
-                UserProfileViewModel editProfileView = _userProfileServices.GetUserProfile(UserID);
+			if (!ModelState.IsValid)
+			{
+				UserProfileViewModel editProfileView = _userProfileServices.GetUserProfile(UserID);
 
-                return View(editProfileView);
-            }
-
-
-            UserAccount userAccount = _userProfileServices.UserProfile(UserID);
-
-            userAccount.Bio = userProfileView.Bio;
-            userAccount.UserName = userProfileView.UserName;
-            userAccount.Birthday = userProfileView.Birthday;
-
-            _userProfileServices.UpdateUserAccount(userAccount);
-
-            return View(userProfileView);
-
-        }
+				return View(editProfileView);
+			}
 
 
-        [HttpPost("upload-picture")]
-        public IActionResult UpdateProfilePicture(IFormFile profilePicture)
-        {
-            // Extract the UserID from the current user's claims.
-            int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+			UserAccount userAccount = _userProfileServices.UserProfile(UserID);
 
-            // Retrieve the user's account information using the UserProfileService.
-            UserAccount userAccount = _userProfileServices.UserProfile(UserID);
+			userAccount.Bio = userProfileView.Bio;
+			userAccount.UserName = userProfileView.UserName;
+			userAccount.Birthday = userProfileView.Birthday;
 
-            // Check if the user's account doesn't exist. If so, add a model error and redirect to the "Account" action.
-            if (userAccount == null)
-            {
-                return RedirectToAction("Account");
-            }
+			_userProfileServices.UpdateUserAccount(userAccount);
 
-            // Get the file extension of the uploaded profile picture.
-            string fileExtension = System.IO.Path.GetExtension(profilePicture.FileName);
+			return View(userProfileView);
 
-            // Define the file path where the profile picture will be stored.
-            string stringPath = System.IO.Path.Combine("wwwroot/lib/ProfilePictures", userAccount.AccountID + fileExtension);
-
-            // Check if a file with the same name already exists and delete it.
-            if (System.IO.File.Exists(stringPath))
-            {
-                System.IO.File.Delete(stringPath);
-            }
-
-            // Copy the uploaded profile picture to the specified file path.
-            using (FileStream f = System.IO.File.OpenWrite(stringPath))
-            {
-                profilePicture.CopyTo(f);
-            }
-
-            // Use the UserProfileService to update the user's profile picture.
-            _userProfileServices.UpdateProfilePicture(userAccount, stringPath);
+		}
 
 
-            return RedirectToAction("EditProfile");
-        }
+		[HttpPost("upload-picture")]
+		public IActionResult UpdateProfilePicture(IFormFile profilePicture)
+		{
+			// Extract the UserID from the current user's claims.
+			int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-        [HttpPost("update-profile")]
-        public IActionResult UpdateProfile(UserProfileViewModel userProfile)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View("Account", userProfile);
-            }
+			// Retrieve the user's account information using the UserProfileService.
+			UserAccount userAccount = _userProfileServices.UserProfile(UserID);
 
-            int userID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+			// Check if the user's account doesn't exist. If so, add a model error and redirect to the "Account" action.
+			if (userAccount == null)
+			{
+				return RedirectToAction("Account");
+			}
 
-            bool updateSuccess = _userProfileServices.UpdateUserProfile(userID, userProfile);
+			// Get the file extension of the uploaded profile picture.
+			string fileExtension = System.IO.Path.GetExtension(profilePicture.FileName);
 
-            // Change Cookie UserName
-            var userIdentity = User.Identity as ClaimsIdentity;
+			// Define the file path where the profile picture will be stored.
+			string stringPath = System.IO.Path.Combine("wwwroot/lib/ProfilePictures", userAccount.AccountID + fileExtension);
 
-            var existingClaim = userIdentity.FindFirst("userName");
+			// Check if a file with the same name already exists and delete it.
+			if (System.IO.File.Exists(stringPath))
+			{
+				System.IO.File.Delete(stringPath);
+			}
 
-            if (existingClaim != null)
-            {
-                userIdentity.RemoveClaim(existingClaim);
+			// Copy the uploaded profile picture to the specified file path.
+			using (FileStream f = System.IO.File.OpenWrite(stringPath))
+			{
+				profilePicture.CopyTo(f);
+			}
 
-                var updateClaim = new Claim("userName", userProfile.UserName);
+			// Use the UserProfileService to update the user's profile picture.
+			_userProfileServices.UpdateProfilePicture(userAccount, stringPath);
 
-                userIdentity.AddClaim(updateClaim);
-            }
 
-            if (updateSuccess)
-            {
-                return RedirectToAction("Account");
-            }
-            else
-            {
-                ViewBag.ErrorMessage = "Failed to update profile. Please try again.";
-                return View("Account", userProfile);
-            }
-        }
+			return RedirectToAction("EditProfile");
+		}
 
-        //[HttpPost("update-birthday")]
-        //public async Task<IActionResult> UpdateUserBirthday(DateTime newBirthday)
-        //{
-        //    int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+		[HttpPost("update-profile")]
+		public async Task<IActionResult> UpdateProfile(UserProfileViewModel userProfile)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View("Account", userProfile);
+			}
 
-        //    IdentityResult updateResult = await _userProfileServices.UpdateUserBirthday(UserID, newBirthday);
+			int userID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-        //    if (updateResult.Succeeded)
-        //    {
-        //        return RedirectToAction("Account");
-        //    }
-        //    else
-        //    {
-        //        ViewBag.ErrorMessage = "Failed to Update Birthday. Please Try again.";
-        //        return RedirectToAction("Account");
-        //    }
-        //}
+			bool updateSuccess = _userProfileServices.UpdateUserProfile(userID, userProfile);
 
-        //[HttpPost("update-bio")]
-        //public async Task<IActionResult> UpdateUserBio(string newBio)
-        //{
-        //    int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+			await HttpContext.SignOutAsync(
+			CookieAuthenticationDefaults.AuthenticationScheme);
 
-        //    if (!string.IsNullOrEmpty(newBio))
-        //    {
-        //        IdentityResult updatedBio = await _userProfileServices.UpdateUserBio(UserID, newBio);
+			var user = _userProfileServices.UserProfile(userID);
 
-        //        if (updatedBio.Succeeded)
-        //        {
-        //            return RedirectToAction("Account");
-        //        }
-        //    }
+			var claims = new List<Claim>
+			{
+				new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
+				new Claim( "userName", user.UserName)
+			};
 
-        //    ViewBag.ErrorMessage = "Failed to Update Bio. Please try again.";
-        //    return RedirectToAction("Account");
-        //}
+			var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-        //[HttpPost("update-username")]
-        //public async Task<IActionResult> UpdateUserName(string newUserName)
-        //{
-        //    int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+			var authProperties = new Microsoft.AspNetCore.Authentication.AuthenticationProperties { };
 
-        //    if (!string.IsNullOrEmpty(newUserName))
-        //    {
-        //        IdentityResult updatedUserName = await _userProfileServices.UpdateUserName(UserID, newUserName);
+			await HttpContext.SignInAsync(
+				CookieAuthenticationDefaults.AuthenticationScheme,
+				new ClaimsPrincipal(claimsIdentity),
+				authProperties);
 
-        //        if (updatedUserName.Succeeded)
-        //        {
-        //            return RedirectToAction("Account");
-        //        }
-        //    }
+			if (updateSuccess)
+			{
+				return RedirectToAction("Account");
+			}
+			else
+			{
+				ViewBag.ErrorMessage = "Failed to update profile. Please try again.";
+				return View("Account", userProfile);
+			}
+		}
 
-        //    ViewBag.ErrorMessage = "Failed to Update UserName. Please try again.";
-        //    return RedirectToAction("Account");
-        //}
-    }
+		//[HttpPost("update-birthday")]
+		//public async Task<IActionResult> UpdateUserBirthday(DateTime newBirthday)
+		//{
+		//    int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+		//    IdentityResult updateResult = await _userProfileServices.UpdateUserBirthday(UserID, newBirthday);
+
+		//    if (updateResult.Succeeded)
+		//    {
+		//        return RedirectToAction("Account");
+		//    }
+		//    else
+		//    {
+		//        ViewBag.ErrorMessage = "Failed to Update Birthday. Please Try again.";
+		//        return RedirectToAction("Account");
+		//    }
+		//}
+
+		//[HttpPost("update-bio")]
+		//public async Task<IActionResult> UpdateUserBio(string newBio)
+		//{
+		//    int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+		//    if (!string.IsNullOrEmpty(newBio))
+		//    {
+		//        IdentityResult updatedBio = await _userProfileServices.UpdateUserBio(UserID, newBio);
+
+		//        if (updatedBio.Succeeded)
+		//        {
+		//            return RedirectToAction("Account");
+		//        }
+		//    }
+
+		//    ViewBag.ErrorMessage = "Failed to Update Bio. Please try again.";
+		//    return RedirectToAction("Account");
+		//}
+
+		//[HttpPost("update-username")]
+		//public async Task<IActionResult> UpdateUserName(string newUserName)
+		//{
+		//    int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+		//    if (!string.IsNullOrEmpty(newUserName))
+		//    {
+		//        IdentityResult updatedUserName = await _userProfileServices.UpdateUserName(UserID, newUserName);
+
+		//        if (updatedUserName.Succeeded)
+		//        {
+		//            return RedirectToAction("Account");
+		//        }
+		//    }
+
+		//    ViewBag.ErrorMessage = "Failed to Update UserName. Please try again.";
+		//    return RedirectToAction("Account");
+		//}
+	}
 }

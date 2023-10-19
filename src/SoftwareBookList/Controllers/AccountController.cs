@@ -116,7 +116,6 @@ public class AccountController : Controller
 		var claims = new List<Claim>
 			{
 				new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
-				new Claim(ClaimTypes.Name, user.FirstName),
 				new Claim( "userName", user.UserName)
 			};
 

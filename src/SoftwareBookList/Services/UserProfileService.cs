@@ -91,49 +91,5 @@ namespace SoftwareBookList.Services
         {
             return _dataContext.Accounts.FirstOrDefault(u => u.UserID == UserID);
         }
-
-        //public async Task<IdentityResult> UpdateUserBirthday(int UserID, DateTime newBirthday)
-        //{
-        //    // Retrieve the user's profile from the database.
-        //    UserAccount userProfile = _dataContext.Accounts.FirstOrDefault(u => u.UserID == UserID);
-
-        //    if (userProfile != null)
-        //    {
-        //        userProfile.Birthday = newBirthday;
-        //        _dataContext.SaveChanges();
-        //        return IdentityResult.Success;
-        //    }
-
-        //    return IdentityResult.Failed();
-        //}
-
-        //public async Task<IdentityResult> UpdateUserBio(int UserID, string newBio)
-        //{
-        //    UserAccount userProfile = _dataContext.Accounts.FirstOrDefault(u => u.UserID == UserID);
-
-        //    if (userProfile != null)
-        //    {
-        //        userProfile.Bio = newBio;
-        //        _dataContext.SaveChanges();
-        //        return IdentityResult.Success;
-        //    }
-
-        //    return IdentityResult.Failed();
-        //}
-
-        //public async Task<IdentityResult> UpdateUserName(int UserID, string newUserName)
-        //{
-        //    UserAccount userProfile = _dataContext.Accounts.FirstOrDefault(u => u.UserID == UserID);
-
-        //    if (userProfile != null)
-        //    {
-
-        //        userProfile.UserName = newUserName;
-        //        _dataContext.SaveChanges();
-        //        return IdentityResult.Success;
-        //    }
-
-        //    return IdentityResult.Failed();
-        //}
     }
 }
