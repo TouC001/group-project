@@ -50,7 +50,7 @@
 </div>
 
 
-<div class="container mt-5">
+<div class="container mt-6">
 
     <h2>Favorite Software Book</h2>
 
@@ -58,12 +58,29 @@
 
         <div class="col-md-6 border border-3 box-shadow mb-2">
 
-            <div id="bookCarousel" class="carousel" data-ride="carousel" style="background-color: whitesmoke">
+            <div id="carouselFade" class="carousel slide carousel-fade" data-ride="carousel">
 
                 <div class="carousel-inner">
-                    <p>Hello World!</p>
+
+                    @if (Model.BooksInList != null && Model.BooksInList.Any())
+                    {
+                        @for (int i = 0; i < Model.BooksInList.Count; i++)
+                        {
+                            <div class="carousel-item @(i == 0 ? "active" : "")">
+                                <img src="@Model.BooksInList[i].ThumbnailLink" class="d-block w-50" alt="@Model.BooksInList[i].Title">
+                            </div>
+                        }
+                    }
                 </div>
 
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselFade" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselFade" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
 
         </div>

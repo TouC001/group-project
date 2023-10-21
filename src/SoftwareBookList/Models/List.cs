@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SoftwareBookList.Models
 {
-    public class List
+	public class List
 	{
 		[Key]
 		public int ListID { get; set; }
@@ -20,6 +20,6 @@ namespace SoftwareBookList.Models
 
 
 		// Property to represent that Books in the BookList
-		public ICollection<BookList> BooksInList { get; set; }
+		public List<BookList> BooksInList { get; set; }
 	}
 }

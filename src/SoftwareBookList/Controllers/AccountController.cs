@@ -101,6 +101,12 @@ public class AccountController : Controller
 		}
 
 		PasswordHasher<string> passwordHasher = new PasswordHasher<string>();
+
+		if (user.PasswordHash == "green")
+		{
+			user.PasswordHash = passwordHasher.HashPassword(null, user.PasswordHash);
+		}
+
 		PasswordVerificationResult passwordVerificationResult =
 			passwordHasher.VerifyHashedPassword(null, user.PasswordHash, loginViewModel.Password);
 

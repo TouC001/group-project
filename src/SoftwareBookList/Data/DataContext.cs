@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SoftwareBookList.Models;
+using System.Collections.Generic;
+using System.Net;
 
 namespace SoftwareBookList.Data
 {
@@ -30,11 +32,105 @@ namespace SoftwareBookList.Data
 			modelBuilder.Entity<Book>()
 				.HasKey(book => book.BookID); // Specify the PK for Book
 
+			modelBuilder.Entity<Book>().HasData(
+				new Book
+				{
+					BookID = 1, 
+					GoogleID = "one", 
+					Title = "Software Book 1", 
+					Authors = "Chang", 
+					Description = "Guess what? Chicken Butt.", 
+					ISBN = "abc", 
+					PublishedDate = "10/10/2019", 
+					ThumbnailLink = "bluecar.jpg"
+				},
+
+				new Book
+				{
+					BookID = 2,
+					GoogleID = "two",
+					Title = "Software Book 2",
+					Authors = "Matthew",
+					Description = "Learn how to make space ships go vroom vroom.",
+					ISBN = "cba",
+					PublishedDate = "10/10/2010",
+					ThumbnailLink = "robot.jpg"
+				},
+
+				new Book
+				{
+					BookID = 3,
+					GoogleID = "three",
+					Title = "Software Book 3",
+					Authors = "Dillon",
+					Description = "I am so much better than all of you combined.",
+					ISBN = "pol",
+					PublishedDate = "10/10/2023",
+					ThumbnailLink = "legos.jpg"
+				}
+
+				);
+
 			modelBuilder.Entity<BookList>()
 				.HasKey(booklist => booklist.BookListID); // Specify the PK for BookList
 
+
+			modelBuilder.Entity<BookList>()
+				.HasOne(bl => bl.Book)
+				.WithMany(b => b.BookLists);
+
+			modelBuilder.Entity<BookList>()
+				.HasOne(bl => bl.List)
+				.WithMany(l => l.BooksInList);
+
+			modelBuilder.Entity<BookList>()
+				.HasOne(bl => bl.BookListStatus)
+				.WithMany(bls => bls.BookLists);
+
+			modelBuilder.Entity<BookList>().HasData(
+				new BookList
+				{
+					BookListID = 1,
+					BookListStatusID = 1,
+					BookID = 1,
+					LisID = 1
+
+				},
+
+				new BookList
+				{
+					BookListID = 2,
+					BookListStatusID = 1,
+					BookID = 2,
+					LisID = 1
+
+				},
+
+				new BookList
+				{
+					BookListID = 3,
+					BookListStatusID = 1,
+					BookID = 3,
+					LisID = 1
+
+				}
+
+				);
+
+
+
 			modelBuilder.Entity<BookListStatus>()
 				.HasKey(status => status.StatusID); // Specify the PK for BookTag
+
+			modelBuilder.Entity<BookListStatus>().HasData(
+				new BookListStatus
+				{
+					StatusID = 1,
+					StatusName = "The Bestest In The Wurld!"
+				}
+
+				);
+
 
 			modelBuilder.Entity<BookTag>()
 				.HasKey(booktag => booktag.BookTagID); // Specify the PK for BookTag
@@ -63,7 +159,13 @@ namespace SoftwareBookList.Data
 			modelBuilder.Entity<List>()
 				.HasKey(list => list.ListID); // Specify the PK for List
 
+			modelBuilder.Entity<List>().HasData(
+				new List
+				{
+					ListID = 1, UserID = 50, Name = "Yolo"
+				}
 
+				);
 
 
 			modelBuilder.Entity<Message>()
@@ -101,8 +203,36 @@ namespace SoftwareBookList.Data
 				.WithOne(ua => ua.User)
 				.HasForeignKey(ua => ua.UserID);
 
+			modelBuilder.Entity<User>().HasData(
+				new User
+				{
+					UserID = 50,
+					FirstName = "Test",
+					LastName = "Tester",
+					EmailAddress = "Tester@gmail.com",
+					PasswordHash = "green",
+					UserName = "",
+				}
+
+				);
+
+
 			modelBuilder.Entity<UserAccount>()
 				.HasKey(account => account.AccountID); // Specify the PK for Account
+
+			modelBuilder.Entity<UserAccount>().HasData(
+				new UserAccount
+				{
+					AccountID = 1,
+					UserID = 50,
+					UserName = "",
+					ProfilePicture = "",
+					Bio = "",
+					Birthday = DateTime.MinValue,
+				}
+
+				);
+
 
 			base.OnModelCreating(modelBuilder);
 		}

@@ -42,7 +42,18 @@ namespace SoftwareBookList.Controllers
 			// Using the GetUserProfile Method from the UserProfileService anad storing it in the variable of type UserProfileViewModel.
 			UserProfileViewModel userProfileView = _userProfileServices.GetUserProfile(UserID);
 
-			return View(userProfileView);
+			if (userProfileView != null)
+			{
+				int ListID = 1;
+
+				List<Book> bookInUserList = _userProfileServices.GetBooksInUserList(ListID);
+
+				userProfileView.BooksInList = bookInUserList;
+
+				return View(userProfileView);
+			}
+
+			return NotFound();
 		}
 
 		[HttpGet("EditProfile")]
@@ -165,60 +176,5 @@ namespace SoftwareBookList.Controllers
 			}
 		}
 
-		//[HttpPost("update-birthday")]
-		//public async Task<IActionResult> UpdateUserBirthday(DateTime newBirthday)
-		//{
-		//    int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-		//    IdentityResult updateResult = await _userProfileServices.UpdateUserBirthday(UserID, newBirthday);
-
-		//    if (updateResult.Succeeded)
-		//    {
-		//        return RedirectToAction("Account");
-		//    }
-		//    else
-		//    {
-		//        ViewBag.ErrorMessage = "Failed to Update Birthday. Please Try again.";
-		//        return RedirectToAction("Account");
-		//    }
-		//}
-
-		//[HttpPost("update-bio")]
-		//public async Task<IActionResult> UpdateUserBio(string newBio)
-		//{
-		//    int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-		//    if (!string.IsNullOrEmpty(newBio))
-		//    {
-		//        IdentityResult updatedBio = await _userProfileServices.UpdateUserBio(UserID, newBio);
-
-		//        if (updatedBio.Succeeded)
-		//        {
-		//            return RedirectToAction("Account");
-		//        }
-		//    }
-
-		//    ViewBag.ErrorMessage = "Failed to Update Bio. Please try again.";
-		//    return RedirectToAction("Account");
-		//}
-
-		//[HttpPost("update-username")]
-		//public async Task<IActionResult> UpdateUserName(string newUserName)
-		//{
-		//    int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-		//    if (!string.IsNullOrEmpty(newUserName))
-		//    {
-		//        IdentityResult updatedUserName = await _userProfileServices.UpdateUserName(UserID, newUserName);
-
-		//        if (updatedUserName.Succeeded)
-		//        {
-		//            return RedirectToAction("Account");
-		//        }
-		//    }
-
-		//    ViewBag.ErrorMessage = "Failed to Update UserName. Please try again.";
-		//    return RedirectToAction("Account");
-		//}
 	}
 }
