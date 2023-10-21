@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SoftwareBookList.GoogleBooks;
 using SoftwareBookList.Models;
 
 namespace SoftwareBookList.Data
@@ -20,9 +21,7 @@ namespace SoftwareBookList.Data
 		public DbSet<Tag> Tags { get; set; }
 		public DbSet<User> Users { get; set; }
 
-
-		//public DbSet<BookViewModel> BookViewModel { get; set; }
-		//public DbSet<GoogleBooksApiResponse> GoogleBooksApiResponse { get; set; }
+		public DbSet<GoogleBook> GoogleBooks { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -37,9 +36,6 @@ namespace SoftwareBookList.Data
 
 			modelBuilder.Entity<BookTag>()
 				.HasKey(booktag => booktag.BookTagID); // Specify the PK for BookTag
-
-
-
 
 			modelBuilder.Entity<Discussion>()
 				.HasKey(discussion => discussion.DiscussionID); // Specify the PK for Discussion
@@ -56,14 +52,8 @@ namespace SoftwareBookList.Data
 				.HasForeignKey(discussion => discussion.UserID) // Specifies that the foreign key in the 'Discussion' table is 'UserID'.
 				.OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete for this relationship.
 
-
-
-
 			modelBuilder.Entity<List>()
 				.HasKey(list => list.ListID); // Specify the PK for List
-
-
-
 
 			modelBuilder.Entity<Message>()
 				.HasKey(message => message.MessageID); // Specify the PK for Message
@@ -80,9 +70,6 @@ namespace SoftwareBookList.Data
 				.HasForeignKey(message => message.RecipientID) // The foreign key in Message is RecipientID
 				.OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
 
-
-
-
 			modelBuilder.Entity<Rating>()
 				.HasKey(rating => rating.RatingID); // Specify the PK for BookTag
 
@@ -94,6 +81,9 @@ namespace SoftwareBookList.Data
 
 			modelBuilder.Entity<User>()
 				.HasKey(user => user.UserID); // Specify the PK for User
+
+			modelBuilder.Entity<AccessInfo>()
+				.HasNoKey();
 
 			base.OnModelCreating(modelBuilder);
 		}

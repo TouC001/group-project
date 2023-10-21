@@ -7,12 +7,10 @@ namespace SoftwareBookList.Controllers
 	public class BooksController : Controller
     {
         private readonly GoogleBooksService _googleBooksService;
-        private readonly GoogleBooksSettings _googleBooksSettings;
 
-        public BooksController(GoogleBooksService googleBooksService, IOptions<GoogleBooksSettings> googleBooksSettings)
+        public BooksController(GoogleBooksService googleBooksService)
         {
             _googleBooksService = googleBooksService;
-            _googleBooksSettings = googleBooksSettings.Value; // Check this value during debugging
         }
 
         [HttpGet]
@@ -28,14 +26,10 @@ namespace SoftwareBookList.Controllers
 
                 if (bookViewModels != null && bookViewModels.Count > 0)
                 {
-                    // Debugging output: Check the count of books retrieved
-                    Console.WriteLine($"Number of books retrieved: {bookViewModels.Count}");
                     return View("Books", bookViewModels);
                 }
                 else
                 {
-                    // Debugging output: Check if there are items in the API response
-                    Console.WriteLine("No items found in the API response.");
                     return Content("No books found.", "text/plain");
                 }
             }
