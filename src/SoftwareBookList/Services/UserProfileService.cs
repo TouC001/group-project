@@ -91,5 +91,15 @@ namespace SoftwareBookList.Services
         {
             return _dataContext.Accounts.FirstOrDefault(u => u.UserID == UserID);
         }
+
+        public List<Book> GetBooksInUserList(int ListID)
+        {
+            // retrieves a list of BookID values from the BookLists table in the data context.
+            List<int> BookID = _dataContext.BookLists.Where(bl => bl.LisID == ListID).Select(bl => bl.BookID).ToList();
+
+            List<Book> bookInList = _dataContext.Books.Where(book => BookID.Contains(book.BookID)).ToList();
+
+            return bookInList;
+        }
     }
 }

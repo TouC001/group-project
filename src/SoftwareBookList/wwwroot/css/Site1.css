@@ -1,7 +1,3 @@
-.edit-forms {
-    display: none;
-}
+.carousel-inner {display:flex;flex-direction:row;}
 
-.edit-forms.active {
-    display: block;
-}
+.carousel-item {width:100%;}
