@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SoftwareBookList.Data;
 using SoftwareBookList.Models;
 using SoftwareBookList.Services;
-using System.Security.Claims;
 
 namespace SoftwareBookList.Controllers;
 

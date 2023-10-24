@@ -8,6 +8,8 @@ namespace SoftwareBookList.GoogleBooks
 {
 	public class IndustryIdentifier
 	{
+		public int Id { get; set; }
+		public int BookID { get; set; }
 		public string Type { get; set; }
 		public string Identifier { get; set; }
 	}

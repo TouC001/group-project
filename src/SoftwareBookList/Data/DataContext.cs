@@ -8,8 +8,10 @@ namespace SoftwareBookList.Data
 	{
 		public DataContext(DbContextOptions<DataContext> options)
 			: base(options) 
-		{ }
-		public DbSet<Book> Books { get; set; }
+		{
+		}
+
+        public DbSet<Book> Books { get; set; }
 		public DbSet<BookList> BookLists { get; set; }
 		public DbSet<BookListStatus> BookListStatus { get; set; }
 		public DbSet<BookTag> BookTags { get; set; }
@@ -21,13 +23,11 @@ namespace SoftwareBookList.Data
 		public DbSet<Tag> Tags { get; set; }
 		public DbSet<User> Users { get; set; }
 
-		public DbSet<GoogleBook> GoogleBooks { get; set; }
-
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<Book>()
 				.HasKey(book => book.BookID); // Specify the PK for Book
-
+				
 			modelBuilder.Entity<BookList>()
 				.HasKey(booklist => booklist.BookListID); // Specify the PK for BookList
 
@@ -82,10 +82,7 @@ namespace SoftwareBookList.Data
 			modelBuilder.Entity<User>()
 				.HasKey(user => user.UserID); // Specify the PK for User
 
-			modelBuilder.Entity<AccessInfo>()
-				.HasNoKey();
-
-			base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
 		}
 	}
 }

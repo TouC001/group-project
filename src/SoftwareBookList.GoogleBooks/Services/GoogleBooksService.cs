@@ -19,7 +19,7 @@ namespace SoftwareBookList.GoogleBooks
             _httpClient.BaseAddress = new Uri("https://www.googleapis.com/books/v1/"); // Base URL for Google Books API
         }
 
-        public async Task<List<BookViewModel>> GetBooksAsync(string query)
+        public async Task<List<GoogleBook>> GetBooksAsync(string query)
         {
 			try
 			{
@@ -30,10 +30,9 @@ namespace SoftwareBookList.GoogleBooks
 
 				response.EnsureSuccessStatusCode(); // Ensure HTTP success status
 
-				// Parse and transform the API response into book view models
-				var bookViewModels = ParseAndTransformResponse(await response.Content.ReadAsStringAsync());
+				List<GoogleBook> googleBooks = ParseAndTransformResponse(await response.Content.ReadAsStringAsync());
 
-				return bookViewModels;
+				return googleBooks;
 			}
 			catch (HttpRequestException ex)
 			{
@@ -42,30 +41,24 @@ namespace SoftwareBookList.GoogleBooks
 			}
         }
 
-		private List<BookViewModel> ParseAndTransformResponse(string responseContent)
+		private List<GoogleBook> ParseAndTransformResponse(string responseContent)
 		{
 			// Parse and transform the API response here
 			// This logic can be extracted to a separate method or class
-			var bookViewModels = new List<BookViewModel>();
+			var googleBooks = new List<GoogleBook>();
 
             try
             {
-				var apiResponse = JsonConvert.DeserializeObject<GoogleBooksApiResponse>(responseContent);
+				var apiResponse = JsonConvert.DeserializeObject<GoogleBooksAPIResponse>(responseContent);
 
 				if (apiResponse != null && apiResponse.Items != null)
 				{
 					foreach (var item in apiResponse.Items)
 					{
-						var bookViewModel = new BookViewModel
+						var googleBook = new GoogleBook
 						{
-							Title = item.VolumeInfo.Title,
-							Authors = string.Join(", ", item.VolumeInfo.Authors),
-							Description = item.VolumeInfo.Description,
-							PublishedDate = item.VolumeInfo.PublishedDate
-							// Map other properties as needed
+							
 						};
-
-						bookViewModels.Add(bookViewModel);
 					}
 				}
 			}
@@ -74,7 +67,7 @@ namespace SoftwareBookList.GoogleBooks
                 Console.WriteLine($"JSON Parsing Error: {ex.Message}");
             }
 
-			return bookViewModels;
+			return googleBooks;
 		}
 	}
 }

@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SoftwareBookList.GoogleBooks
+﻿namespace SoftwareBookList.GoogleBooks
 {
-	public class GoogleBook
-	{
-		public string Kind { get; set; }
-		public string Id { get; set; }
-		public string Etag { get; set; }
-		public string SelfLink { get; set; }
-		public VolumeInfo VolumeInfo { get; set; }
-		public SaleInfo SaleInfo { get; set; }
-		public AccessInfo AccessInfo { get; set; }
-		public SearchInfo SearchInfo { get; set; }
-	}
+    public class GoogleBook
+    {
+        public string Id { get; set; } // Primary key
+
+        // Other properties
+        public string Kind { get; set; }
+        public string Etag { get; set; }
+        public string SelfLink { get; set; }
+
+        // Complex types (EF Core will handle the relationships)
+        public virtual VolumeInfo VolumeInfo { get; set; }
+        public virtual SaleInfo SaleInfo { get; set; }
+        public virtual AccessInfo AccessInfo { get; set; }
+        public virtual SearchInfo SearchInfo { get; set; }
+    }
 }

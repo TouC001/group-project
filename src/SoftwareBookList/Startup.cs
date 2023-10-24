@@ -1,17 +1,18 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using SoftwareBookList.Data;
-using SoftwareBookList.Services;
 using SoftwareBookList.GoogleBooks;
+using SoftwareBookList.Models;
+using SoftwareBookList.Services;
 
 namespace SoftwareBookList
 {
-	/// <summary>
-	/// This class is responsible for the main configuration
-	/// and setting up services (like our API).
-	/// </summary>
-	public class Startup
+    /// <summary>
+    /// This class is responsible for the main configuration
+    /// and setting up services (like our API).
+    /// </summary>
+    public class Startup
 	{
 		private readonly IConfiguration _configuration;
 
@@ -60,6 +61,8 @@ namespace SoftwareBookList
 			});
 
 			services.AddTransient<UserAccountServices>();
+
+			services.AddTransient<BookMappingService>();
 		}
 
 		// Configure is where the application's request pipeline and middleware are set up.
@@ -96,7 +99,7 @@ namespace SoftwareBookList
 				endpoints.MapControllerRoute(
 					name: "default",
 					pattern: "{controller=Home}/{action=Index}/{id?}");
-			});
+			});	
 		}
 	}
 }
