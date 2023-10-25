@@ -50,5 +50,30 @@ namespace SoftwareBookList.Services
 			// Otherwise, if a user with the same username exists, isUnique will be false.
 			return isUnique;
 		}
+
+		public string GenerateRandomListName()
+		{
+			Random random = new Random();
+
+			string listName = "List" + random.Next(10000, 99999).ToString();
+
+			return listName;
+		}
+
+		public void CreateList(User user)
+		{
+			string listName = GenerateRandomListName();
+
+			List newList = new List
+			{
+				Name = listName,
+				User = user,
+				UserID = user.UserID
+			};
+
+			_dataContext.Lists.Add(newList);
+			_dataContext.SaveChanges();
+		}
+
 	}
 }

@@ -71,7 +71,9 @@ public class AccountController : Controller
 
 		_userAccountServices.AddUser(user);
 
-		return RedirectToAction(nameof(LogIn));
+        _userAccountServices.CreateList(user);
+
+        return RedirectToAction(nameof(LogIn));
 	}
 
 	[HttpGet("sign-in")]

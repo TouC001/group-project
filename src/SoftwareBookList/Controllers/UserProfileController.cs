@@ -44,16 +44,17 @@ namespace SoftwareBookList.Controllers
 
 			if (userProfileView != null)
 			{
-				int ListID = 1;
+				int ListID = userProfileView.ListID;
 
 				List<Book> bookInUserList = _userProfileServices.GetBooksInUserList(ListID);
 
-				userProfileView.BooksInList = bookInUserList;
+				// userProfileView.BooksInList = bookInUserList;
 
-				return View(userProfileView);
+				// return View(userProfileView);
 			}
 
-			return NotFound();
+			// return NotFound();
+			return View(userProfileView);
 		}
 
 		[HttpGet("EditProfile")]

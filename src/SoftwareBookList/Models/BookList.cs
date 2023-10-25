@@ -17,7 +17,7 @@ namespace SoftwareBookList.Models
         public int BookID { get; set; }
 
         [ForeignKey("List")]
-        public int LisID { get; set; }
+        public int ListID { get; set; }
 
 
         // Navigation property

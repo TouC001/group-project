@@ -16,7 +16,7 @@ namespace SoftwareBookList.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime Birthday { get; set; }
 
-        public List<Book> BooksInList { get; set; }
+        // public List<Book> BooksInList { get; set; }
 
         public int ListID { get; set; }
 

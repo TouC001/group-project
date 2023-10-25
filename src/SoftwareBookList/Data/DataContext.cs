@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SoftwareBookList.Models;
+using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Net;
 
@@ -42,7 +44,7 @@ namespace SoftwareBookList.Data
 					Description = "Guess what? Chicken Butt.", 
 					ISBN = "abc", 
 					PublishedDate = "10/10/2019", 
-					ThumbnailLink = "bluecar.jpg"
+					ThumbnailLink = "/lib/images/bluecar.jpg"
 				},
 
 				new Book
@@ -54,7 +56,7 @@ namespace SoftwareBookList.Data
 					Description = "Learn how to make space ships go vroom vroom.",
 					ISBN = "cba",
 					PublishedDate = "10/10/2010",
-					ThumbnailLink = "robot.jpg"
+					ThumbnailLink = "/lib/images/robot.jpg"
 				},
 
 				new Book
@@ -66,7 +68,7 @@ namespace SoftwareBookList.Data
 					Description = "I am so much better than all of you combined.",
 					ISBN = "pol",
 					PublishedDate = "10/10/2023",
-					ThumbnailLink = "legos.jpg"
+					ThumbnailLink = "/lib/images/legos.jpg"
 				}
 
 				);
@@ -93,7 +95,7 @@ namespace SoftwareBookList.Data
 					BookListID = 1,
 					BookListStatusID = 1,
 					BookID = 1,
-					LisID = 1
+					ListID = 1
 
 				},
 
@@ -102,7 +104,7 @@ namespace SoftwareBookList.Data
 					BookListID = 2,
 					BookListStatusID = 1,
 					BookID = 2,
-					LisID = 1
+					ListID = 1
 
 				},
 
@@ -111,7 +113,7 @@ namespace SoftwareBookList.Data
 					BookListID = 3,
 					BookListStatusID = 1,
 					BookID = 3,
-					LisID = 1
+					ListID = 1
 
 				}
 

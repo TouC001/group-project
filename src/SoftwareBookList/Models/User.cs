@@ -51,6 +51,6 @@ namespace SoftwareBookList.Models
 
 
 		// Navigation property for the user's list
-		public List List { get; set; }
+		public List UserList { get; set; }
 	}
 }
