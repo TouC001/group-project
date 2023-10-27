@@ -12,6 +12,6 @@ namespace SoftwareBookList.Models
 
 
         // Navigation property for associated BookList entities
-        public ICollection<BookList> BookLists { get; set; }
+        public List<BookInList> BookInList { get; set; }
     }
 }

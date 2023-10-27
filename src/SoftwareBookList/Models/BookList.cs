@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SoftwareBookList.Models
@@ -10,27 +8,15 @@ namespace SoftwareBookList.Models
         [Key]
         public int BookListID { get; set; }
 
-        [ForeignKey("BookListStatus")]
-        public int BookListStatusID { get; set; }
 
-        [ForeignKey("Book")]
-        public int BookID { get; set; }
-
-        [ForeignKey("List")]
-        public int LisID { get; set; }
+        [ForeignKey("User")]
+        public int UserID { get; set; }
 
 
         // Navigation property
-        public BookListStatus BookListStatus { get; set; }
+        public User User { get; set; }
 
+        public List<BookInList> BookInLists { get; set; }
 
-
-        // Navigation property for the associated book
-        public Book Book { get; set; }
-
-
-
-        // Navigation property for the associated list
-        public List List { get; set; }
     }
 }

@@ -27,30 +27,30 @@ namespace SoftwareBookList.Models
 
 
 		// Represents a collection of discussions associated with this user.
-		public ICollection<Discussion> Discussions { get; set; }
+		public List<Discussion> Discussions { get; set; }
 
 
 
 		// Represents a collection of messages sent by this user.
-		public ICollection<Message> SentMessages { get; set; }
+		public List<Message> SentMessages { get; set; }
 
 
 
 		// Represents a collection of messages received by this user.
-		public ICollection<Message> ReceivedMessages { get; set; }
+		public List<Message> ReceivedMessages { get; set; }
 
 
 
 		// Represents a collection of book reviews written by this user.
-		public ICollection<Review> ReviewsGiven { get; set; }
+		public List<Review> ReviewsGiven { get; set; }
 
 
 		// Represents a collection of Accounts a User can Create.
-		public ICollection<UserAccount> UserAccounts { get; set; }
+		public List<UserAccount> UserAccounts { get; set; }
 
 
 
-		// Navigation property for the user's list
-		public List List { get; set; }
+		// Navigation property for the user's BookList
+		public BookList BookList { get; set; }
 	}
 }

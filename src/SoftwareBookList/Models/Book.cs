@@ -26,22 +26,22 @@ namespace SoftwareBookList.Models
 
 
         // Navigation property to represent the many-to-many relationship with tags	
-        public ICollection<BookTag> BookTags { get; set; }
+        public List<BookTag> BookTags { get; set; }
 
 
 
         // Property to represent the BookList(s) it belongs to
-        public ICollection<BookList> BookLists { get; set; }
+        public List<BookInList> BookInLists { get; set; }
 
 
 
         // One-to-Many Relationship with Review Table
-        public ICollection<Review> Reviews { get; set; }
+        public List<Review> Reviews { get; set; }
 
 
 
 
         // One-to-Many Relationship with Discussion Table
-        public ICollection<Discussion> Discussions { get; set; }
+        public List<Discussion> Discussions { get; set; }
     }
 }

@@ -15,13 +15,13 @@ namespace SoftwareBookList.Data
 		public DbSet<BookListStatus> BookListStatus { get; set; }
 		public DbSet<BookTag> BookTags { get; set; }
 		public DbSet<Discussion> Discussions { get; set; }
-		public DbSet<List> Lists { get; set; }
 		public DbSet<Message> Messages { get; set; }
 		public DbSet<Rating> Ratings { get; set; }	
 		public DbSet<Review> Reviews { get; set; }
 		public DbSet<Tag> Tags { get; set; }
 		public DbSet<User> Users { get; set; }
 		public DbSet<UserAccount> Accounts { get; set; }
+		public DbSet<BookInList> BookInLists { get; set; }
 
 
 		//public DbSet<BookViewModel> BookViewModel { get; set; }
@@ -29,6 +29,37 @@ namespace SoftwareBookList.Data
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
+
+			// Relationship between BookInList and Book
+			modelBuilder.Entity<BookInList>()
+				.HasOne(bil => bil.Book)
+				.WithMany(book => book.BookInLists)
+				.HasForeignKey(bil => bil.BookID);
+
+			// Relationship between BookInList and BookListStatus
+			modelBuilder.Entity<BookInList>()
+				.HasOne(bil => bil.Status)
+				.WithMany(status => status.BookInList)
+				.HasForeignKey(bil => bil.StatusID);
+
+			// Relationship between BookInList and BookList
+			modelBuilder.Entity<BookInList>()
+				.HasOne(bil => bil.BookList)
+				.WithMany(list => list.BookInLists)
+				.HasForeignKey(bil => bil.BookListID);
+
+			modelBuilder.Entity<BookInList>().HasData(
+				new BookInList(1, 1, 1),
+				new BookInList(2, 1, 1),
+				new BookInList(3, 1, 1),
+				new BookInList(4, 2, 1),
+				new BookInList(5, 2, 1),
+				new BookInList(6, 3, 1)
+
+				);;
+
+
+
 			modelBuilder.Entity<Book>()
 				.HasKey(book => book.BookID); // Specify the PK for Book
 
@@ -67,6 +98,42 @@ namespace SoftwareBookList.Data
 					ISBN = "pol",
 					PublishedDate = "10/10/2023",
 					ThumbnailLink = "legos.jpg"
+				},
+
+				new Book
+				{
+					BookID = 4,
+					GoogleID = "four",
+					Title = "Software Book 4",
+					Authors = "Tou",
+					Description = "I am so much better than all of you combined.",
+					ISBN = "lll",
+					PublishedDate = "10/10/2020",
+					ThumbnailLink = "ducks.jpg"
+				},
+
+				new Book
+				{
+					BookID = 5,
+					GoogleID = "five",
+					Title = "Software Book 5",
+					Authors = "Kennen",
+					Description = "I am so much better than all of you combined.",
+					ISBN = "ppp",
+					PublishedDate = "10/10/1997",
+					ThumbnailLink = "teddy.jpg"
+				},
+
+				new Book
+				{
+					BookID = 6,
+					GoogleID = "six",
+					Title = "Software Book 6",
+					Authors = "Kyle",
+					Description = "I am so much better than all of you combined.",
+					ISBN = "uu",
+					PublishedDate = "10/10/2010",
+					ThumbnailLink = "bluecar.jpg"
 				}
 
 				);
@@ -74,44 +141,18 @@ namespace SoftwareBookList.Data
 			modelBuilder.Entity<BookList>()
 				.HasKey(booklist => booklist.BookListID); // Specify the PK for BookList
 
+			// Define a one-to-one relationship between User and BookList
+			modelBuilder.Entity<User>()
+				.HasOne(user => user.BookList)
+				.WithOne(bookList => bookList.User)
+				.HasForeignKey<BookList>(bookList => bookList.UserID);
 
-			modelBuilder.Entity<BookList>()
-				.HasOne(bl => bl.Book)
-				.WithMany(b => b.BookLists);
-
-			modelBuilder.Entity<BookList>()
-				.HasOne(bl => bl.List)
-				.WithMany(l => l.BooksInList);
-
-			modelBuilder.Entity<BookList>()
-				.HasOne(bl => bl.BookListStatus)
-				.WithMany(bls => bls.BookLists);
 
 			modelBuilder.Entity<BookList>().HasData(
 				new BookList
 				{
 					BookListID = 1,
-					BookListStatusID = 1,
-					BookID = 1,
-					LisID = 1
-
-				},
-
-				new BookList
-				{
-					BookListID = 2,
-					BookListStatusID = 1,
-					BookID = 2,
-					LisID = 1
-
-				},
-
-				new BookList
-				{
-					BookListID = 3,
-					BookListStatusID = 1,
-					BookID = 3,
-					LisID = 1
+					UserID = 1
 
 				}
 
@@ -126,9 +167,18 @@ namespace SoftwareBookList.Data
 				new BookListStatus
 				{
 					StatusID = 1,
-					StatusName = "The Bestest In The Wurld!"
+					StatusName = "Read"
+				},
+				new BookListStatus
+				{
+					StatusID = 2,
+					StatusName = "Plan to Read"
+				},
+				new BookListStatus
+				{
+					StatusID = 3,
+					StatusName = "Currently Reading"
 				}
-
 				);
 
 
@@ -152,20 +202,6 @@ namespace SoftwareBookList.Data
 				.WithMany(user => user.Discussions) // Indicates that a 'User' can have many discussions.
 				.HasForeignKey(discussion => discussion.UserID) // Specifies that the foreign key in the 'Discussion' table is 'UserID'.
 				.OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete for this relationship.
-
-
-
-
-			modelBuilder.Entity<List>()
-				.HasKey(list => list.ListID); // Specify the PK for List
-
-			modelBuilder.Entity<List>().HasData(
-				new List
-				{
-					ListID = 1, UserID = 50, Name = "Yolo"
-				}
-
-				);
 
 
 			modelBuilder.Entity<Message>()

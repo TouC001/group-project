@@ -50,5 +50,11 @@ namespace SoftwareBookList.Services
 			// Otherwise, if a user with the same username exists, isUnique will be false.
 			return isUnique;
 		}
+
+		//public List<BookList> GetUserBooks(int userId)
+		//{
+		//	return _dataContext.BookLists()
+		//		.Where(BookList => BookList.UserId == userId);
+		//}
 	}
 }
