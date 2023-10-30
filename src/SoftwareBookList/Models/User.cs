@@ -25,11 +25,11 @@ namespace SoftwareBookList.Models
 		[Required]
 		public string UserName { get; set; }
 
-        [Required]
-        public bool IsAdmin { get; set; }
+		[Required]
+		public bool IsAdmin { get; set; }
 
-        // Represents a collection of discussions associated with this user.
-        public ICollection<Discussion> Discussions { get; set; }
+		// Represents a collection of discussions associated with this user.
+		public ICollection<Discussion> Discussions { get; set; }
 
 		// Represents a collection of messages sent by this user.
 		public ICollection<Message> SentMessages { get; set; }
