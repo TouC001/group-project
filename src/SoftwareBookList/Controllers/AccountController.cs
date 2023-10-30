@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SoftwareBookList.Data;
 using SoftwareBookList.Models;
 using SoftwareBookList.Services;
-using System.Security.Claims;
 
 namespace SoftwareBookList.Controllers;
 
@@ -125,7 +124,9 @@ public class AccountController : Controller
 			{
 				new Claim(ClaimTypes.NameIdentifier, user.UserID.ToString()),
 				new Claim( "userName", user.UserName)
-			};
+				new Claim(ClaimTypes.Name, user.FirstName),
+                new Claim(ClaimTypes.Role, user.IsAdmin ? "Admin" : "User")
+            };
 
 		var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 

@@ -1,55 +1,41 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
+using SoftwareBookList.Data;
+using SoftwareBookList.GoogleBooks;
 using SoftwareBookList.Models;
 using SoftwareBookList.Services;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace SoftwareBookList.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly GoogleBooksService _googleBooksService;
-        private readonly GoogleBooksSettings _googleBooksSettings;
+        private readonly DataContext _context;
 
-        public BooksController(GoogleBooksService googleBooksService, IOptions<GoogleBooksSettings> googleBooksSettings)
+        private readonly GoogleBooksService _googleBooksService;
+        private readonly BookMappingService _bookMappingService;
+
+        public BooksController(DataContext context, GoogleBooksService googleBooksService, BookMappingService bookMappingService)
         {
+            _context = context;
             _googleBooksService = googleBooksService;
-            _googleBooksSettings = googleBooksSettings.Value; // Check this value during debugging
+            _bookMappingService = bookMappingService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> FindBooks()
+        public IActionResult Books()
         {
-            try
+            List<Book> books = _context.Books.ToList();
+            return View(books);
+        }
+
+        public async Task<IActionResult> BookDetails(string googleID)
+        {
+            GoogleBook googleBook = await _googleBooksService.GetSingleBookAsync(googleID);
+
+            if (googleBook == null)
             {
-                // Hardcoded search query for software books
-                var query = "software";
-
-                // Make an API request to Google Books to search for books
-                var bookViewModels = await _googleBooksService.GetBooksAsync(query);
-
-                if (bookViewModels != null && bookViewModels.Count > 0)
-                {
-                    // Debugging output: Check the count of books retrieved
-                    Console.WriteLine($"Number of books retrieved: {bookViewModels.Count}");
-                    return View("Books", bookViewModels);
-                }
-                else
-                {
-                    // Debugging output: Check if there are items in the API response
-                    Console.WriteLine("No items found in the API response.");
-                    return Content("No books found.", "text/plain");
-                }
+                return NotFound();
             }
-            catch (Exception ex)
-            {
-                // Handle the exception (e.g., log it, display an error message)
-                Console.WriteLine($"Exception: {ex.Message}");
 
-                return Content("An error occurred while processing the request.", "text/plain");
-            }
+            return View(googleBook);
         }
     }
 }

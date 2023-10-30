@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SoftwareBookList.GoogleBooks;
 using SoftwareBookList.Models;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,8 +12,10 @@ namespace SoftwareBookList.Data
 	{
 		public DataContext(DbContextOptions<DataContext> options)
 			: base(options) 
-		{ }
-		public DbSet<Book> Books { get; set; }
+		{
+		}
+
+        public DbSet<Book> Books { get; set; }
 		public DbSet<BookList> BookLists { get; set; }
 		public DbSet<BookListStatus> BookListStatus { get; set; }
 		public DbSet<BookTag> BookTags { get; set; }
@@ -25,53 +28,10 @@ namespace SoftwareBookList.Data
 		public DbSet<User> Users { get; set; }
 		public DbSet<UserAccount> Accounts { get; set; }
 
-
-		//public DbSet<BookViewModel> BookViewModel { get; set; }
-		//public DbSet<GoogleBooksApiResponse> GoogleBooksApiResponse { get; set; }
-
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<Book>()
 				.HasKey(book => book.BookID); // Specify the PK for Book
-
-			modelBuilder.Entity<Book>().HasData(
-				new Book
-				{
-					BookID = 1, 
-					GoogleID = "one", 
-					Title = "Software Book 1", 
-					Authors = "Chang", 
-					Description = "Guess what? Chicken Butt.", 
-					ISBN = "abc", 
-					PublishedDate = "10/10/2019", 
-					ThumbnailLink = "/lib/images/bluecar.jpg"
-				},
-
-				new Book
-				{
-					BookID = 2,
-					GoogleID = "two",
-					Title = "Software Book 2",
-					Authors = "Matthew",
-					Description = "Learn how to make space ships go vroom vroom.",
-					ISBN = "cba",
-					PublishedDate = "10/10/2010",
-					ThumbnailLink = "/lib/images/robot.jpg"
-				},
-
-				new Book
-				{
-					BookID = 3,
-					GoogleID = "three",
-					Title = "Software Book 3",
-					Authors = "Dillon",
-					Description = "I am so much better than all of you combined.",
-					ISBN = "pol",
-					PublishedDate = "10/10/2023",
-					ThumbnailLink = "/lib/images/legos.jpg"
-				}
-
-				);
 
 			modelBuilder.Entity<BookList>()
 				.HasKey(booklist => booklist.BookListID); // Specify the PK for BookList
@@ -115,9 +75,7 @@ namespace SoftwareBookList.Data
 					BookID = 3,
 					ListID = 1
 
-				}
-
-				);
+				});
 
 
 
@@ -129,16 +87,11 @@ namespace SoftwareBookList.Data
 				{
 					StatusID = 1,
 					StatusName = "The Bestest In The Wurld!"
-				}
-
-				);
+				});
 
 
 			modelBuilder.Entity<BookTag>()
 				.HasKey(booktag => booktag.BookTagID); // Specify the PK for BookTag
-
-
-
 
 			modelBuilder.Entity<Discussion>()
 				.HasKey(discussion => discussion.DiscussionID); // Specify the PK for Discussion
@@ -155,9 +108,6 @@ namespace SoftwareBookList.Data
 				.HasForeignKey(discussion => discussion.UserID) // Specifies that the foreign key in the 'Discussion' table is 'UserID'.
 				.OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete for this relationship.
 
-
-
-
 			modelBuilder.Entity<List>()
 				.HasKey(list => list.ListID); // Specify the PK for List
 
@@ -165,10 +115,7 @@ namespace SoftwareBookList.Data
 				new List
 				{
 					ListID = 1, UserID = 50, Name = "Yolo"
-				}
-
-				);
-
+				});
 
 			modelBuilder.Entity<Message>()
 				.HasKey(message => message.MessageID); // Specify the PK for Message
@@ -184,9 +131,6 @@ namespace SoftwareBookList.Data
 				.WithMany(user => user.ReceivedMessages) // A User can receive many Messages
 				.HasForeignKey(message => message.RecipientID) // The foreign key in Message is RecipientID
 				.OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
-
-
-
 
 			modelBuilder.Entity<Rating>()
 				.HasKey(rating => rating.RatingID); // Specify the PK for BookTag
@@ -214,9 +158,7 @@ namespace SoftwareBookList.Data
 					EmailAddress = "Tester@gmail.com",
 					PasswordHash = "green",
 					UserName = "",
-				}
-
-				);
+				});
 
 
 			modelBuilder.Entity<UserAccount>()
@@ -231,12 +173,10 @@ namespace SoftwareBookList.Data
 					ProfilePicture = "",
 					Bio = "",
 					Birthday = DateTime.MinValue,
-				}
-
-				);
-
+				});
 
 			base.OnModelCreating(modelBuilder);
+
 		}
 	}
 }
