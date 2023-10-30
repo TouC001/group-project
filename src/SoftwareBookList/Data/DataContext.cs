@@ -28,14 +28,8 @@ namespace SoftwareBookList.Data
 		public DbSet<UserAccount> Accounts { get; set; }
 		public DbSet<BookInList> BookInLists { get; set; }
 
-
-		//public DbSet<BookViewModel> BookViewModel { get; set; }
-		//public DbSet<GoogleBooksApiResponse> GoogleBooksApiResponse { get; set; }
-
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
-			modelBuilder.Entity<Book>()
-				.HasKey(book => book.BookID); // Specify the PK for Book
 
 			modelBuilder.Entity<BookInList>()
 				.HasKey(bil => new { bil.BookID, bil.StatusID, bil.BookListID });
@@ -57,233 +51,22 @@ namespace SoftwareBookList.Data
 				.HasOne(bil => bil.BookList)
 				.WithMany(list => list.BookInLists)
 				.HasForeignKey(bil => bil.BookListID);
-			modelBuilder.Entity<BookList>()
-				.HasKey(booklist => booklist.BookListID); // Specify the PK for BookList
-					ISBN = "cba",
-					PublishedDate = "10/10/2010",
+
+
 			modelBuilder.Entity<Book>()
 				.HasKey(book => book.BookID); // Specify the PK for Book
 
-				new Book
-				{
+			modelBuilder.Entity<BookList>()
 				.HasKey(booklist => booklist.BookListID); // Specify the PK for BookList
-					GoogleID = "three",
+
 			// Define a one-to-one relationship between User and BookList
 			modelBuilder.Entity<User>()
 				.HasOne(user => user.BookList)
 				.WithOne(bookList => bookList.User)
 				.HasForeignKey<BookList>(bookList => bookList.UserID);
-					BookID = 1,
-
-				);
-
-
-
-
-				);
-
-
-
-
-				);
-
-
-
-
-				},
-
-				new BookList
-				{
-					BookListID = 2,
-					BookListStatusID = 1,
-					BookID = 2,
-					LisID = 1
-
-				},
-
-				new BookList
-				{
-					BookListID = 3,
-					BookListStatusID = 1,
-					BookID = 3,
-					LisID = 1
-					ThumbnailLink = "legos.jpg"
-				}
-
-				);
-
-
-				{
-					BookID = 3,
-					GoogleID = "three",
-			modelBuilder.Entity<BookList>().HasData(
-				new BookList
-				{
-					BookListID = 1,
-					BookListStatusID = 1,
-					BookID = 1,
-					LisID = 1
-
-				},
-
-				new BookList
-				{
-					BookListID = 2,
-					BookListStatusID = 1,
-					BookID = 2,
-					LisID = 1
-
-
-				.HasKey(list => list.ListID); // Specify the PK for List
-
-			modelBuilder.Entity<List>().HasData(
-				new List
-				{
-					ListID = 1, UserID = 50, Name = "Yolo"
-				}
-
-				);
-
-
-				.HasKey(list => list.ListID); // Specify the PK for List
-
-			modelBuilder.Entity<List>().HasData(
-				new List
-				{
-					ListID = 1, UserID = 50, Name = "Yolo"
-				}
-
-				);
-
-
-				.HasKey(list => list.ListID); // Specify the PK for List
-
-			modelBuilder.Entity<List>().HasData(
-				new List
-				{
-					ListID = 1, UserID = 50, Name = "Yolo"
-				}
-
-				);
-
-
-				.HasKey(list => list.ListID); // Specify the PK for List
-
-			modelBuilder.Entity<List>().HasData(
-				new List
-			modelBuilder.Entity<Rating>()
-				.HasKey(rating => rating.RatingID); // Specify the PK for BookTag
-				}
-			modelBuilder.Entity<Review>()
-				.HasKey(review => review.ReviewID); // Specify the PK for Review
-
-			modelBuilder.Entity<Review>()
-				.HasOne(u => u.User)
-				.WithMany(u => u.ReviewsGiven)
-				.HasForeignKey(u => u.UserID);
-				new List
-			modelBuilder.Entity<Review>()
-				.HasOne(b => b.Book)
-				.WithMany(b => b.Reviews)
-				.HasForeignKey(u => u.BookID);
-				);
-
-
-				.HasKey(list => list.ListID); // Specify the PK for List
-
-			modelBuilder.Entity<List>().HasData(
-				new List
-				{
-					ListID = 1, UserID = 50, Name = "Yolo"
-				}
-
-				);
-
-
-					BookListID = 3,
-					BookListStatusID = 1,
-					BookID = 3,
-					LisID = 1
-					ThumbnailLink = "legos.jpg"
-				}
-
-				);
-
-
-
-
-				);
-
-			modelBuilder.Entity<BookListStatus>().HasData(
-				new BookListStatus
-				{
-					StatusID = 1,
-			modelBuilder.Entity<Review>()
-				.HasKey(review => review.ReviewID); // Specify the PK for Review
-
-				);
-			modelBuilder.Entity<BookList>()
-				.HasKey(booklist => booklist.BookListID); // Specify the PK for BookList
-
-
-
-
-
-
-
-				new BookList
-				{
-					BookListID = 1,
-					BookListStatusID = 1,
-					BookID = 1,
-					LisID = 1
-
-				},
-
-				new BookList
-				{
-					BookListID = 2,
-					BookListStatusID = 1,
-					BookID = 2,
-					LisID = 1
-
-
-
-
-			modelBuilder.Entity<List>()
-				.HasKey(list => list.ListID); // Specify the PK for List
-
-			modelBuilder.Entity<List>().HasData(
-				new List
-				{
-					ListID = 1, UserID = 50, Name = "Yolo"
-				}
-
-				);
-
-
-					BookListID = 3,
-					BookListStatusID = 1,
-					BookID = 3,
-					LisID = 1
-
-				}
-
-				);
-
-
 
 			modelBuilder.Entity<BookListStatus>()
 				.HasKey(status => status.StatusID); // Specify the PK for BookTag
-
-			modelBuilder.Entity<BookListStatus>().HasData(
-				new BookListStatus
-				{
-					StatusID = 1,
-					StatusName = "The Bestest In The Wurld!"
-				}
-
-				);
 
 
 			modelBuilder.Entity<BookTag>()
@@ -304,32 +87,6 @@ namespace SoftwareBookList.Data
 				.HasForeignKey(discussion => discussion.UserID) // Specifies that the foreign key in the 'Discussion' table is 'UserID'.
 				.OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete for this relationship.
 
-
-
-
-			modelBuilder.Entity<List>()
-				.HasKey(list => list.ListID); // Specify the PK for List
-			modelBuilder.Entity<User>().HasData(
-				new User
-				{
-					UserID = 50,
-					FirstName = "Test",
-					LastName = "Tester",
-					EmailAddress = "Tester@gmail.com",
-					PasswordHash = "green",
-					UserName = "",
-				}
-
-				);
-
-
-			modelBuilder.Entity<List>().HasData(
-				new List
-				{
-					ListID = 1, UserID = 50, Name = "Yolo"
-				}
-
-				);
 
 
 			modelBuilder.Entity<Message>()
@@ -378,19 +135,6 @@ namespace SoftwareBookList.Data
 				.HasMany(u => u.UserAccounts)
 				.WithOne(ua => ua.User)
 				.HasForeignKey(ua => ua.UserID);
-
-			modelBuilder.Entity<User>().HasData(
-				new User
-				{
-					UserID = 50,
-					FirstName = "Test",
-					LastName = "Tester",
-					EmailAddress = "Tester@gmail.com",
-					PasswordHash = "green",
-					UserName = "",
-				}
-
-				);
 
 
 			modelBuilder.Entity<UserAccount>()

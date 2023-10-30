@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SoftwareBookList.Models
 {
-    public class Discussion
+	public class Discussion
 	{
 		[Key]
 		public int DiscussionID { get; set; }

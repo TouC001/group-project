@@ -8,11 +8,11 @@ using SoftwareBookList.Services;
 
 namespace SoftwareBookList
 {
-    /// <summary>
-    /// This class is responsible for the main configuration
-    /// and setting up services (like our API).
-    /// </summary>
-    public class Startup
+	/// <summary>
+	/// This class is responsible for the main configuration
+	/// and setting up services (like our API).
+	/// </summary>
+	public class Startup
 	{
 		private readonly IConfiguration _configuration;
 
