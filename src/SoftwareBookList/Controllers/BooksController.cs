@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using SoftwareBookList.Data;
 using SoftwareBookList.GoogleBooks;
+using SoftwareBookList.Models;
 using SoftwareBookList.Services;
 
 namespace SoftwareBookList.Controllers
 {
-	public class BooksController : Controller
+    public class BooksController : Controller
     {
         private readonly DataContext _context;
+
         private readonly GoogleBooksService _googleBooksService;
         private readonly BookMappingService _bookMappingService;
 
@@ -19,48 +20,22 @@ namespace SoftwareBookList.Controllers
             _bookMappingService = bookMappingService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> FindBooks()
+        public IActionResult Books()
         {
-            try
+            List<Book> books = _context.Books.ToList();
+            return View(books);
+        }
+
+        public async Task<IActionResult> BookDetails(string googleID)
+        {
+            GoogleBook googleBook = await _googleBooksService.GetSingleBookAsync(googleID);
+
+            if (googleBook == null)
             {
-                // Hardcoded search query for software books
-                var query = "software";
-
-                // Make an API request to Google Books to search for books
-                var googleBooks = await _googleBooksService.GetBooksAsync(query);
-
-                if (googleBooks != null && googleBooks.Count > 0)
-                {
-                    foreach (var googleBook in googleBooks)
-                    {
-                        var bookEntity = _bookMappingService.MapToBookEntity(googleBook);
-                        _context.Books.Add(bookEntity);
-                    }
-
-                    // Save changes to the database
-                    await _context.SaveChangesAsync();
-
-                    // Provide a success message to the user
-                    ViewBag.Message = "Books added successfully.";
-                }
-                else
-                {
-                    // Provide a message indicating no books were found
-                    ViewBag.Message = "No books found.";
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle the exception (e.g., log it, display an error message)
-                Console.WriteLine($"Exception: {ex.Message}");
-
-                // Return an error message
-                ViewBag.Message = "An error occurred while processing the request.";
+                return NotFound();
             }
 
-            // Return a view with the message
-            return View();
+            return View(googleBook);
         }
     }
 }

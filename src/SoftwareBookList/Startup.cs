@@ -61,8 +61,8 @@ namespace SoftwareBookList
 			});
 
 			services.AddTransient<UserAccountServices>();
-
 			services.AddTransient<BookMappingService>();
+				
 		}
 
 		// Configure is where the application's request pipeline and middleware are set up.

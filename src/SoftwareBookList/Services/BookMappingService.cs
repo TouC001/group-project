@@ -16,17 +16,17 @@ namespace SoftwareBookList.Services
             var book = new Book
             {
                 GoogleID = googleBook.Id,
-                Title = googleBook.VolumeInfo.Title,
-                Subtitle = googleBook.VolumeInfo.Subtitle,
-                Authors = googleBook.VolumeInfo.Authors,
-                Description = googleBook.VolumeInfo.Description,
-                Publisher = googleBook.VolumeInfo.Publisher,
-                PublishedDate = googleBook.VolumeInfo.PublishedDate,
-                IndustryIdentifiers = googleBook.VolumeInfo.IndustryIdentifiers,
-                SelfLink = googleBook.SelfLink,
-                Categories = googleBook.VolumeInfo.Categories,
-                SmallThumbnail = googleBook.VolumeInfo.ImageLinks.SmallThumbnail,
-                Thumbnail = googleBook.VolumeInfo.ImageLinks.Thumbnail
+                Title = googleBook.VolumeInfo.Title, // Can never be null in the db.
+                Subtitle = googleBook.VolumeInfo?.Subtitle ?? string.Empty,
+                Authors = googleBook.VolumeInfo?.Authors ?? new List<string>(),
+                Description = googleBook.VolumeInfo?.Description ?? string.Empty,
+                Publisher = googleBook.VolumeInfo?.Publisher ?? string.Empty,
+                PublishedDate = googleBook.VolumeInfo?.PublishedDate ?? string.Empty,
+                IndustryIdentifiers = googleBook.VolumeInfo?.IndustryIdentifiers ?? new List<IndustryIdentifier>(),
+                SelfLink = googleBook.SelfLink ?? string.Empty,
+                Categories = googleBook.VolumeInfo?.Categories ?? new List<string>(),
+                SmallThumbnail = googleBook.VolumeInfo.ImageLinks.SmallThumbnail, // Can never be null in the db.
+                Thumbnail = googleBook.VolumeInfo.ImageLinks.Thumbnail // Can never be null in the db.
             };
 
             return book;

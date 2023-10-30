@@ -1,0 +1,23 @@
+﻿@using SoftwareBookList.Models;
+@using SoftwareBookList.GoogleBooks;
+@model GoogleBook
+
+@{
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <h2>Book Details</h2>
+    <div>
+        <strong>Thumbnail:</strong> <img src="@Model.VolumeInfo.ImageLinks.Thumbnail" alt="Thumbnail" />
+    </div>
+    <div>
+        <strong>Title:</strong> @Model.VolumeInfo.Title
+    </div>
+    <div>
+        @Model.VolumeInfo.Subtitle
+        @Model.VolumeInfo.Authors
+        @Model.VolumeInfo.PublishedDate
+        @Model.VolumeInfo.Publisher
+    </div>
+</div>

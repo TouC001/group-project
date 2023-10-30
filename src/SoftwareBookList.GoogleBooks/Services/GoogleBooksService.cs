@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace SoftwareBookList.GoogleBooks
 {
@@ -25,7 +26,6 @@ namespace SoftwareBookList.GoogleBooks
 			{
 				var apiKey = _googleBooksSettings.ApiKey;
 				var requestUrl = $"volumes?q={query}&maxResults=40&key={apiKey}";
-
 				var response = await _httpClient.GetAsync(requestUrl);
 
 				response.EnsureSuccessStatusCode(); // Ensure HTTP success status
@@ -41,25 +41,40 @@ namespace SoftwareBookList.GoogleBooks
 			}
         }
 
-		private List<GoogleBook> ParseAndTransformResponse(string responseContent)
+        public async Task<GoogleBook> GetSingleBookAsync(string googleID)
+        {
+            try
+            {
+                var apiKey = _googleBooksSettings.ApiKey;
+                var requestUrl = $"volumes/{googleID}";
+                var response = await _httpClient.GetAsync(requestUrl);
+
+                response.EnsureSuccessStatusCode(); // Ensure HTTP success status
+
+				//GoogleBook googleBook = ParseAndTransformResponse(await response.Content.ReadAsStringAsync());
+				GoogleBook googleBook = JsonConvert.DeserializeObject<GoogleBook>(await response.Content.ReadAsStringAsync());
+
+				return googleBook;
+            }
+            catch (HttpRequestException ex)
+            {
+                // Handle exceptions, possibly log them
+                return null;
+            }
+        }
+
+        private List<GoogleBook> ParseAndTransformResponse(string responseContent)
 		{
 			// Parse and transform the API response here
-			// This logic can be extracted to a separate method or class
 			var googleBooks = new List<GoogleBook>();
 
             try
             {
-				var apiResponse = JsonConvert.DeserializeObject<GoogleBooksAPIResponse>(responseContent);
+				GoogleBooksAPIResponse apiResponse = JsonConvert.DeserializeObject<GoogleBooksAPIResponse>(responseContent);
 
 				if (apiResponse != null && apiResponse.Items != null)
 				{
-					foreach (var item in apiResponse.Items)
-					{
-						var googleBook = new GoogleBook
-						{
-							
-						};
-					}
+					googleBooks = apiResponse.Items;
 				}
 			}
 			catch (JsonException ex)
@@ -69,5 +84,5 @@ namespace SoftwareBookList.GoogleBooks
 
 			return googleBooks;
 		}
-	}
+    }
 }

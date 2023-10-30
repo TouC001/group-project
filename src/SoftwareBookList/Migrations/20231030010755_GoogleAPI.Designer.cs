@@ -12,7 +12,7 @@ using SoftwareBookList.Data;
 namespace SoftwareBookList.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231024190230_GoogleAPI")]
+    [Migration("20231030010755_GoogleAPI")]
     partial class GoogleAPI
     {
         /// <inheritdoc />
@@ -68,7 +68,7 @@ namespace SoftwareBookList.Migrations
                     b.Property<int>("BookListStatusID")
                         .HasColumnType("int");
 
-                    b.Property<int>("LisID")
+                    b.Property<int>("ListID")
                         .HasColumnType("int");
 
                     b.HasKey("BookListID");
@@ -77,7 +77,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasIndex("BookListStatusID");
 
-                    b.HasIndex("LisID");
+                    b.HasIndex("ListID");
 
                     b.ToTable("BookLists");
                 });
@@ -310,6 +310,9 @@ namespace SoftwareBookList.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -339,7 +342,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasOne("SoftwareBookList.Models.List", "List")
                         .WithMany("BooksInList")
-                        .HasForeignKey("LisID")
+                        .HasForeignKey("ListID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

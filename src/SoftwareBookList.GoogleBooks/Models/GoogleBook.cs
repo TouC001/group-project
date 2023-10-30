@@ -14,5 +14,6 @@
         public virtual SaleInfo SaleInfo { get; set; }
         public virtual AccessInfo AccessInfo { get; set; }
         public virtual SearchInfo SearchInfo { get; set; }
+
     }
 }

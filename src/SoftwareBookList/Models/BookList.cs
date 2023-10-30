@@ -17,18 +17,13 @@ namespace SoftwareBookList.Models
 		public int BookID { get; set; }
 
 		[ForeignKey("List")]
-		public int LisID { get; set; }
-
+		public int ListID { get; set; }
 
 		// Navigation property
 		public BookListStatus BookListStatus { get; set; }
 
-
-
 		// Navigation property for the associated book
 		public Book Book { get; set; }
-
-
 
 		// Navigation property for the associated list
 		public List List { get; set; }

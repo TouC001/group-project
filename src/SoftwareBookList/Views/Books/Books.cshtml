@@ -5,47 +5,33 @@
     Layout = "_Layout";
 }
 
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <h2 class="m-2">Top Rated Software Books</h2>
-        </div>
-        <div class="col text-end mt-3 ms-5 m-2">
-            <form action="@Url.Action("Search", "Books")" method="get">
-                <input type="text" name="query" placeholder="Search by title...">
-                <button type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-</div>
+
 
 <div class="container">
     <table class="table border border-2 border-dark">
         <thead>
             <tr>
+                <th scope="col">Rank</th>
                 <th scope="col">Title</th>
-                <th scope="col">Authors</th>
-                <th scope="col">Description</th>
-                <th scope="col">Published Date</th>
+                <th scope="col">Score</th>
+                <th scope="col">Your Score</th>
+                <th scope="col">Your Status</th>
             </tr>
         </thead>
         <tbody>
-            @if (Model != null && Model.Any())
-            {
-                @foreach (var book in Model)
-                {
-                    <tr>
-                        <td>@book.Title</td>
-                        <td>@book.Authors</td>
-                        <td>@book.Description</td>
-                        <td>@book.PublishedDate</td>
-                    </tr>
-                }
-            }
-            else
+            @foreach (var book in Model)
             {
                 <tr>
-                    <td colspan="4">No books found.</td>
+                    <td>Rank # Here</td>
+                    <td>
+                        <a href="@Url.Action("BookDetails", new { googleID = book.GoogleID })">
+                            <img src="@book.Thumbnail" alt="Thumbnail" />
+                            @book.Title
+                        </a>
+                    </td>
+                    <td>Score Here</td>
+                    <td>User's Score Here</td>
+                    <td>Button to add to list</td>
                 </tr>
             }
         </tbody>
