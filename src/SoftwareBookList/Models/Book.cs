@@ -33,16 +33,23 @@ namespace SoftwareBookList.Models
 		[NotMapped]
 		public List<string> Categories { get; set; }
 
-		// Navigation property to represent the many-to-many relationship with tags	
-		public ICollection<BookTag> BookTags { get; set; }
+        // Navigation property to represent the many-to-many relationship with tags	
+        public List<BookTag> BookTags { get; set; }
 
-		// Property to represent the BookList(s) it belongs to
-		public ICollection<BookList> BookLists { get; set; }
 
-		// One-to-Many Relationship with Review Table
-		public ICollection<Review> Reviews { get; set; }
 
-		// One-to-Many Relationship with Discussion Table
-		public ICollection<Discussion> Discussions { get; set; }
-	}
+        // Property to represent the BookList(s) it belongs to
+        public List<BookInList> BookInLists { get; set; }
+
+
+
+        // One-to-Many Relationship with Review Table
+        public List<Review> Reviews { get; set; }
+
+
+
+
+        // One-to-Many Relationship with Discussion Table
+        public List<Discussion> Discussions { get; set; }
+    }
 }

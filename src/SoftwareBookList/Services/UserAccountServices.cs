@@ -51,29 +51,15 @@ namespace SoftwareBookList.Services
 			return isUnique;
 		}
 
-		public string GenerateRandomListName()
+		public void CreateBookList(User user)
 		{
-			Random random = new Random();
-
-			string listName = "List" + random.Next(10000, 99999).ToString();
-
-			return listName;
-		}
-
-		public void CreateList(User user)
-		{
-			string listName = GenerateRandomListName();
-
-			List newList = new List
+			BookList bookList = new BookList
 			{
-				Name = listName,
-				User = user,
 				UserID = user.UserID
 			};
 
-			_dataContext.Lists.Add(newList);
+			_dataContext.BookLists.Add(bookList);
 			_dataContext.SaveChanges();
 		}
-
 	}
 }

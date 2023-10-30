@@ -42,18 +42,19 @@ namespace SoftwareBookList.Controllers
 			// Using the GetUserProfile Method from the UserProfileService anad storing it in the variable of type UserProfileViewModel.
 			UserProfileViewModel userProfileView = _userProfileServices.GetUserProfile(UserID);
 
-			if (userProfileView != null)
-			{
-				int ListID = userProfileView.ListID;
+			//if (userProfileView != null)
+			//{
+			//	int BookListID = userProfileView.;
 
-				List<Book> bookInUserList = _userProfileServices.GetBooksInUserList(ListID);
+			//	List<Book> bookInUserList = _userProfileServices.GetBooksInUserList(ListID);
 
-				// userProfileView.BooksInList = bookInUserList;
+			//	userProfileView.BooksInList = bookInUserList;
 
-				// return View(userProfileView);
-			}
+			//	return View(userProfileView);
+			//}
 
-			// return NotFound();
+			//return NotFound();
+
 			return View(userProfileView);
 		}
 
