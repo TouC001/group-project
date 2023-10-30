@@ -12,15 +12,15 @@ using SoftwareBookList.Data;
 namespace SoftwareBookList.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20231023140401_AddSeedData2")]
-    partial class AddSeedData2
+    [Migration("20231030223953_Sprint3Initial")]
+    partial class Sprint3Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -33,28 +33,15 @@ namespace SoftwareBookList.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookID"));
 
-                    b.Property<string>("Authors")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
                     b.Property<string>("GoogleID")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ISBN")
+                    b.Property<string>("SmallThumbnail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PublishedDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ThumbnailLink")
+                    b.Property<string>("Thumbnail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -65,41 +52,26 @@ namespace SoftwareBookList.Migrations
                     b.HasKey("BookID");
 
                     b.ToTable("Books");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            BookID = 1,
-                            Authors = "Chang",
-                            Description = "Guess what? Chicken Butt.",
-                            GoogleID = "one",
-                            ISBN = "abc",
-                            PublishedDate = "10/10/2019",
-                            ThumbnailLink = "/lib/images/bluecar.jpg",
-                            Title = "Software Book 1"
-                        },
-                        new
-                        {
-                            BookID = 2,
-                            Authors = "Matthew",
-                            Description = "Learn how to make space ships go vroom vroom.",
-                            GoogleID = "two",
-                            ISBN = "cba",
-                            PublishedDate = "10/10/2010",
-                            ThumbnailLink = "/lib/images/robot.jpg",
-                            Title = "Software Book 2"
-                        },
-                        new
-                        {
-                            BookID = 3,
-                            Authors = "Dillon",
-                            Description = "I am so much better than all of you combined.",
-                            GoogleID = "three",
-                            ISBN = "pol",
-                            PublishedDate = "10/10/2023",
-                            ThumbnailLink = "/lib/images/legos.jpg",
-                            Title = "Software Book 3"
-                        });
+            modelBuilder.Entity("SoftwareBookList.Models.BookInList", b =>
+                {
+                    b.Property<int>("BookID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StatusID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookListID")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookID", "StatusID", "BookListID");
+
+                    b.HasIndex("BookListID");
+
+                    b.HasIndex("StatusID");
+
+                    b.ToTable("BookInLists");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.BookList", b =>
@@ -110,47 +82,15 @@ namespace SoftwareBookList.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookListID"));
 
-                    b.Property<int>("BookID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BookListStatusID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LisID")
+                    b.Property<int>("UserID")
                         .HasColumnType("int");
 
                     b.HasKey("BookListID");
 
-                    b.HasIndex("BookID");
-
-                    b.HasIndex("BookListStatusID");
-
-                    b.HasIndex("LisID");
+                    b.HasIndex("UserID")
+                        .IsUnique();
 
                     b.ToTable("BookLists");
-
-                    b.HasData(
-                        new
-                        {
-                            BookListID = 1,
-                            BookID = 1,
-                            BookListStatusID = 1,
-                            LisID = 1
-                        },
-                        new
-                        {
-                            BookListID = 2,
-                            BookID = 2,
-                            BookListStatusID = 1,
-                            LisID = 1
-                        },
-                        new
-                        {
-                            BookListID = 3,
-                            BookID = 3,
-                            BookListStatusID = 1,
-                            LisID = 1
-                        });
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.BookListStatus", b =>
@@ -168,13 +108,6 @@ namespace SoftwareBookList.Migrations
                     b.HasKey("StatusID");
 
                     b.ToTable("BookListStatus");
-
-                    b.HasData(
-                        new
-                        {
-                            StatusID = 1,
-                            StatusName = "The Bestest In The Wurld!"
-                        });
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.BookTag", b =>
@@ -241,37 +174,6 @@ namespace SoftwareBookList.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Discussions");
-                });
-
-            modelBuilder.Entity("SoftwareBookList.Models.List", b =>
-                {
-                    b.Property<int>("ListID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ListID"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.HasKey("ListID");
-
-                    b.HasIndex("UserID")
-                        .IsUnique();
-
-                    b.ToTable("Lists");
-
-                    b.HasData(
-                        new
-                        {
-                            ListID = 1,
-                            Name = "Yolo",
-                            UserID = 50
-                        });
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.Message", b =>
@@ -396,6 +298,9 @@ namespace SoftwareBookList.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -411,17 +316,6 @@ namespace SoftwareBookList.Migrations
                     b.HasKey("UserID");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            UserID = 50,
-                            EmailAddress = "Tester@gmail.com",
-                            FirstName = "Test",
-                            LastName = "Tester",
-                            PasswordHash = "green",
-                            UserName = ""
-                        });
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.UserAccount", b =>
@@ -456,44 +350,44 @@ namespace SoftwareBookList.Migrations
                     b.HasIndex("UserID");
 
                     b.ToTable("Accounts");
-
-                    b.HasData(
-                        new
-                        {
-                            AccountID = 1,
-                            Bio = "",
-                            Birthday = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ProfilePicture = "",
-                            UserID = 50,
-                            UserName = ""
-                        });
                 });
 
-            modelBuilder.Entity("SoftwareBookList.Models.BookList", b =>
+            modelBuilder.Entity("SoftwareBookList.Models.BookInList", b =>
                 {
                     b.HasOne("SoftwareBookList.Models.Book", "Book")
-                        .WithMany("BookLists")
+                        .WithMany("BookInLists")
                         .HasForeignKey("BookID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SoftwareBookList.Models.BookListStatus", "BookListStatus")
-                        .WithMany("BookLists")
-                        .HasForeignKey("BookListStatusID")
+                    b.HasOne("SoftwareBookList.Models.BookList", "BookList")
+                        .WithMany("BookInLists")
+                        .HasForeignKey("BookListID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SoftwareBookList.Models.List", "List")
-                        .WithMany("BooksInList")
-                        .HasForeignKey("LisID")
+                    b.HasOne("SoftwareBookList.Models.BookListStatus", "Status")
+                        .WithMany("BookInList")
+                        .HasForeignKey("StatusID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Book");
 
-                    b.Navigation("BookListStatus");
+                    b.Navigation("BookList");
 
-                    b.Navigation("List");
+                    b.Navigation("Status");
+                });
+
+            modelBuilder.Entity("SoftwareBookList.Models.BookList", b =>
+                {
+                    b.HasOne("SoftwareBookList.Models.User", "User")
+                        .WithOne("BookList")
+                        .HasForeignKey("SoftwareBookList.Models.BookList", "UserID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.BookTag", b =>
@@ -538,17 +432,6 @@ namespace SoftwareBookList.Migrations
                     b.Navigation("AssociatedBook");
 
                     b.Navigation("Creator");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SoftwareBookList.Models.List", b =>
-                {
-                    b.HasOne("SoftwareBookList.Models.User", "User")
-                        .WithOne("List")
-                        .HasForeignKey("SoftwareBookList.Models.List", "UserID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.Navigation("User");
                 });
@@ -620,7 +503,7 @@ namespace SoftwareBookList.Migrations
 
             modelBuilder.Entity("SoftwareBookList.Models.Book", b =>
                 {
-                    b.Navigation("BookLists");
+                    b.Navigation("BookInLists");
 
                     b.Navigation("BookTags");
 
@@ -629,19 +512,19 @@ namespace SoftwareBookList.Migrations
                     b.Navigation("Reviews");
                 });
 
+            modelBuilder.Entity("SoftwareBookList.Models.BookList", b =>
+                {
+                    b.Navigation("BookInLists");
+                });
+
             modelBuilder.Entity("SoftwareBookList.Models.BookListStatus", b =>
                 {
-                    b.Navigation("BookLists");
+                    b.Navigation("BookInList");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.Discussion", b =>
                 {
                     b.Navigation("Messages");
-                });
-
-            modelBuilder.Entity("SoftwareBookList.Models.List", b =>
-                {
-                    b.Navigation("BooksInList");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.Rating", b =>
@@ -656,10 +539,10 @@ namespace SoftwareBookList.Migrations
 
             modelBuilder.Entity("SoftwareBookList.Models.User", b =>
                 {
-                    b.Navigation("Discussions");
-
-                    b.Navigation("List")
+                    b.Navigation("BookList")
                         .IsRequired();
+
+                    b.Navigation("Discussions");
 
                     b.Navigation("ReceivedMessages");
 
