@@ -51,10 +51,15 @@ namespace SoftwareBookList.Services
 			return isUnique;
 		}
 
-		//public List<BookList> GetUserBooks(int userId)
-		//{
-		//	return _dataContext.BookLists()
-		//		.Where(BookList => BookList.UserId == userId);
-		//}
+		public void CreateBookList(User user)
+		{
+			BookList bookList = new BookList
+			{
+				UserID = user.UserID
+			};
+
+			_dataContext.BookLists.Add(bookList);
+			_dataContext.SaveChanges();
+		}
 	}
 }

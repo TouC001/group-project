@@ -18,6 +18,7 @@ namespace SoftwareBookList.Models
         public BookListStatus Status { get; set; }
         public BookList BookList { get; set; }
 
+
         public BookInList(int bookID, int statusID, int bookListID)
         {
             BookID = bookID;

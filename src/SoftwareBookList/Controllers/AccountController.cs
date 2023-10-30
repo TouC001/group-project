@@ -71,6 +71,8 @@ public class AccountController : Controller
 
 		_userAccountServices.AddUser(user);
 
+		_userAccountServices.CreateBookList(user);
+
 		return RedirectToAction(nameof(LogIn));
 	}
 

@@ -30,6 +30,9 @@ namespace SoftwareBookList.Data
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 
+			modelBuilder.Entity<BookInList>()
+				.HasKey(bil => new { bil.BookID, bil.StatusID, bil.BookListID });
+
 			// Relationship between BookInList and Book
 			modelBuilder.Entity<BookInList>()
 				.HasOne(bil => bil.Book)
@@ -48,95 +51,95 @@ namespace SoftwareBookList.Data
 				.WithMany(list => list.BookInLists)
 				.HasForeignKey(bil => bil.BookListID);
 
-			modelBuilder.Entity<BookInList>().HasData(
-				new BookInList(1, 1, 1),
-				new BookInList(2, 1, 1),
-				new BookInList(3, 1, 1),
-				new BookInList(4, 2, 1),
-				new BookInList(5, 2, 1),
-				new BookInList(6, 3, 1)
+			//modelBuilder.Entity<BookInList>().HasData(
+			//	new BookInList(1, 1, 1),
+			//	new BookInList(2, 1, 1),
+			//	new BookInList(3, 1, 1),
+			//	new BookInList(4, 2, 1),
+			//	new BookInList(5, 2, 1),
+			//	new BookInList(6, 3, 1)
 
-				);;
+			//	);;
 
 
 
 			modelBuilder.Entity<Book>()
 				.HasKey(book => book.BookID); // Specify the PK for Book
 
-			modelBuilder.Entity<Book>().HasData(
-				new Book
-				{
-					BookID = 1, 
-					GoogleID = "one", 
-					Title = "Software Book 1", 
-					Authors = "Chang", 
-					Description = "Guess what? Chicken Butt.", 
-					ISBN = "abc", 
-					PublishedDate = "10/10/2019", 
-					ThumbnailLink = "bluecar.jpg"
-				},
+			//modelBuilder.Entity<Book>().HasData(
+			//	new Book
+			//	{
+			//		BookID = 1, 
+			//		GoogleID = "one", 
+			//		Title = "Software Book 1", 
+			//		Authors = "Chang", 
+			//		Description = "Guess what? Chicken Butt.", 
+			//		ISBN = "abc", 
+			//		PublishedDate = "10/10/2019", 
+			//		ThumbnailLink = "bluecar.jpg"
+			//	},
 
-				new Book
-				{
-					BookID = 2,
-					GoogleID = "two",
-					Title = "Software Book 2",
-					Authors = "Matthew",
-					Description = "Learn how to make space ships go vroom vroom.",
-					ISBN = "cba",
-					PublishedDate = "10/10/2010",
-					ThumbnailLink = "robot.jpg"
-				},
+			//	new Book
+			//	{
+			//		BookID = 2,
+			//		GoogleID = "two",
+			//		Title = "Software Book 2",
+			//		Authors = "Matthew",
+			//		Description = "Learn how to make space ships go vroom vroom.",
+			//		ISBN = "cba",
+			//		PublishedDate = "10/10/2010",
+			//		ThumbnailLink = "robot.jpg"
+			//	},
 
-				new Book
-				{
-					BookID = 3,
-					GoogleID = "three",
-					Title = "Software Book 3",
-					Authors = "Dillon",
-					Description = "I am so much better than all of you combined.",
-					ISBN = "pol",
-					PublishedDate = "10/10/2023",
-					ThumbnailLink = "legos.jpg"
-				},
+			//	new Book
+			//	{
+			//		BookID = 3,
+			//		GoogleID = "three",
+			//		Title = "Software Book 3",
+			//		Authors = "Dillon",
+			//		Description = "I am so much better than all of you combined.",
+			//		ISBN = "pol",
+			//		PublishedDate = "10/10/2023",
+			//		ThumbnailLink = "legos.jpg"
+			//	},
 
-				new Book
-				{
-					BookID = 4,
-					GoogleID = "four",
-					Title = "Software Book 4",
-					Authors = "Tou",
-					Description = "I am so much better than all of you combined.",
-					ISBN = "lll",
-					PublishedDate = "10/10/2020",
-					ThumbnailLink = "ducks.jpg"
-				},
+			//	new Book
+			//	{
+			//		BookID = 4,
+			//		GoogleID = "four",
+			//		Title = "Software Book 4",
+			//		Authors = "Tou",
+			//		Description = "I am so much better than all of you combined.",
+			//		ISBN = "lll",
+			//		PublishedDate = "10/10/2020",
+			//		ThumbnailLink = "ducks.jpg"
+			//	},
 
-				new Book
-				{
-					BookID = 5,
-					GoogleID = "five",
-					Title = "Software Book 5",
-					Authors = "Kennen",
-					Description = "I am so much better than all of you combined.",
-					ISBN = "ppp",
-					PublishedDate = "10/10/1997",
-					ThumbnailLink = "teddy.jpg"
-				},
+			//	new Book
+			//	{
+			//		BookID = 5,
+			//		GoogleID = "five",
+			//		Title = "Software Book 5",
+			//		Authors = "Kennen",
+			//		Description = "I am so much better than all of you combined.",
+			//		ISBN = "ppp",
+			//		PublishedDate = "10/10/1997",
+			//		ThumbnailLink = "teddy.jpg"
+			//	},
 
-				new Book
-				{
-					BookID = 6,
-					GoogleID = "six",
-					Title = "Software Book 6",
-					Authors = "Kyle",
-					Description = "I am so much better than all of you combined.",
-					ISBN = "uu",
-					PublishedDate = "10/10/2010",
-					ThumbnailLink = "bluecar.jpg"
-				}
+			//	new Book
+			//	{
+			//		BookID = 6,
+			//		GoogleID = "six",
+			//		Title = "Software Book 6",
+			//		Authors = "Kyle",
+			//		Description = "I am so much better than all of you combined.",
+			//		ISBN = "uu",
+			//		PublishedDate = "10/10/2010",
+			//		ThumbnailLink = "bluecar.jpg"
+			//	}
 
-				);
+			//	);
 
 			modelBuilder.Entity<BookList>()
 				.HasKey(booklist => booklist.BookListID); // Specify the PK for BookList
@@ -148,15 +151,15 @@ namespace SoftwareBookList.Data
 				.HasForeignKey<BookList>(bookList => bookList.UserID);
 
 
-			modelBuilder.Entity<BookList>().HasData(
-				new BookList
-				{
-					BookListID = 1,
-					UserID = 1
+			//modelBuilder.Entity<BookList>().HasData(
+			//	new BookList
+			//	{
+			//		BookListID = 1,
+			//		UserID = 50
 
-				}
+			//	}
 
-				);
+			//	);
 
 
 
@@ -239,35 +242,35 @@ namespace SoftwareBookList.Data
 				.WithOne(ua => ua.User)
 				.HasForeignKey(ua => ua.UserID);
 
-			modelBuilder.Entity<User>().HasData(
-				new User
-				{
-					UserID = 50,
-					FirstName = "Test",
-					LastName = "Tester",
-					EmailAddress = "Tester@gmail.com",
-					PasswordHash = "green",
-					UserName = "",
-				}
+			//modelBuilder.Entity<User>().HasData(
+			//	new User
+			//	{
+			//		UserID = 50,
+			//		FirstName = "Test",
+			//		LastName = "Tester",
+			//		EmailAddress = "Tester@gmail.com",
+			//		PasswordHash = "green",
+			//		UserName = "",
+			//	}
 
-				);
+			//	);
 
 
 			modelBuilder.Entity<UserAccount>()
 				.HasKey(account => account.AccountID); // Specify the PK for Account
 
-			modelBuilder.Entity<UserAccount>().HasData(
-				new UserAccount
-				{
-					AccountID = 1,
-					UserID = 50,
-					UserName = "",
-					ProfilePicture = "",
-					Bio = "",
-					Birthday = DateTime.MinValue,
-				}
+			//modelBuilder.Entity<UserAccount>().HasData(
+			//	new UserAccount
+			//	{
+			//		AccountID = 1,
+			//		UserID = 50,
+			//		UserName = "",
+			//		ProfilePicture = "",
+			//		Bio = "",
+			//		Birthday = DateTime.MinValue,
+			//	}
 
-				);
+			//	);
 
 
 			base.OnModelCreating(modelBuilder);

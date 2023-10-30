@@ -44,7 +44,7 @@ namespace SoftwareBookList.Controllers
 
 			//if (userProfileView != null)
 			//{
-			//	int ListID = 1;
+			//	int BookListID = userProfileView.;
 
 			//	List<Book> bookInUserList = _userProfileServices.GetBooksInUserList(ListID);
 
