@@ -17,7 +17,7 @@ namespace SoftwareBookList.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -30,28 +30,15 @@ namespace SoftwareBookList.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookID"));
 
-                    b.Property<string>("Authors")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
                     b.Property<string>("GoogleID")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ISBN")
+                    b.Property<string>("SmallThumbnail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PublishedDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ThumbnailLink")
+                    b.Property<string>("Thumbnail")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -113,7 +100,7 @@ namespace SoftwareBookList.Migrations
                     b.Property<int>("BookListStatusID")
                         .HasColumnType("int");
 
-                    b.Property<int>("LisID")
+                    b.Property<int>("ListID")
                         .HasColumnType("int");
 
                     b.HasKey("BookListID");
@@ -122,7 +109,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasIndex("BookListStatusID");
 
-                    b.HasIndex("LisID");
+                    b.HasIndex("ListID");
 
                     b.ToTable("BookLists");
 
@@ -393,6 +380,9 @@ namespace SoftwareBookList.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -482,7 +472,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasOne("SoftwareBookList.Models.List", "List")
                         .WithMany("BooksInList")
-                        .HasForeignKey("LisID")
+                        .HasForeignKey("ListID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

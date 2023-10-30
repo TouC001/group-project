@@ -43,7 +43,7 @@
                                 <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("Index", "Home")">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "FindBooks" && ViewContext.RouteData.Values["Controller"].ToString() == "Books" ? "active" : "")" href="@Url.Action("FindBooks", "Books")">Books</a>
+                                <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "FindBooks" && ViewContext.RouteData.Values["Controller"].ToString() == "Books" ? "active" : "")" href="@Url.Action("Books", "Books")">Books</a>
                             </li>
                             <li class="nav-item">
                                 @* <a class="nav-link text-warning" href="@Url.Action("Discussion", "Home")">Discussion</a> *@
@@ -57,27 +57,12 @@
                                 @* <a class="nav-link text-warning" href="@Url.Action("FindBooks", "Books")">About</a> *@
                                 <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "About" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("About", "Home")">About</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                            </li>
-
-                            <!--
+                            @if (User.IsInRole("Admin"))
+                            {
                                 <li class="nav-item">
-                                <a class="nav-link text-warning" href="@Url.Action("Index", "Home")">Home</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-warning" href="@Url.Action("FindBooks", "Books")">Books</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-warning" href="@Url.Action("Discussion", "Home")">Discussion</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-warning" href="@Url.Action("Account", "Home")">Account</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-warning" href="@Url.Action("About", "Home")">About</a>
-                            </li>
-                            -->
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "AdminPage" && ViewContext.RouteData.Values["Controller"].ToString() == "Admin" ? "active" : "")" href="@Url.Action("AdminPage", "Admin")">Admin</a>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
