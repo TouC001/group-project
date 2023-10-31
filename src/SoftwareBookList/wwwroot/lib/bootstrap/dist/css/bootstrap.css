@@ -11216,6 +11216,10 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
-}
 
+  .my-smaller-div {
+        width: 80%;
+    }
+}
 /*# sourceMappingURL=bootstrap.css.map */
+

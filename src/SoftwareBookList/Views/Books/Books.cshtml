@@ -1,0 +1,39 @@
+﻿@using SoftwareBookList.Models;
+@model List<Book>
+
+@{
+    Layout = "_Layout";
+}
+
+
+
+<div class="container">
+    <table class="table border border-2 border-dark">
+        <thead>
+            <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">Title</th>
+                <th scope="col">Score</th>
+                <th scope="col">Your Score</th>
+                <th scope="col">Your Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model)
+            {
+                <tr>
+                    <td>Rank # Here</td>
+                    <td>
+                        <a href="@Url.Action("BookDetails", new { googleID = book.GoogleID })">
+                            <img src="@book.Thumbnail" alt="Thumbnail" />
+                            @book.Title
+                        </a>
+                    </td>
+                    <td>Score Here</td>
+                    <td>User's Score Here</td>
+                    <td>Button to add to list</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

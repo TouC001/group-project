@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@if (User.Identity.IsAuthenticated)
+{
+	<div class="container">
+		<div class="d-grid gap-2 d-md-flex justify-content-md-end ps-5">
+			<span class="navbar-text">
+				Hello, @User.FindFirst(x => x.Type == "userName").Value
+			</span>
+			<a asp-controller="Account" asp-action="Logout" class="nav-link" role="button">Logout</a>
+			
+		</div>
+	</div>
+}
+else
+{
+	<div class="container">
+		<div class="d-grid gap-2 d-md-flex justify-content-md-end ps-5">
+			<a asp-controller="Account" asp-action="SignUp" class="nav-link btn btn-light" role="button">Sign Up</a>
+			<a asp-controller="Account" asp-action="Login" class="nav-link btn btn-light" role="button">Login</a>
+		</div>
+	</div>
+}

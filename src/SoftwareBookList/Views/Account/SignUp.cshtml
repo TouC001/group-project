@@ -1,0 +1,46 @@
+﻿@using SoftwareBookList.Models;
+@model SignUpViewModel
+
+<h2 class="text-center pb-3">Become a User Today</h2>
+<p class="text-center border-bottom pb-3 ps-3 pe-3">
+	Join our community at MySoftwareBookList today and unlock a world of opportunities!
+	Connect with like-minded individuals, engage in thought-provoking discussions, and share your knowledge.
+	Whether you're a seasoned tech enthusiast or just beginning your journey in the world of software and technology,
+	we provide the perfect platform for you to explore, learn, and grow.
+</p>
+
+
+<div class="form-horizontal p-5">
+	<form method="post">
+		<div class="mb-3">
+			<label asp-for="FirstName"></label>
+			<input asp-for="FirstName" class="form-control" />
+			<span asp-validation-for="FirstName"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="LastName"></label>
+			<input asp-for="LastName" class="form-control" />
+			<span asp-validation-for="LastName"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="EmailAddress"></label>
+			<input asp-for="EmailAddress" class="form-control" />
+			<span asp-validation-for="EmailAddress"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="Password"></label>
+			<input asp-for="Password" class="form-control" />
+			<span asp-validation-for="Password"></span>
+		</div>
+		<div class="mb-3">
+			<label asp-for="PasswordConfirm"></label>
+			<input asp-for="PasswordConfirm" class="form-control" />
+			<span asp-validation-for="PasswordConfirm"></span>
+		</div>
+
+		<div asp-validation-summary="All"></div>
+		<p>
+			<button type="submit" class="btn btn-primary" role="button">Sign Up</button>
+		</p>
+	</form>
+</div>
