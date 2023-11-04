@@ -5,7 +5,7 @@
 namespace SoftwareBookList.Migrations
 {
     /// <inheritdoc />
-    public partial class Sprint4Start : Migration
+    public partial class RecreateTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
