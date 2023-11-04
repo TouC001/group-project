@@ -14,8 +14,8 @@ namespace SoftwareBookList.Models
 		[ForeignKey("Book")]
 		public int BookID { get; set; }
 
-		[ForeignKey("Rating")]
-		public int RatingID { get; set; }
+		public int RatingValue { get; set; }
+
 
 		[Required]
 		[MaxLength(1000)]
@@ -30,10 +30,5 @@ namespace SoftwareBookList.Models
 
 		// Represents the Book that the review is about
 		public Book Book { get; set; }
-
-
-
-		// Navigation property for the associated rating
-		public Rating Rating { get; set; }
 	}
 }

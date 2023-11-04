@@ -21,7 +21,6 @@ namespace SoftwareBookList.Data
 		public DbSet<BookTag> BookTags { get; set; }
 		public DbSet<Discussion> Discussions { get; set; }
 		public DbSet<Message> Messages { get; set; }
-		public DbSet<Rating> Ratings { get; set; }	
 		public DbSet<Review> Reviews { get; set; }
 		public DbSet<Tag> Tags { get; set; }
 		public DbSet<User> Users { get; set; }
@@ -53,6 +52,7 @@ namespace SoftwareBookList.Data
 				.HasForeignKey(bil => bil.BookListID);
 
 
+
 			modelBuilder.Entity<Book>()
 				.HasKey(book => book.BookID); // Specify the PK for Book
 
@@ -67,6 +67,24 @@ namespace SoftwareBookList.Data
 
 			modelBuilder.Entity<BookListStatus>()
 				.HasKey(status => status.StatusID); // Specify the PK for BookTag
+
+			modelBuilder.Entity<BookListStatus>().HasData(
+				new BookListStatus
+				{
+					StatusID = 1,
+					StatusName = "Read"
+				},
+				new BookListStatus
+				{
+					StatusID = 2,
+					StatusName = "Plan to Read"
+				},
+				new BookListStatus
+				{
+					StatusID = 3,
+					StatusName = "Currently Reading"
+				}
+				);
 
 
 			modelBuilder.Entity<BookTag>()
@@ -104,11 +122,10 @@ namespace SoftwareBookList.Data
 				.HasForeignKey(message => message.RecipientID) // The foreign key in Message is RecipientID
 				.OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
 
-			modelBuilder.Entity<Rating>()
-				.HasKey(rating => rating.RatingID); // Specify the PK for BookTag
 
 			modelBuilder.Entity<Review>()
 				.HasKey(review => review.ReviewID); // Specify the PK for Review
+
 
 			modelBuilder.Entity<Review>()
 				.HasOne(u => u.User)
@@ -120,10 +137,6 @@ namespace SoftwareBookList.Data
 				.WithMany(b => b.Reviews)
 				.HasForeignKey(u => u.BookID);
 
-			modelBuilder.Entity<Review>()
-				.HasOne(r => r.Rating)
-				.WithMany(u => u.Reviews)
-				.HasForeignKey(u => u.RatingID);
 
 			modelBuilder.Entity<Tag>()
 				.HasKey(tag => tag.TagId); // Specify the PK for BookTag

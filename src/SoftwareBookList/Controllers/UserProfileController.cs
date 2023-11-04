@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SoftwareBookList.Data;
 using SoftwareBookList.Models;
 using SoftwareBookList.Services;
@@ -13,47 +10,29 @@ using System.Security.Claims;
 namespace SoftwareBookList.Controllers
 {
 	[Authorize]
-	//The Controller is like a workshop that we will be using to handle all the task related to the users account.
 	public class UserProfileController : Controller
 	{
-		// Dependecy Injection of the UserProfileServive that will have all the logic and services we will need for our controller such as methods.
-		// _userProfileServices is a way for us to use it to access the methods and logic within the UserProfileService class.
 		private readonly UserProfileService _userProfileServices;
 
-		// Our Constructor that is invoked when an instance of the UserProfileController is created.
-		// It takes a DataContext type because it assumes that the UserProfileService Class depends on the DataContext class which it does.
 		public UserProfileController(DataContext userProfileServices)
 		{
-			// Constructor then initializes the private field by creating a new instance of the UserProfileService and passing in the DataContext.
-			// This will then make it appearent that this class will rely on UserProfileService class.
 			_userProfileServices = new UserProfileService(userProfileServices);
 		}
 
-		// When someone access the "Account" page via web browser.
 		[HttpGet("Account")]
-		//This will return an IActionResult which will return a result of the rendered page.
 		public IActionResult Account()
 		{
-			// Finding the UserID from the current user's claim. Claims are pieces of information that hold information about the user.
-			// It is looking for a claim with the name of "NameIdetifier that would have the UserID stashed in it.
-			// NameIdetifier will be found in out AccountController in the Login HTTP Post.
+
 			int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-			// Using the GetUserProfile Method from the UserProfileService anad storing it in the variable of type UserProfileViewModel.
 			UserProfileViewModel userProfileView = _userProfileServices.GetUserProfile(UserID);
 
-			//if (userProfileView != null)
-			//{
-			//	int BookListID = userProfileView.;
+			userProfileView.BooksInList = _userProfileServices.GetBookListForUser(UserID);
 
-			//	List<Book> bookInUserList = _userProfileServices.GetBooksInUserList(ListID);
-
-			//	userProfileView.BooksInList = bookInUserList;
-
-			//	return View(userProfileView);
-			//}
-
-			//return NotFound();
+			if (userProfileView == null)
+			{
+				return NotFound();
+			}
 
 			return View(userProfileView);
 		}
@@ -177,6 +156,5 @@ namespace SoftwareBookList.Controllers
 				return View("Account", userProfile);
 			}
 		}
-
 	}
 }
