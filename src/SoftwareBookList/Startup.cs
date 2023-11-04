@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SoftwareBookList.Data;
 using SoftwareBookList.GoogleBooks;
-using SoftwareBookList.Models;
 using SoftwareBookList.Services;
 
 namespace SoftwareBookList
@@ -99,7 +97,12 @@ namespace SoftwareBookList
 				endpoints.MapControllerRoute(
 					name: "default",
 					pattern: "{controller=Home}/{action=Index}/{id?}");
-			});	
+
+				//endpoints.MapControllerRoute(
+				//	name: "books",
+				//	pattern: "Books/AddToList",
+				//	defaults: new { controller = "Books", action = "AddToList" });
+			});
 		}
 	}
 }

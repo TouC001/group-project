@@ -1,0 +1,21 @@
+﻿@using SoftwareBookList.Models;
+@model List<BookInList>
+
+<div class="book-list">
+    @if (Model != null)
+    {
+        @foreach (var bookInList in Model)
+        {
+            <div class="book-item">
+                <img src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" />
+                <h4>@bookInList.Book.Title</h4>
+                <p>Status: @bookInList.StatusID</p>
+                <p>Rating: @bookInList.RatingValue</p>
+            </div>
+        }
+    }
+    else
+    {
+        <p>No books found for this user.</p>
+    }
+</div>

@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace SoftwareBookList.Migrations
 {
     /// <inheritdoc />
-    public partial class Sprint3Initial : Migration
+    public partial class Sprint4Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,19 +40,6 @@ namespace SoftwareBookList.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Books", x => x.BookID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Ratings",
-                columns: table => new
-                {
-                    RatingID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RatingValue = table.Column<double>(type: "float", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Ratings", x => x.RatingID);
                 });
 
             migrationBuilder.CreateTable(
@@ -196,7 +185,7 @@ namespace SoftwareBookList.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserID = table.Column<int>(type: "int", nullable: false),
                     BookID = table.Column<int>(type: "int", nullable: false),
-                    RatingID = table.Column<int>(type: "int", nullable: false),
+                    RatingValue = table.Column<int>(type: "int", nullable: false),
                     ReviewText = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false)
                 },
                 constraints: table =>
@@ -207,12 +196,6 @@ namespace SoftwareBookList.Migrations
                         column: x => x.BookID,
                         principalTable: "Books",
                         principalColumn: "BookID",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Reviews_Ratings_RatingID",
-                        column: x => x.RatingID,
-                        principalTable: "Ratings",
-                        principalColumn: "RatingID",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Reviews_Users_UserID",
@@ -228,7 +211,8 @@ namespace SoftwareBookList.Migrations
                 {
                     BookID = table.Column<int>(type: "int", nullable: false),
                     StatusID = table.Column<int>(type: "int", nullable: false),
-                    BookListID = table.Column<int>(type: "int", nullable: false)
+                    BookListID = table.Column<int>(type: "int", nullable: false),
+                    RatingValue = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -287,6 +271,16 @@ namespace SoftwareBookList.Migrations
                         principalTable: "Users",
                         principalColumn: "UserID",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "BookListStatus",
+                columns: new[] { "StatusID", "StatusName" },
+                values: new object[,]
+                {
+                    { 1, "Read" },
+                    { 2, "Plan to Read" },
+                    { 3, "Currently Reading" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -356,11 +350,6 @@ namespace SoftwareBookList.Migrations
                 column: "BookID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reviews_RatingID",
-                table: "Reviews",
-                column: "RatingID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reviews_UserID",
                 table: "Reviews",
                 column: "UserID");
@@ -395,9 +384,6 @@ namespace SoftwareBookList.Migrations
 
             migrationBuilder.DropTable(
                 name: "Discussions");
-
-            migrationBuilder.DropTable(
-                name: "Ratings");
 
             migrationBuilder.DropTable(
                 name: "Books");
