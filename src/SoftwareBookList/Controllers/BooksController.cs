@@ -15,14 +15,14 @@ namespace SoftwareBookList.Controllers
 
         private readonly GoogleBooksService _googleBooksService;
         private readonly BookMappingService _bookMappingService;
-        private readonly AddBooksServicee _addBooksServicee;
+        private readonly AddBooksService _addBooksServicee;
 
         public BooksController(DataContext context, GoogleBooksService googleBooksService, BookMappingService bookMappingService)
         {
             _context = context;
             _googleBooksService = googleBooksService;
             _bookMappingService = bookMappingService;
-            _addBooksServicee = new AddBooksServicee(context);
+            _addBooksServicee = new AddBooksService(context);
         }
 
         public IActionResult Books()
@@ -53,7 +53,7 @@ namespace SoftwareBookList.Controllers
             }
 
 
-            if(User.Identity.IsAuthenticated)
+            if (User.Identity.IsAuthenticated)
             {
                 int userID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
@@ -61,7 +61,15 @@ namespace SoftwareBookList.Controllers
 
                 if (bookListID != 0)
                 {
-                    BookInList bookInList = new BookInList
+                    bool IsBookAlreadAdded = _addBooksServicee.CheckIfBookIsAdded(bookListID, addBookViewModel.BookID);
+
+                    if (IsBookAlreadAdded)
+                    {
+                        TempData["ErrorMessage"] = "Already Added.";
+                    }
+                    else
+                    {
+                        BookInList bookInList = new BookInList
                     (
                         addBookViewModel.BookID,
                         addBookViewModel.StatusID,
@@ -69,21 +77,25 @@ namespace SoftwareBookList.Controllers
                         addBookViewModel.RatingValue
                     );
 
-                    try
-                    {
-                        _context.BookInLists.Add(bookInList);
+                        try
+                        {
+                            _context.BookInLists.Add(bookInList);
 
-                        _context.SaveChanges();
+                            _context.SaveChanges();
 
-                        return RedirectToAction("Books");
+                            TempData["SuccessMessage"] = "Book added to your list successfully.";
+
+                            return RedirectToAction("Books");
+                        }
+                        catch (Exception ex)
+                        {
+                            return NotFound();
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        return NotFound();
-                    }
+
                 }
             }
-            return RedirectToAction("Login");
+            return RedirectToAction("Books");
         }
     }
 }

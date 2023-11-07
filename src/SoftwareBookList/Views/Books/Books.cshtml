@@ -1,4 +1,5 @@
 ﻿@using SoftwareBookList.Models;
+@using SoftwareBookList.Services;
 
 @model List<Book>
 
@@ -22,7 +23,7 @@
         <tbody>
             @foreach (var book in Model)
             {
-                <tr>
+                <tr>    
                     <td>Rank # Here</td>
                     <td>
                         <a href="@Url.Action("BookDetails", new { googleID = book.GoogleID })">
@@ -39,9 +40,14 @@
                         }
                         else
                         {
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBookModal-@book.BookID">
-                                Add Book
-                            </button>
+                            @if (TempData["ErrorMessage"] != null)
+                            {   
+                                <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBookModal-@book.BookID">Add Book</button>
+                            }
                         }
                     </td>
                 </tr>
@@ -79,6 +85,7 @@
                                     </div>
                                 </div>
                                 <div class="modal-footer">
+
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Add Book</button>
 

@@ -1,21 +1,143 @@
 ﻿@using SoftwareBookList.Models;
 @model List<BookInList>
 
-<div class="book-list">
-    @if (Model != null)
-    {
-        @foreach (var bookInList in Model)
-        {
-            <div class="book-item">
-                <img src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" />
-                <h4>@bookInList.Book.Title</h4>
-                <p>Status: @bookInList.StatusID</p>
-                <p>Rating: @bookInList.RatingValue</p>
-            </div>
-        }
-    }
-    else
-    {
-        <p>No books found for this user.</p>
-    }
+@{
+    // Sort the Model by RatingValue in descending order (highest rating first)
+    var sortedModel = Model.OrderByDescending(book => book.RatingValue);
+}
+
+<div class="container">
+    <ul class="nav nav-tabs" id="myTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">All</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#read" role="tab" aria-controls="read" aria-selected="false">Read</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#currently-reading" role="tab" aria-controls="currently-reading" aria-selected="false">Currently Reading</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#plan-to-read" role="tab" aria-controls="plan-to-read" aria-selected="false">Plan To Read</a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="myTabsContent">
+        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+            @if (sortedModel != null && sortedModel.Any())
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Thumbnail</th>
+                            <th>Title</th>
+                            <th>Personal Score</th>
+                            <th>Edit</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var bookInList in sortedModel)
+                        {
+                            <tr>
+                                <td><img width="100" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
+                                <td>@bookInList.Book.Title</td>
+                                <td>Score: @bookInList.RatingValue</td>
+                                <td>Edit Button Here</td>
+                                <td>Remove Button Here</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+        <div class="tab-pane fade" id="read" role="tabpanel" aria-labelledby="read-tab">
+            @if (sortedModel != null && sortedModel.Any())
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Thumbnail</th>
+                            <th>Title</th>
+                            <th>Personal Score</th>
+                            <th>Edit</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                <tbody>
+                    @foreach (var bookInList in sortedModel.Where(b => b.StatusID == 1))
+                    {
+                        <tr>
+                            <td><img width="100" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
+                            <td>@bookInList.Book.Title</td>
+                            <td>Score: @bookInList.RatingValue</td>
+                            <td>Edit Button Here</td>
+                            <td>Remove Button Here</td>
+                        </tr>
+                    }
+                </tbody>
+                </table>
+
+            }
+        </div>
+
+        <div class="tab-pane fade" id="currently-reading" role="tabpanel" aria-labelledby="currently-reading-tab">
+            @if (sortedModel != null && sortedModel.Any())
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Thumbnail</th>
+                            <th>Title</th>
+                            <th>Personal Score</th>
+                            <th>Edit</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var bookInList in sortedModel.Where(b => b.StatusID == 2))
+                        {
+                            <tr>
+                                <td><img width="100" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
+                                <td>@bookInList.Book.Title</td>
+                                <td>Score: @bookInList.RatingValue</td>
+                                <td>Edit Button Here</td>
+                                <td>Remove Button Here</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+        <div class="tab-pane fade" id="plan-to-read" role="tabpanel" aria-labelledby="plan-to-read-tab">
+            @if (sortedModel != null && sortedModel.Any())
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Thumbnail</th>
+                            <th>Title</th>
+                            <th>Personal Score</th>
+                            <th>Edit</th>
+                            <th>Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var bookInList in sortedModel.Where(b => b.StatusID == 3))
+                        {
+                            <tr>
+                                <td><img width="100" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
+                                <td>@bookInList.Book.Title</td>
+                                <td>Score: @bookInList.RatingValue</td>
+                                <td>Edit Button Here</td>
+                                <td>Remove Button Here</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
 </div>
