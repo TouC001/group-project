@@ -14,16 +14,20 @@ namespace SoftwareBookList.Models
         [Key, ForeignKey("BookList")]
         public int BookListID { get; set; }
 
+        [Key, ForeignKey("Rating")]
+        public double RatingValue { get; set; }
+
         public Book Book { get; set; }
         public BookListStatus Status { get; set; }
         public BookList BookList { get; set; }
 
 
-        public BookInList(int bookID, int statusID, int bookListID)
+        public BookInList(int bookID, int statusID, int bookListID, double ratingValue)
         {
             BookID = bookID;
             StatusID = statusID;
             BookListID = bookListID;
+            RatingValue = ratingValue;
         }
     }
 }

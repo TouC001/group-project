@@ -37,5 +37,23 @@ namespace SoftwareBookList.Controllers
 
             return View(googleBook);
         }
+
+        // Gets the rating scores of the BookInList of the user
+        public double GetBookInListRating()
+        {
+
+        }
+
+        // Gets the rating scores of the users review
+        public double GetReviewRating()
+        {
+
+        }
+
+        // Gets the total rating score from the review and BooksInList
+        public IActionResult GetBookTotalRating()
+        {
+            
+        }
     }
 }
