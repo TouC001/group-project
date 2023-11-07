@@ -59,7 +59,14 @@
        @* Using the entire page with col-md-12 to make it full width *@
         <div class="col-md-12 border border-2 mb-2">
 
-            @Html.Partial("_BookListWithFilterPartial", Model.BooksInList.BookInLists)
+            @if (Model.UserBookList != null && Model.UserBookList.BookInLists != null && Model.UserBookList.BookInLists.Count > 0)
+            {
+                @Html.Partial("_BookListWithFilterPartial", Model.UserBookList.BookInLists)
+            }
+            else
+            {
+                <p>No books to display.</p>
+            }
 
         </div>
 

@@ -27,7 +27,7 @@ namespace SoftwareBookList.Controllers
 
 			UserProfileViewModel userProfileView = _userProfileServices.GetUserProfile(UserID);
 
-			userProfileView.BooksInList = _userProfileServices.GetBookListForUser(UserID);
+			userProfileView.UserBookList = _userProfileServices.GetBookListForUser(UserID);
 
 			if (userProfileView == null)
 			{
@@ -44,6 +44,8 @@ namespace SoftwareBookList.Controllers
 
 			UserProfileViewModel userProfileView = _userProfileServices.GetUserProfile(UserID);
 
+			userProfileView.UserBookList = _userProfileServices.GetBookListForUser(UserID);
+
 			return View(userProfileView);
 		}
 
@@ -53,11 +55,11 @@ namespace SoftwareBookList.Controllers
 
 			int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
+
 			if (!ModelState.IsValid)
 			{
-				UserProfileViewModel editProfileView = _userProfileServices.GetUserProfile(UserID);
 
-				return View(editProfileView);
+				return RedirectToAction("EditProfile", userProfileView);
 			}
 
 
@@ -69,7 +71,9 @@ namespace SoftwareBookList.Controllers
 
 			_userProfileServices.UpdateUserAccount(userAccount);
 
-			return View(userProfileView);
+			userProfileView.UserBookList = _userProfileServices.GetBookListForUser(UserID);
+
+			return View("Account", userProfileView);
 
 		}
 
@@ -115,7 +119,7 @@ namespace SoftwareBookList.Controllers
 		}
 
 		[HttpPost("update-profile")]
-		public async Task<IActionResult> UpdateProfile(UserProfileViewModel userProfile)
+		public async Task<IActionResult> UpdateProfile(UserProfileViewModel userProfile, IFormFile profilePicture)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -125,6 +129,45 @@ namespace SoftwareBookList.Controllers
 			int userID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 			bool updateSuccess = _userProfileServices.UpdateUserProfile(userID, userProfile);
+
+			if (profilePicture != null)
+			{
+				// Extract the UserID from the current user's claims.
+				int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+				// Retrieve the user's account information using the UserProfileService.
+				UserAccount userAccount = _userProfileServices.UserProfile(UserID);
+
+				// Check if the user's account doesn't exist. If so, add a model error and redirect to the "Account" action.
+				if (userAccount == null)
+				{
+					return RedirectToAction("Account");
+				}
+
+				// Get the file extension of the uploaded profile picture.
+				string fileExtension = System.IO.Path.GetExtension(profilePicture.FileName);
+
+				// Define the file path where the profile picture will be stored.
+				string stringPath = System.IO.Path.Combine("wwwroot/lib/ProfilePictures", userAccount.AccountID + fileExtension);
+
+				// Check if a file with the same name already exists and delete it.
+				if (System.IO.File.Exists(stringPath))
+				{
+					System.IO.File.Delete(stringPath);
+				}
+
+				// Copy the uploaded profile picture to the specified file path.
+				using (FileStream f = System.IO.File.OpenWrite(stringPath))
+				{
+					profilePicture.CopyTo(f);
+				}
+
+				// Use the UserProfileService to update the user's profile picture.
+				_userProfileServices.UpdateProfilePicture(userAccount, stringPath);
+
+
+				//return RedirectToAction("EditProfile");
+			}
 
 			await HttpContext.SignOutAsync(
 			CookieAuthenticationDefaults.AuthenticationScheme);

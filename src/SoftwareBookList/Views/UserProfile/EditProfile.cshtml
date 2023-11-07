@@ -1,49 +1,31 @@
-﻿@* Declare the model for this view. It tells the view to expect the UserProfileViewModel object. *@
-@model SoftwareBookList.Models.UserProfileViewModel
+﻿@using SoftwareBookList.Models;
+@model UserProfileViewModel;
 
 @{
     Layout = "_Layout";
 }
 
 <div class="container mt-5">
-
     <div class="row">
-
         <div class="col-md-3">
-
             <h2>Profile Picture</h2>
-
-            @* Added a timestamp to make it so, when a user uploads a new image, it updates right away. *@
             <img width="200" src="@(Model.ProfilePicture.Replace("wwwroot", "") + "?timestamp=" + DateTime.Now.Ticks)" alt="Profile Picture" />
 
-
-            @* enctype="multipart/form-data" specifies the encoding type for the form data. This is used when you want to upload files through the form. *@
-            @* asp=action indicating an action that be taken on the sever when the form is submitted. In this case it will call our UpdateProfilePicture method. *@
-            @* asp=controller indicates which controller would be handling the form submission. In this case, it would be our UserProfileController *@
-            <form method="post" enctype="multipart/form-data" asp-action="UpdateProfilePicture" asp-controller="UserProfile">
-
-                @* input is an html element to create various form controls. In this case, it's a type of "file" which would allow users to select and upload files. *@
-                @* name is used to identify this field when the form is submitted. *@
-                <input type="file" name="profilePicture" />
-                <button type="submit">Upload Profile Picture</button>
-            </form>
-
-        </div>
-
-        <div class="col-md-9">
-
-            @* asp-for is a way to create a binding of an HTML element to the specific model property. In this case the UserProfileViewModel Properties. *@
-            <form method="post" asp-action="UpdateProfile" asp-controller="UserProfile">
+            <form method="post" enctype="multipart/form-data" asp-action="UpdateProfile" asp-controller="UserProfile">
 
                 <div class="form-group">
-                    @* asp-for is put in the Input to bind the HTML element to the respective property in the UserProfileViewModel. *@
+                    <input asp-for="ProfilePicture" type="file" name="profilePicture" />
+
+                </div>
+
+                <div class="form-group">
                     <label for="UserName">UserName</label>
                     <input asp-for="UserName" />
                     <span asp-validation-for="UserName" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
-                    <label for=" Bio">Bio</label>
+                    <label for="Bio">Bio</label>
                     <input asp-for="Bio" />
                     <span asp-validation-for="Bio" class="text-danger"></span>
                 </div>
@@ -54,15 +36,10 @@
                     <span asp-validation-for="Birthday" class="text-danger"></span>
                 </div>
 
-                <div class="form-group">
-                    <input asp-for="ProfilePicture" />
-                </div>
-
                 <button type="submit">Save</button>
+
             </form>
 
         </div>
-
     </div>
-
 </div>

@@ -102,6 +102,5 @@ namespace SoftwareBookList.Services
                     .ThenInclude(bil => bil.Status)
                 .FirstOrDefault(bl => bl.UserID == UserID);
         }
-
     }
 }
