@@ -23,7 +23,7 @@
         <tbody>
             @foreach (var book in Model)
             {
-                <tr>    
+                <tr>
                     <td>Rank # Here</td>
                     <td>
                         <a href="@Url.Action("BookDetails", new { googleID = book.GoogleID })">
@@ -34,20 +34,38 @@
                     <td>Score Here</td>
                     <td>User's Score Here</td>
                     <td>
+                        @* Checking if User is Logged in, if not, take them to the login view. *@
                         @if (!User.Identity.IsAuthenticated)
                         {
                             <a href="@Url.Action("Login", "Account", new { ReturnUrl = Url.Action("Books", "Books") })" class="btn btn-primary">Login To Add Books</a>
                         }
                         else
                         {
-                            @if (TempData["ErrorMessage"] != null)
-                            {   
-                                <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+                            // Here we are retrieving the bookAlreadyAddedMap from the ViewData and checking if the current book is bookAlreadyAddedMap added. (Also casting it)
+                            Dictionary<int, bool> bookAlreadyAddedMap = ViewData["BookAlreadyAddedMap"] as Dictionary<int, bool>;
+
+                            int bookID = book.BookID;
+
+                            // Check if the bookID exists as a key in the bookAlreadyAddedMap dictionary.
+                            bool isBookAlreadyAdded = bookAlreadyAddedMap.ContainsKey(bookID) ?
+
+                            // If it exists as a key, retrieve its corresponding value (true or false).
+                            bookAlreadyAddedMap[bookID] :
+
+                            // If the bookID is not found in the dictionary, assume it's not already added (false).
+                            false;
+
+                            // bool isBookAlreadyAdded = bookAlreadyAddedMap.ContainsKey(bookID) ? bookAlreadyAddedMap[bookID] : false; (Would all be on one line but I broke it up.)
+
+                            if (isBookAlreadyAdded)
+                            {
+                                <div class="alert alert-info">Added</div>
                             }
                             else
                             {
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBookModal-@book.BookID">Add Book</button>
                             }
+
                         }
                     </td>
                 </tr>
@@ -73,7 +91,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="status">Status</label>
-                                        <select class="form-control" name="StatusID">
+                                        <select class="form-control" name="StatusID" required>
                                             <option value="1">Read</option>
                                             <option value="2">Currently Reading</option>
                                             <option value="3">Plan to Read</option>
@@ -81,14 +99,14 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="rating">Personal Rating</label>
-                                        <input type="number" class="form-control" name="RatingValue" min="1" max="10">
+                                        <input type="number" class="form-control" name="RatingValue" min="1" max="10" required>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
 
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Add Book</button>
 
+                                    <button type="submit" class="btn btn-primary">Add Book</button>
 
                                 </div>
                             </form>

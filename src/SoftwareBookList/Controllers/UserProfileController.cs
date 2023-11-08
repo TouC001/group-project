@@ -14,9 +14,12 @@ namespace SoftwareBookList.Controllers
 	{
 		private readonly UserProfileService _userProfileServices;
 
-		public UserProfileController(DataContext userProfileServices)
+		private readonly DataContext _context;
+
+		public UserProfileController(DataContext userProfileServices, DataContext context)
 		{
 			_userProfileServices = new UserProfileService(userProfileServices);
+			_context = context;
 		}
 
 		[HttpGet("Account")]
@@ -77,47 +80,6 @@ namespace SoftwareBookList.Controllers
 
 		}
 
-
-		[HttpPost("upload-picture")]
-		public IActionResult UpdateProfilePicture(IFormFile profilePicture)
-		{
-			// Extract the UserID from the current user's claims.
-			int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-			// Retrieve the user's account information using the UserProfileService.
-			UserAccount userAccount = _userProfileServices.UserProfile(UserID);
-
-			// Check if the user's account doesn't exist. If so, add a model error and redirect to the "Account" action.
-			if (userAccount == null)
-			{
-				return RedirectToAction("Account");
-			}
-
-			// Get the file extension of the uploaded profile picture.
-			string fileExtension = System.IO.Path.GetExtension(profilePicture.FileName);
-
-			// Define the file path where the profile picture will be stored.
-			string stringPath = System.IO.Path.Combine("wwwroot/lib/ProfilePictures", userAccount.AccountID + fileExtension);
-
-			// Check if a file with the same name already exists and delete it.
-			if (System.IO.File.Exists(stringPath))
-			{
-				System.IO.File.Delete(stringPath);
-			}
-
-			// Copy the uploaded profile picture to the specified file path.
-			using (FileStream f = System.IO.File.OpenWrite(stringPath))
-			{
-				profilePicture.CopyTo(f);
-			}
-
-			// Use the UserProfileService to update the user's profile picture.
-			_userProfileServices.UpdateProfilePicture(userAccount, stringPath);
-
-
-			return RedirectToAction("EditProfile");
-		}
-
 		[HttpPost("update-profile")]
 		public async Task<IActionResult> UpdateProfile(UserProfileViewModel userProfile, IFormFile profilePicture)
 		{
@@ -164,9 +126,6 @@ namespace SoftwareBookList.Controllers
 
 				// Use the UserProfileService to update the user's profile picture.
 				_userProfileServices.UpdateProfilePicture(userAccount, stringPath);
-
-
-				//return RedirectToAction("EditProfile");
 			}
 
 			await HttpContext.SignOutAsync(

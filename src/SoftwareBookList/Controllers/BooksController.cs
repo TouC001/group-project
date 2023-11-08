@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SoftwareBookList.Data;
 using SoftwareBookList.GoogleBooks;
+using SoftwareBookList.Model_View;
 using SoftwareBookList.Models;
 using SoftwareBookList.Services;
 using System.Net;
@@ -15,19 +16,44 @@ namespace SoftwareBookList.Controllers
 
         private readonly GoogleBooksService _googleBooksService;
         private readonly BookMappingService _bookMappingService;
-        private readonly AddBooksService _addBooksServicee;
+        private readonly AddBooksService _addBooksService;
 
         public BooksController(DataContext context, GoogleBooksService googleBooksService, BookMappingService bookMappingService)
         {
             _context = context;
             _googleBooksService = googleBooksService;
             _bookMappingService = bookMappingService;
-            _addBooksServicee = new AddBooksService(context);
+            _addBooksService = new AddBooksService(context);
+        }
+
+        public bool CheckIfBookIsAdded(int bookID)
+        {
+            // Check if a record with the given bookID and user ID exists in the BookInList table
+            bool isAdded = _context.BookInLists.Any(bil => bil.BookID == bookID);
+
+            return isAdded;
         }
 
         public IActionResult Books()
         {
             List<Book> books = _context.Books.ToList();
+
+            // Creating a Dictionary to store  whether each book is already added.
+            Dictionary<int, bool> bookAlreadyAddedMap = new Dictionary<int, bool>();
+
+            // Looping through the list of books and checking if each one is already added to the user's list.
+            foreach (var book in books)
+            {
+                int bookID = book.BookID;
+                bool isBookAlreadyAdded = CheckIfBookIsAdded(bookID);
+
+                // Store the result in the dictionary, using the bookIDas the key.
+                bookAlreadyAddedMap[bookID] = isBookAlreadyAdded;
+            }
+
+            // Passing the dictionary to the view using ViewData, so it can become available in the razor view.
+            ViewData["BookAlreadyAddedMap"] = bookAlreadyAddedMap;
+
             return View(books);
         }
 
@@ -49,7 +75,7 @@ namespace SoftwareBookList.Controllers
 
             if (!ModelState.IsValid)
             {
-                return NotFound();
+                return View(addBookViewModel);
             }
 
 
@@ -57,45 +83,105 @@ namespace SoftwareBookList.Controllers
             {
                 int userID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
-                int bookListID = _addBooksServicee.GetBookListIDForUser(userID);
+                int bookListID = _addBooksService.GetBookListIDForUser(userID);
 
                 if (bookListID != 0)
                 {
-                    bool IsBookAlreadAdded = _addBooksServicee.CheckIfBookIsAdded(bookListID, addBookViewModel.BookID);
 
-                    if (IsBookAlreadAdded)
+                    BookInList bookInList = new BookInList
+                (
+                    addBookViewModel.BookID,
+                    addBookViewModel.StatusID,
+                    bookListID,
+                    addBookViewModel.RatingValue
+                );
+
+                    try
                     {
-                        TempData["ErrorMessage"] = "Already Added.";
+                        _context.BookInLists.Add(bookInList);
+
+                        _context.SaveChanges();
+
+
+                        return RedirectToAction("Books");
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        BookInList bookInList = new BookInList
-                    (
-                        addBookViewModel.BookID,
-                        addBookViewModel.StatusID,
-                        bookListID,
-                        addBookViewModel.RatingValue
-                    );
-
-                        try
-                        {
-                            _context.BookInLists.Add(bookInList);
-
-                            _context.SaveChanges();
-
-                            TempData["SuccessMessage"] = "Book added to your list successfully.";
-
-                            return RedirectToAction("Books");
-                        }
-                        catch (Exception ex)
-                        {
-                            return NotFound();
-                        }
+                        return RedirectToAction("Books");
                     }
 
                 }
             }
             return RedirectToAction("Books");
+        }
+
+        [HttpPost("EditBook")]
+        public IActionResult EditBook(EditBookViewModel editBookViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(editBookViewModel);
+            }
+
+            if (User.Identity.IsAuthenticated)
+            {
+                int userID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+                int bookListID = _addBooksService.GetBookListIDForUser(userID);
+
+                BookInList oldBookInList = _context.BookInLists.FirstOrDefault(bil => bil.BookID == editBookViewModel.BookID);
+
+                if (oldBookInList != null)
+                {
+
+                    //Creating a New BookInList Object with updated Status and RatingValue
+                    BookInList newBookInList = new BookInList
+                    (
+                        oldBookInList.BookID,
+                        editBookViewModel.StatusID,
+                        bookListID,
+                        editBookViewModel.RatingValue
+
+                    );
+
+                    _context.BookInLists.Remove(oldBookInList);
+
+                    _context.BookInLists.Add(newBookInList);
+
+                    _context.SaveChanges();
+
+                    return Redirect("Account");
+                }
+
+            }
+
+            return View(editBookViewModel);
+        }
+
+        [HttpPost("RemoveBook")]
+        public IActionResult RemoveBook(int bookID)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View("Account");
+            }
+
+            if (User.Identity.IsAuthenticated)
+            {
+                BookInList bookInList = _context.BookInLists.FirstOrDefault(bil => bil.BookID == bookID);
+
+                if (bookInList != null)
+                {
+                    _context.BookInLists.Remove(bookInList);
+
+                    _context.SaveChanges();
+
+                    return Redirect("Account");
+                }
+            }
+
+            return View("Account");
+
         }
     }
 }
