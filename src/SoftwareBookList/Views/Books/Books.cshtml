@@ -1,12 +1,9 @@
 ﻿@using SoftwareBookList.Models;
-
-@model List<Book>
+@model BookPaginatedList<Book>;
 
 @{
     Layout = "_Layout";
 }
-
-
 
 <div class="container">
     <table class="table border border-2 border-dark">
@@ -20,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var book in Model)
+            @foreach (var book in Model.Books)
             {
                 <tr>
                     <td>Rank # Here</td>
@@ -45,51 +42,32 @@
                         }
                     </td>
                 </tr>
-
-                <div class="modal fade" id="addBookModal-@book.BookID" tabindex="-1" role="dialog" aria-labelledby="addBookModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-
-                                <h5 class="modal-title" id="addBookModalLabel">Add Book</h5>
-
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-
-                            </div>
-
-                            <form method="post" action="@Url.Action("AddBook", "Books", new {bookID = book.BookID})">
-                                <div class="modal-body">
-                                    <div class="form-group">
-                                        <label for="bookTitle">Book Title</label>
-                                        <input type="text" class="form-control" id="bookTitle" placeholder="@book.Title" readonly>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="status">Status</label>
-                                        <select class="form-control" name="StatusID">
-                                            <option value="1">Read</option>
-                                            <option value="2">Currently Reading</option>
-                                            <option value="3">Plan to Read</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="rating">Personal Rating</label>
-                                        <input type="number" class="form-control" name="RatingValue" min="1" max="10">
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Add Book</button>
-
-
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
             }
-
         </tbody>
     </table>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            @if (Model.HasPreviousPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Books", new { page = Model.PageIndex - 1 })">Previous</a>
+                </li>
+            }
+
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Books", new { page = i })">@i</a>
+                </li>
+            }
+
+            @if (Model.HasNextPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Books", new { page = Model.PageIndex + 1 })">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
 </div>

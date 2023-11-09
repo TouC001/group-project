@@ -25,10 +25,17 @@ namespace SoftwareBookList.Controllers
             _addBooksServicee = new AddBooksServicee(context);
         }
 
-        public IActionResult Books()
+        public IActionResult Books(int page = 1)
         {
-            List<Book> books = _context.Books.ToList();
-            return View(books);
+            int pageSize = 50; // Display 50 books per page
+
+            IQueryable<Book> allBooksQuery = _context.Books.AsQueryable();
+
+            // Apply any filtering or sorting operations you need here
+            // Example: allBooksQuery = allBooksQuery.Where(b => b.Title.Contains("Software")).OrderBy(b => b.Title);
+
+            BookPaginatedList<Book> paginatedList = new BookPaginatedList<Book>(allBooksQuery, page, pageSize);
+            return View(paginatedList);
         }
 
         public async Task<IActionResult> BookDetails(string googleID)

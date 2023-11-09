@@ -29,12 +29,12 @@ namespace SoftwareBookList.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")] // Ensure only admins can access this action
-        public async Task<IActionResult> PopulateBookData()
+        public async Task<IActionResult> PopulateBookData(string keyword)
         {
             try
             {
                 // Hardcoded search query for software books
-                string query = "software";
+                string query = "software" + keyword;
 
                 // Make an API request to Google Books to search for books
                 List<GoogleBook> googleBooks = await _googleBooksService.GetBooksAsync(query);
