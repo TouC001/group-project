@@ -1,70 +1,70 @@
-﻿<html>
+﻿@using Microsoft.AspNetCore.Identity
+
+<html>
 <head>
     <style>:root {--pathBase: "@Context.Request.PathBase";}</style> @* CSS path base variable: use var(--pathBase) when behind reverse proxy. *@
     <script>const pathBase = "@Context.Request.PathBase";</script> @* JavaScript path base variable: use pathBase when behind reverse proxy. *@
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/css/Site1.css" rel="stylesheet" type="text/css">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>
 
-    <!-- Include Bootstrap JavaScript (including jQuery) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+@*     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet"> *@
+@*     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> *@
+@*     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css"> *@
+@*     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script> *@
+@*     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> *@
 
 </head>
 <body>
-    <div class="">
+    <div class="bg-secondary bg-opacity-25">
         <header>
-
-            <div class="bg-info">
+            <div class="bg-black">
                 <div class="row">
                     <div class="col">
-                        <h1 class="m-2">MySoftwareBookList</h1>
-
-                        <div class="col text-end mt-3 ms-5 m-2">
-                            <partial name="_LoginPartial" />
-                        </div>
+                        <h1 class="m-2 text-white text-start">MySoftwareBookList</h1>
+                    </div>
+                    <div class="col text-end mt-2 ms-2 m-2 text-white fs-5">
+                        <partial name="_LoginPartial" />
                     </div>
                 </div>
             </div>
+        </header>
+        <header>
 
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-secondary border-bottom box-shadow mb-4">
+            <nav class="navbar navbar-expand-sm mb-4 bg-secondary bg-opacity-10">
                 <div class="container">
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
                     <div class="navbar-collapse collapse justify-content-center">
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item">
-                                <!--
-                                    <a class="nav-link text-warning" href="@Url.Action("Index", "Home")">Home</a>
-
-                                    Here we are routing the nav bar links to show which page the user is on. 
-                                -->
+                        <ul class="nav nav-tabs nav-pills nav-justified">
+                            <li class="nav-item ms-3">
                                 <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("Index", "Home")">Home</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item ms-3">
                                 <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "FindBooks" && ViewContext.RouteData.Values["Controller"].ToString() == "Books" ? "active" : "")" asp-controller="Books" asp-action="Books">Books</a>
                             </li>
-                            <li class="nav-item">
-                                @* <a class="nav-link text-warning" href="@Url.Action("Discussion", "Home")">Discussion</a> *@
+                            <li class="nav-item ms-3">
                                 <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Discussion" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("Discussion", "Home")">Discussion</a>
                             </li>
-                            <li class="nav-item">
-                                @* <a class="nav-link text-warning" href="@Url.Action("Account", "Home")">Account</a> *@
-                                <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Account" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" asp-controller="UserProfile" asp-action="Account">Account</a>
-                            </li>
-                            <li class="nav-item">
-                                @* <a class="nav-link text-warning" href="@Url.Action("FindBooks", "Books")">About</a> *@
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a href="@Url.Action("Login", "Account", new { ReturnUrl = Url.Action("Account", "UserProfile") })" class="nav-link">
+                                    <span class="nav-link-text">Account</span>
+                                </a>
+                            }
+                            else
+                            {
+                                <li class="nav-item ms-3">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Account" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" asp-controller="UserProfile" asp-action="Account">Account</a>
+                                </li>
+                            }
+                            <li class="nav-item ms-3">
                                 <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "About" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("About", "Home")">About</a>
                             </li>
                             @if (User.IsInRole("Admin"))
                             {
-                                <li class="nav-item">
+                                <li class="nav-item ms-3">
                                     <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "AdminPage" && ViewContext.RouteData.Values["Controller"].ToString() == "Admin" ? "active" : "")" href="@Url.Action("AdminPage", "Admin")">Admin</a>
                                 </li>
                             }
@@ -75,11 +75,15 @@
 
         </header>
 
-        <div>
-            @RenderBody()
+        <div class="container bg-white pt-sm-3">
+            <div class="row">
+                <div class="col">
+                    @RenderBody()
+                </div>
+            </div>
         </div>
 
-        <footer class="text-center bg-secondary">
+        <footer class="text-center bg-black text-white">
             <hr>
             © MySoftwareBookList @DateTime.Now.Year
         </footer>
