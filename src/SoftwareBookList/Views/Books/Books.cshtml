@@ -15,9 +15,9 @@
             <tr>
                 <th scope="col">Rank</th>
                 <th scope="col">Title</th>
-                <th scope="col">Score</th>
-                <th scope="col">Your Score</th>
-                <th scope="col">Your Status</th>
+                <th class="text-center" scope="col">Score</th>
+                <th class="text-center" scope="col">Your Score</th>
+                <th class="text-center" scope="col">Your Status</th>
             </tr>
         </thead>
         <tbody>
@@ -31,9 +31,9 @@
                             @book.Title
                         </a>
                     </td>
-                    <td>Score Here</td>
-                    <td>User's Score Here</td>
-                    <td>
+                    <td class="text-center">Score Here</td>
+                    <td class="text-center">User's Score Here</td>
+                    <td class="text-center">
                         @* Checking if User is Logged in, if not, take them to the login view. *@
                         @if (!User.Identity.IsAuthenticated)
                         {
