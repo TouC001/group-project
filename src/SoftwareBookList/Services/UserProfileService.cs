@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using SoftwareBookList.Data;
 using SoftwareBookList.Models;
 
@@ -92,13 +93,14 @@ namespace SoftwareBookList.Services
             return _dataContext.Accounts.FirstOrDefault(u => u.UserID == UserID);
         }
 
-        public List<Book> GetBooksInList(int BookListID)
+        public BookList GetBookListForUser(int UserID)
         {
-            List<int> BookID = _dataContext.BookInLists.Where(bl => bl.BookListID == BookListID).Select(bl => bl.BookID).ToList();
-
-            List<Book> bookInList = _dataContext.Books.Where(book => BookID.Contains(book.BookID)).ToList();
-
-            return bookInList;
+            return _dataContext.BookLists
+                .Include(bl => bl.BookInLists)
+                    .ThenInclude(bil => bil.Book)
+                .Include(bl => bl.BookInLists)
+                    .ThenInclude(bil => bil.Status)
+                .FirstOrDefault(bl => bl.UserID == UserID);
         }
     }
 }

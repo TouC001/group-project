@@ -1,4 +1,6 @@
 ﻿@using SoftwareBookList.Models;
+@using SoftwareBookList.Services;
+
 @model List<Book>
 
 @{
@@ -21,7 +23,7 @@
         <tbody>
             @foreach (var book in Model)
             {
-                <tr>
+                <tr>    
                     <td>Rank # Here</td>
                     <td>
                         <a href="@Url.Action("BookDetails", new { googleID = book.GoogleID })">
@@ -31,9 +33,70 @@
                     </td>
                     <td>Score Here</td>
                     <td>User's Score Here</td>
-                    <td>Button to add to list</td>
+                    <td>
+                        @if (!User.Identity.IsAuthenticated)
+                        {
+                            <a href="@Url.Action("Login", "Account", new { ReturnUrl = Url.Action("Books", "Books") })" class="btn btn-primary">Login To Add Books</a>
+                        }
+                        else
+                        {
+                            @if (TempData["ErrorMessage"] != null)
+                            {   
+                                <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+                            }
+                            else
+                            {
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBookModal-@book.BookID">Add Book</button>
+                            }
+                        }
+                    </td>
                 </tr>
+
+                <div class="modal fade" id="addBookModal-@book.BookID" tabindex="-1" role="dialog" aria-labelledby="addBookModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+
+                                <h5 class="modal-title" id="addBookModalLabel">Add Book</h5>
+
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+
+                            </div>
+
+                            <form method="post" action="@Url.Action("AddBook", "Books", new {bookID = book.BookID})">
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label for="bookTitle">Book Title</label>
+                                        <input type="text" class="form-control" id="bookTitle" placeholder="@book.Title" readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="status">Status</label>
+                                        <select class="form-control" name="StatusID">
+                                            <option value="1">Read</option>
+                                            <option value="2">Currently Reading</option>
+                                            <option value="3">Plan to Read</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="rating">Personal Rating</label>
+                                        <input type="number" class="form-control" name="RatingValue" min="1" max="10">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Add Book</button>
+
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             }
+
         </tbody>
     </table>
 </div>

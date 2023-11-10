@@ -48,7 +48,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasKey("BookID");
 
-                    b.ToTable("Books");
+                    b.ToTable("Books", (string)null);
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.BookInList", b =>
@@ -62,13 +62,16 @@ namespace SoftwareBookList.Migrations
                     b.Property<int>("BookListID")
                         .HasColumnType("int");
 
+                    b.Property<int>("RatingValue")
+                        .HasColumnType("int");
+
                     b.HasKey("BookID", "StatusID", "BookListID");
 
                     b.HasIndex("BookListID");
 
                     b.HasIndex("StatusID");
 
-                    b.ToTable("BookInLists");
+                    b.ToTable("BookInLists", (string)null);
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.BookList", b =>
@@ -87,7 +90,7 @@ namespace SoftwareBookList.Migrations
                     b.HasIndex("UserID")
                         .IsUnique();
 
-                    b.ToTable("BookLists");
+                    b.ToTable("BookLists", (string)null);
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.BookListStatus", b =>
@@ -104,7 +107,24 @@ namespace SoftwareBookList.Migrations
 
                     b.HasKey("StatusID");
 
-                    b.ToTable("BookListStatus");
+                    b.ToTable("BookListStatus", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            StatusID = 1,
+                            StatusName = "Read"
+                        },
+                        new
+                        {
+                            StatusID = 2,
+                            StatusName = "Plan to Read"
+                        },
+                        new
+                        {
+                            StatusID = 3,
+                            StatusName = "Currently Reading"
+                        });
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.BookTag", b =>
@@ -129,7 +149,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasIndex("TagID");
 
-                    b.ToTable("BookTags");
+                    b.ToTable("BookTags", (string)null);
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.Discussion", b =>
@@ -170,7 +190,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Discussions");
+                    b.ToTable("Discussions", (string)null);
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.Message", b =>
@@ -209,23 +229,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasIndex("SenderID");
 
-                    b.ToTable("Messages");
-                });
-
-            modelBuilder.Entity("SoftwareBookList.Models.Rating", b =>
-                {
-                    b.Property<int>("RatingID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RatingID"));
-
-                    b.Property<double>("RatingValue")
-                        .HasColumnType("float");
-
-                    b.HasKey("RatingID");
-
-                    b.ToTable("Ratings");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.Review", b =>
@@ -239,7 +243,7 @@ namespace SoftwareBookList.Migrations
                     b.Property<int>("BookID")
                         .HasColumnType("int");
 
-                    b.Property<int>("RatingID")
+                    b.Property<int>("RatingValue")
                         .HasColumnType("int");
 
                     b.Property<string>("ReviewText")
@@ -254,11 +258,9 @@ namespace SoftwareBookList.Migrations
 
                     b.HasIndex("BookID");
 
-                    b.HasIndex("RatingID");
-
                     b.HasIndex("UserID");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.Tag", b =>
@@ -276,7 +278,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasKey("TagId");
 
-                    b.ToTable("Tags");
+                    b.ToTable("Tags", (string)null);
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.User", b =>
@@ -312,7 +314,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.UserAccount", b =>
@@ -346,7 +348,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Accounts");
+                    b.ToTable("Accounts", (string)null);
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.BookInList", b =>
@@ -468,12 +470,6 @@ namespace SoftwareBookList.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SoftwareBookList.Models.Rating", "Rating")
-                        .WithMany("Reviews")
-                        .HasForeignKey("RatingID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SoftwareBookList.Models.User", "User")
                         .WithMany("ReviewsGiven")
                         .HasForeignKey("UserID")
@@ -481,8 +477,6 @@ namespace SoftwareBookList.Migrations
                         .IsRequired();
 
                     b.Navigation("Book");
-
-                    b.Navigation("Rating");
 
                     b.Navigation("User");
                 });
@@ -522,11 +516,6 @@ namespace SoftwareBookList.Migrations
             modelBuilder.Entity("SoftwareBookList.Models.Discussion", b =>
                 {
                     b.Navigation("Messages");
-                });
-
-            modelBuilder.Entity("SoftwareBookList.Models.Rating", b =>
-                {
-                    b.Navigation("Reviews");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.Tag", b =>
