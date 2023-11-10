@@ -6,40 +6,53 @@
 }
 
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-md-3">
-            <h2>Profile Picture</h2>
-            <img width="200" src="@(Model.ProfilePicture.Replace("wwwroot", "") + "?timestamp=" + DateTime.Now.Ticks)" alt="Profile Picture" />
+    <div class="row justify-content-center">
+        <div class="col-md-8 border border-2">
 
-            <form method="post" enctype="multipart/form-data" asp-action="UpdateProfile" asp-controller="UserProfile">
-
-                <div class="form-group">
-                    <input asp-for="ProfilePicture" type="file" name="profilePicture" />
-
+            <div class="col-md-9 container">
+                <div class="mb-3">
+                    <h5>Profile Picture</h5>
+                    <img width="200" src="@(Model.ProfilePicture.Replace("wwwroot", "") + "?timestamp=" + DateTime.Now.Ticks)" alt="Profile Picture" />
                 </div>
 
-                <div class="form-group">
-                    <label for="UserName">UserName</label>
-                    <input asp-for="UserName" />
-                    <span asp-validation-for="UserName" class="text-danger"></span>
+                <div class="col-md-12">
+
+                    <form method="post" enctype="multipart/form-data" asp-action="UpdateProfile" asp-controller="UserProfile">
+
+                        <div class="mb-3">
+                            <input asp-for="ProfilePicture" type="file" class="form-control" id="ProfilePicture" name="profilePicture" />
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="UserName" class="form-label">UserName</label>
+                                    <input asp-for="UserName" class="form-control" id="UserName" />
+                                    <span asp-validation-for="UserName" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="Bio" class="form-label">Bio</label>
+                                    <textarea asp-for="Bio" class="form-control" id="Bio" rows="6"></textarea>
+                                    <span asp-validation-for="Bio" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="Birthday" class="form-label">Birthday</label>
+                                    <input asp-for="Birthday" class="form-control" id="Birthday" />
+                                    <span asp-validation-for="Birthday" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
                 </div>
-
-                <div class="form-group">
-                    <label for="Bio">Bio</label>
-                    <input asp-for="Bio" />
-                    <span asp-validation-for="Bio" class="text-danger"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="Birthday">Birthday</label>
-                    <input asp-for="Birthday" />
-                    <span asp-validation-for="Birthday" class="text-danger"></span>
-                </div>
-
-                <button type="submit">Save</button>
-
-            </form>
-
+            </div>
         </div>
     </div>
 </div>

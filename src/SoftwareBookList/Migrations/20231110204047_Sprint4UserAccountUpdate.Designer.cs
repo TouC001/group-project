@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoftwareBookList.Data;
 
@@ -11,9 +12,11 @@ using SoftwareBookList.Data;
 namespace SoftwareBookList.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231110204047_Sprint4UserAccountUpdate")]
+    partial class Sprint4UserAccountUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,7 +51,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasKey("BookID");
 
-                    b.ToTable("Books", (string)null);
+                    b.ToTable("Books");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.BookInList", b =>
@@ -71,7 +74,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasIndex("StatusID");
 
-                    b.ToTable("BookInLists", (string)null);
+                    b.ToTable("BookInLists");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.BookList", b =>
@@ -90,7 +93,7 @@ namespace SoftwareBookList.Migrations
                     b.HasIndex("UserID")
                         .IsUnique();
 
-                    b.ToTable("BookLists", (string)null);
+                    b.ToTable("BookLists");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.BookListStatus", b =>
@@ -107,7 +110,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasKey("StatusID");
 
-                    b.ToTable("BookListStatus", (string)null);
+                    b.ToTable("BookListStatus");
 
                     b.HasData(
                         new
@@ -149,7 +152,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasIndex("TagID");
 
-                    b.ToTable("BookTags", (string)null);
+                    b.ToTable("BookTags");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.Discussion", b =>
@@ -190,7 +193,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Discussions", (string)null);
+                    b.ToTable("Discussions");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.Message", b =>
@@ -229,7 +232,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasIndex("SenderID");
 
-                    b.ToTable("Messages", (string)null);
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.Review", b =>
@@ -260,7 +263,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.Tag", b =>
@@ -278,7 +281,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasKey("TagId");
 
-                    b.ToTable("Tags", (string)null);
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.User", b =>
@@ -314,7 +317,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasKey("UserID");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.UserAccount", b =>
@@ -348,7 +351,7 @@ namespace SoftwareBookList.Migrations
 
                     b.HasIndex("UserID");
 
-                    b.ToTable("Accounts", (string)null);
+                    b.ToTable("Accounts");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.BookInList", b =>

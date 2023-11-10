@@ -15,7 +15,7 @@ namespace SoftwareBookList.Models
 
 		public string ProfilePicture { get; set; }
 
-		[StringLength(200)]
+		[StringLength(30000)]
 		public string Bio {  get; set; }
 
 		[DataType(DataType.Date)]
