@@ -5,71 +5,78 @@
     Layout = "_Layout";
 }
 
-<div class="container mt-5">
+<div class="container">
 
-    <div class="row">
-
-        <div class="col-md-3">
-
-            <h2>Profile Picture</h2>
-
-            @if (!string.IsNullOrEmpty(Model.ProfilePicture))
-            {
-                @* Added a timestamp to make it so, when a user uploads a new image, it updates right away. *@
-                <img width="200" src="@(Model.ProfilePicture.Replace("wwwroot", "") + "?timestamp=" + DateTime.Now.Ticks)" alt="Profile Picture" />
-            }
-
+    <div class="row border-bottom">
+        <div class="col text-black fw-bold fst-italic py-3">
+            <h3 class="text-decoration-underline">@Model.UserName's Profile</h3>
         </div>
-
-        <div class="col-md-9">
-
-            <p><strong>UserName:</strong> @Model.UserName</p>
-
-
-            <p><strong>Bio:</strong> @Model.Bio</p>
-
-
-            <p><strong>Birthday:</strong> @Model.Birthday.ToShortDateString()</p>
-
+        <div class="col text-end">
             <a asp-controller="UserProfile" asp-action="EditProfile" class="btn btn-primary">Edit Profile</a>
+        </div>
+    </div>
+
+    <div class="mt-3">
+
+        <div class="row pt-sm-4">
+
+            <div class="col-md-3">
+
+                <h5>Profile Picture</h5>
+
+                @if (!string.IsNullOrEmpty(Model.ProfilePicture))
+                {
+                    @* Added a timestamp to make it so, when a user uploads a new image, it updates right away. *@
+                    <img width="200" src="@(Model.ProfilePicture.Replace("wwwroot", "") + "?timestamp=" + DateTime.Now.Ticks)" alt="Profile Picture" />
+                }
+
+                <div class="col-md-3 py-2">
+                    <h6 class="fst-italic fw-light">Birthday: @Model.Birthday.ToShortDateString()</h6>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card border border-3 rounded p-3">
+                    <p>@Model.Bio</p>
+                </div>
+            </div>
 
         </div>
 
     </div>
 
-</div>
-
-<!-- Activity Feed Section -->
-<div class="container mt-5">
-    <h2>Activity Feed</h2>
-    <ul class="list-group">
-        <!-- Add user's activity feed items here -->
-        <li class="list-group-item">Activity 1</li>
-        <li class="list-group-item">Activity 2</li>
-    </ul>
-</div>
+    <div class="col-md-11 mx-auto pb-sm-3">
+        <h2 class="text-center">Activity Feed</h2>
+        <ul class="list-group">
+            <li class="list-group-item">Activity 1</li>
+            <li class="list-group-item">Activity 2</li>
+        </ul>
+    </div>
 
 
-<div class="container mt-6">
 
-    <h2>Favorite Software Book</h2>
+    <div class="container mt-6">
 
-    <div class="row">
+        <h2 class="fst-italic fw-bold">Favorite Software Book</h2>
 
-       @* Using the entire page with col-md-12 to make it full width *@
-        <div class="col-md-12 border border-2 mb-2">
+        <div class="row">
 
-            @if (Model.UserBookList != null && Model.UserBookList.BookInLists != null && Model.UserBookList.BookInLists.Count > 0)
-            {
-                @Html.Partial("_BookListWithFilterPartial", Model.UserBookList.BookInLists)
-            }
-            else
-            {
-                <p>No books to display.</p>
-            }
+            @* Using the entire page with col-md-12 to make it full width *@
+            <div class="col-md-12 border border-2 mb-2 rounded p-2">
+
+                @if (Model.UserBookList != null && Model.UserBookList.BookInLists != null && Model.UserBookList.BookInLists.Count > 0)
+                {
+                    @Html.Partial("_BookListWithFilterPartial", Model.UserBookList.BookInLists)
+                }
+                else
+                {
+                    <p>No books to display.</p>
+                }
+
+            </div>
 
         </div>
 
     </div>
-
 </div>
+

@@ -24,9 +24,9 @@
             <div class="bg-black">
                 <div class="row">
                     <div class="col">
-                        <h1 class="m-2 text-white text-start">MySoftwareBookList</h1>
+                        <h1 class="m-2 text-white text-start fst-italic fw-bold">MySoftwareBookList</h1>
                     </div>
-                    <div class="col text-end mt-2 ms-2 m-2 text-white fs-5">
+                    <div class="col text-end mt-2 ms-2 m-2 text-white fs-5 fw-bolder">
                         <partial name="_LoginPartial" />
                     </div>
                 </div>
@@ -39,33 +39,33 @@
                     <div class="navbar-collapse collapse justify-content-center">
                         <ul class="nav nav-tabs nav-pills nav-justified">
                             <li class="nav-item ms-3">
-                                <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("Index", "Home")">Home</a>
+                                <a class="nav-link fw-bold @(ViewContext.RouteData.Values["Action"].ToString() == "Index" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("Index", "Home")">Home</a>
                             </li>
                             <li class="nav-item ms-3">
-                                <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "FindBooks" && ViewContext.RouteData.Values["Controller"].ToString() == "Books" ? "active" : "")" asp-controller="Books" asp-action="Books">Books</a>
+                                <a class="nav-link fw-bold @(ViewContext.RouteData.Values["Action"].ToString() == "FindBooks" && ViewContext.RouteData.Values["Controller"].ToString() == "Books" ? "active" : "")" asp-controller="Books" asp-action="Books">Books</a>
                             </li>
                             <li class="nav-item ms-3">
-                                <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Discussion" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("Discussion", "Home")">Discussion</a>
+                                <a class="nav-link fw-bold @(ViewContext.RouteData.Values["Action"].ToString() == "Discussion" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("Discussion", "Home")">Discussion</a>
                             </li>
                             @if (!User.Identity.IsAuthenticated)
                             {
                                 <a href="@Url.Action("Login", "Account", new { ReturnUrl = Url.Action("Account", "UserProfile") })" class="nav-link">
-                                    <span class="nav-link-text">Account</span>
+                                    <span class="nav-link-text fw-bold">Account</span>
                                 </a>
                             }
                             else
                             {
                                 <li class="nav-item ms-3">
-                                    <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "Account" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" asp-controller="UserProfile" asp-action="Account">Account</a>
+                                    <a class="nav-link fw-bold @(ViewContext.RouteData.Values["Action"].ToString() == "Account" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" asp-controller="UserProfile" asp-action="Account">Account</a>
                                 </li>
                             }
                             <li class="nav-item ms-3">
-                                <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "About" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("About", "Home")">About</a>
+                                <a class="nav-link fw-bold @(ViewContext.RouteData.Values["Action"].ToString() == "About" && ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")" href="@Url.Action("About", "Home")">About</a>
                             </li>
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item ms-3">
-                                    <a class="nav-link @(ViewContext.RouteData.Values["Action"].ToString() == "AdminPage" && ViewContext.RouteData.Values["Controller"].ToString() == "Admin" ? "active" : "")" href="@Url.Action("AdminPage", "Admin")">Admin</a>
+                                    <a class="nav-link fw-bold @(ViewContext.RouteData.Values["Action"].ToString() == "AdminPage" && ViewContext.RouteData.Values["Controller"].ToString() == "Admin" ? "active" : "")" href="@Url.Action("AdminPage", "Admin")">Admin</a>
                                 </li>
                             }
                         </ul>
@@ -75,9 +75,9 @@
 
         </header>
 
-        <div class="container bg-white pt-sm-3">
+        <div class="container rounded bg-white">
             <div class="row">
-                <div class="col">
+                <div class="col py-4">
                     @RenderBody()
                 </div>
             </div>

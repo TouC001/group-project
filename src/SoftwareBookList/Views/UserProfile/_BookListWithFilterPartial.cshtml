@@ -31,9 +31,9 @@
                         <tr>
                             <th>Thumbnail</th>
                             <th>Title</th>
-                            <th>Personal Score</th>
-                            <th>Edit</th>
-                            <th>Remove</th>
+                            <th class="text-center">Personal Score</th>
+                            <th class="text-center">Edit</th>
+                            <th class="text-center">Remove</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,9 +42,9 @@
                             <tr>
                                 <td><img width="100" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
                                 <td>@bookInList.Book.Title</td>
-                                <td>Score: @bookInList.RatingValue</td>
-                                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editBookModal-@bookInList.BookID">Edit</button></td>
-                                <td>
+                                <td class="text-center">Score: @bookInList.RatingValue</td>
+                                <td class="text-center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editBookModal-@bookInList.BookID">Edit</button></td>
+                                <td class="text-center">
                                     <form method="post" action="@Url.Action("RemoveBook", "Books")">
                                         <input type="hidden" name="bookID" value="@bookInList.BookID">
                                         <button type="submit" class="btn btn-danger">Remove</button>
@@ -100,9 +100,9 @@
                         <tr>
                             <th>Thumbnail</th>
                             <th>Title</th>
-                            <th>Personal Score</th>
-                            <th>Edit</th>
-                            <th>Remove</th>
+                            <th class="text-center">Personal Score</th>
+                            <th class="text-center">Edit</th>
+                            <th class="text-center">Remove</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -111,12 +111,12 @@
                             <tr>
                                 <td><img width="100" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
                                 <td>@bookInList.Book.Title</td>
-                                <td>Score: @bookInList.RatingValue</td>
-                                <td>
+                                <td class="text-center">Score: @bookInList.RatingValue</td>
+                                <td class="text-center">
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#readEditBookModal-@bookInList.BookID">Edit</button>
 
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <form method="post" action="@Url.Action("RemoveBook", "Books")">
                                         <input type="hidden" name="bookID" value="@bookInList.BookID">
                                         <button type="submit" class="btn btn-danger">Remove</button>
@@ -173,9 +173,9 @@
                         <tr>
                             <th>Thumbnail</th>
                             <th>Title</th>
-                            <th>Personal Score</th>
-                            <th>Edit</th>
-                            <th>Remove</th>
+                            <th class="text-center">Personal Score</th>
+                            <th class="text-center">Edit</th>
+                            <th class="text-center">Remove</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -184,9 +184,9 @@
                             <tr>
                                 <td><img width="100" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
                                 <td>@bookInList.Book.Title</td>
-                                <td>Score: @bookInList.RatingValue</td>
-                                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#currentlyReadingEditBookModal-@bookInList.BookID">Edit</button></td>
-                                <td>
+                                <td class="text-center">Score: @bookInList.RatingValue</td>
+                                <td class="text-center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#currentlyReadingEditBookModal-@bookInList.BookID">Edit</button></td>
+                                <td class="text-center">
                                     <form method="post" action="@Url.Action("RemoveBook", "Books")">
                                         <input type="hidden" name="bookID" value="@bookInList.BookID">
                                         <button type="submit" class="btn btn-danger">Remove</button>
@@ -242,9 +242,9 @@
                         <tr>
                             <th>Thumbnail</th>
                             <th>Title</th>
-                            <th>Personal Score</th>
-                            <th>Edit</th>
-                            <th>Remove</th>
+                            <th class="text-center">Personal Score</th>
+                            <th class="text-center">Edit</th>
+                            <th class="text-center">Remove</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -253,9 +253,9 @@
                             <tr>
                                 <td><img width="100" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
                                 <td>@bookInList.Book.Title</td>
-                                <td>Score: @bookInList.RatingValue</td>
-                                <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#planToReadEditBookModal-@bookInList.BookID">Edit</button></td>
-                                <td>
+                                <td class="text-center">Score: @bookInList.RatingValue</td>
+                                <td class="text-center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#planToReadEditBookModal-@bookInList.BookID">Edit</button></td>
+                                <td class="text-center">
                                     <form method="post" action="@Url.Action("RemoveBook", "Books")">
                                         <input type="hidden" name="bookID" value="@bookInList.BookID">
                                         <button type="submit" class="btn btn-danger">Remove</button>
