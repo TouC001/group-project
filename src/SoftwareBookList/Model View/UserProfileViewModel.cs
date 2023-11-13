@@ -9,7 +9,7 @@ namespace SoftwareBookList.Models
 
         public string? ProfilePicture { get; set; }
 
-        [StringLength(200, ErrorMessage = "User Bio must be 200 charactres or less.")]
+        [StringLength(30000, ErrorMessage = "User Bio must be 30000 characters or less.")]
         public string Bio { get; set; }
 
         [DataType(DataType.Date)]

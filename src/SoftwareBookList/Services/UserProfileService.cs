@@ -64,13 +64,16 @@ namespace SoftwareBookList.Services
             // Retrieve the user's profile from the database
             UserAccount userProfile = _dataContext.Accounts.FirstOrDefault(u => u.UserID == userId);
 
-            if (userProfile != null)
+            User user = _dataContext.Users.FirstOrDefault(u => u.UserID == userId);
+
+            if (userProfile != null && user != null)
             {
                 // Update the profile with the new data
                 userProfile.UserName = updatedProfile.UserName;
                 userProfile.Bio = updatedProfile.Bio;
                 userProfile.Birthday = updatedProfile.Birthday;
-                // userProfile.ProfilePicture = updatedProfile.ProfilePicture;
+                user.UserName = updatedProfile.UserName;
+                //userProfile.ProfilePicture = updatedProfile.ProfilePicture;
 
                 // Save changes to the database
                 _dataContext.SaveChanges();
