@@ -69,24 +69,6 @@ namespace SoftwareBookList.Controllers
             return View(googleBook);
         }
 
-<<<<<<< HEAD
-        // Gets the rating scores of the BookInList of the user
-        public double GetBookInListRating()
-        {
-
-        }
-
-        // Gets the rating scores of the users review
-        public double GetReviewRating()
-        {
-
-        }
-
-        // Gets the total rating score from the review and BooksInList
-        public IActionResult GetBookTotalRating()
-        {
-            
-=======
         [HttpPost("AddToList")]
         public IActionResult AddBook(AddBookViewModel addBookViewModel)
         {
@@ -131,7 +113,6 @@ namespace SoftwareBookList.Controllers
                 }
             }
             return RedirectToAction("Books");
->>>>>>> 0e943a910c5a3567b2127741fcaffb98242a5d37
         }
 
         [HttpPost("EditBook")]
