@@ -1,13 +1,9 @@
 ﻿@using SoftwareBookList.Models;
-@using SoftwareBookList.Services;
-
-@model List<Book>
+@model BookPaginatedList<Book>;
 
 @{
     Layout = "_Layout";
 }
-
-
 
 <div class="container">
     <table class="table border border-2 border-dark">
@@ -21,7 +17,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var book in Model)
+            @foreach (var book in Model.Books)
             {
                 <tr>
                     <td>Rank # Here</td>
@@ -69,7 +65,6 @@
                         }
                     </td>
                 </tr>
-
                 <div class="modal fade" id="addBookModal-@book.BookID" tabindex="-1" role="dialog" aria-labelledby="addBookModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -114,7 +109,30 @@
                     </div>
                 </div>
             }
-
         </tbody>
     </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            @if (Model.HasPreviousPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Books", new { page = Model.PageIndex - 1 })">Previous</a>
+                </li>
+            }
+
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                    <a class="page-link" href="@Url.Action("Books", new { page = i })">@i</a>
+                </li>
+            }
+
+            @if (Model.HasNextPage)
+            {
+                <li class="page-item">
+                    <a class="page-link" href="@Url.Action("Books", new { page = Model.PageIndex + 1 })">Next</a>
+                </li>
+            }
+        </ul>
+    </nav>
 </div>
