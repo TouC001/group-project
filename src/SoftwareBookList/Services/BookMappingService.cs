@@ -25,11 +25,20 @@ namespace SoftwareBookList.Services
                 IndustryIdentifiers = googleBook.VolumeInfo?.IndustryIdentifiers ?? new List<IndustryIdentifier>(),
                 SelfLink = googleBook.SelfLink ?? string.Empty,
                 Categories = googleBook.VolumeInfo?.Categories ?? new List<string>(),
-                SmallThumbnail = googleBook.VolumeInfo.ImageLinks.SmallThumbnail, // Can never be null in the db.
-                Thumbnail = googleBook.VolumeInfo.ImageLinks.Thumbnail // Can never be null in the db.
+                SmallThumbnail = ReplaceThumbnail(googleBook.VolumeInfo.ImageLinks.SmallThumbnail), // Can never be null in the db.
+                Thumbnail = ReplaceThumbnail(googleBook.VolumeInfo.ImageLinks.Thumbnail) // Can never be null in the db.
             };
 
             return book;
+        }
+
+        public string ReplaceThumbnail(string thumbnail)
+        {
+            string result = string.Empty;
+
+            result = thumbnail.Replace("http://", "https://");
+
+            return result;
         }
     }
 }
