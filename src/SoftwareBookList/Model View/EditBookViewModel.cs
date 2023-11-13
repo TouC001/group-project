@@ -6,7 +6,7 @@ namespace SoftwareBookList.Model_View
     {
         public EditBookViewModel()
         {
-
+            
         }
 
         public EditBookViewModel(int bookID, int ratingValue, int statusID)
