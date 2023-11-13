@@ -36,33 +36,29 @@ namespace SoftwareBookList.Controllers
 
         public IActionResult Books(int page = 1)
         {
-            List<Book> books = _context.Books.ToList();
-
-            // Creating a Dictionary to store  whether each book is already added.
-            Dictionary<int, bool> bookAlreadyAddedMap = new Dictionary<int, bool>();
-
-            // Looping through the list of books and checking if each one is already added to the user's list.
-            foreach (var book in books)
-            {
-                int bookID = book.BookID;
-                bool isBookAlreadyAdded = CheckIfBookIsAdded(bookID);
-
-                // Store the result in the dictionary, using the bookIDas the key.
-                bookAlreadyAddedMap[bookID] = isBookAlreadyAdded;
-            }
-
-            // Passing the dictionary to the view using ViewData, so it can become available in the razor view.
-            ViewData["BookAlreadyAddedMap"] = bookAlreadyAddedMap;
-
-            return View(books);
             int pageSize = 50; // Display 50 books per page
 
             IQueryable<Book> allBooksQuery = _context.Books.AsQueryable();
 
             // Apply any filtering or sorting operations you need here
             // Example: allBooksQuery = allBooksQuery.Where(b => b.Title.Contains("Software")).OrderBy(b => b.Title);
-
+            // Create a paginated list
             BookPaginatedList<Book> paginatedList = new BookPaginatedList<Book>(allBooksQuery, page, pageSize);
+            // Get the list of books for the current page
+            List<Book> books = paginatedList.Books.ToList();
+            // Creating a Dictionary to store whether each book is already added
+            Dictionary<int, bool> bookAlreadyAddedMap = new Dictionary<int, bool>();
+            // Loop through the list of books and check if each one is already added to the user's list
+            foreach (var book in books)
+            {
+                int bookID = book.BookID;
+                bool isBookAlreadyAdded = CheckIfBookIsAdded(bookID);
+                // Store the result in the dictionary, using the bookID as the key
+                bookAlreadyAddedMap[bookID] = isBookAlreadyAdded;
+            }
+            // Pass the dictionary to the view using ViewData, so it can be available in the Razor view
+            ViewData["BookAlreadyAddedMap"] = bookAlreadyAddedMap;
+            // Return the paginated list to the view
             return View(paginatedList);
         }
 

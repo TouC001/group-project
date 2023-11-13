@@ -34,7 +34,7 @@ namespace SoftwareBookList.Controllers
             try
             {
                 // Hardcoded search query for software books
-                string query = "software" + keyword;
+                string query = "software " + keyword;
 
                 // Make an API request to Google Books to search for books
                 List<GoogleBook> googleBooks = await _googleBooksService.GetBooksAsync(query);
