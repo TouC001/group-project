@@ -17,10 +17,12 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var book in Model.Books)
+            @*@foreach (var book in Model.Books)*@
+            @for(int i = 0; i < Model.Books.Count(); i++)
             {
+                var book = Model.Books.ToList()[i];
                 <tr>
-                    <td>Rank # Here</td>
+                    <td>@(i + 1 + (Model.PageSize * (Model.CurrentPage - 1)))</td>
                     <td>
                         <a href="@Url.Action("BookDetails", new { googleID = book.GoogleID })">
                             <img src="@book.Thumbnail" alt="Thumbnail" />

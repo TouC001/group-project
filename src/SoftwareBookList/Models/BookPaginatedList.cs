@@ -11,6 +11,7 @@
             CurrentPage = currentPage;
             TotalPages = (int)Math.Ceiling(books.Count() / (double)pageSize);
             Books = books.Skip((currentPage - 1) * pageSize).Take(pageSize);
+            this.PageSize = pageSize;
         }
 
         public bool HasPreviousPage
@@ -27,5 +28,7 @@
         {
             get { return CurrentPage; }
         }
+
+        public int PageSize { get; set; }
     }
 }

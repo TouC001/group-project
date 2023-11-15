@@ -42,7 +42,6 @@ namespace SoftwareBookList.Controllers
 
             IQueryable<Book> allBooksQuery = _context.Books.AsQueryable().OrderByDescending(b => b.DbTotalScore);
 
-
             // Apply any filtering or sorting operations you need here
             // Example: allBooksQuery = allBooksQuery.Where(b => b.Title.Contains("Software")).OrderBy(b => b.Title);
             // Create a paginated list
