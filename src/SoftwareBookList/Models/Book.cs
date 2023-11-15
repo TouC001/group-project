@@ -33,6 +33,8 @@ namespace SoftwareBookList.Models
 		[NotMapped]
 		public List<string> Categories { get; set; }
 
+		public double DbTotalScore {  get; set; }
+
 		// Navigation property to represent the many-to-many relationship with tags	
 		public List<BookTag> BookTags { get; set; }
 

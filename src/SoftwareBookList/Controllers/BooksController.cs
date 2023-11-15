@@ -42,13 +42,16 @@ namespace SoftwareBookList.Controllers
 
             IQueryable<Book> allBooksQuery = _context.Books.AsQueryable();
             // This orders the book on the page by the ratings.
-            allBooksQuery = allBooksQuery.Include(b => b.BookInLists).Include(b => b.Reviews).OrderByDescending(b => b.TotalScore());
+            allBooksQuery = allBooksQuery.Include(b => b.BookInLists).Include(b => b.Reviews);
             // Apply any filtering or sorting operations you need here
             // Example: allBooksQuery = allBooksQuery.Where(b => b.Title.Contains("Software")).OrderBy(b => b.Title);
             // Create a paginated list
             BookPaginatedList<Book> paginatedList = new BookPaginatedList<Book>(allBooksQuery, page, pageSize);
             // Get the list of books for the current page
             List<Book> books = paginatedList.Books.ToList();
+
+            books = books.OrderByDescending(b => b.TotalScore()).ToList();
+
             // Creating a Dictionary to store whether each book is already added
             Dictionary<int, bool> bookAlreadyAddedMap = new Dictionary<int, bool>();
             // Loop through the list of books and check if each one is already added to the user's list
@@ -78,7 +81,7 @@ namespace SoftwareBookList.Controllers
         }
 
         [HttpPost("AddToList")]
-        public IActionResult AddBook(AddBookViewModel addBookViewModel)
+        public async Task<IActionResult> AddBook(AddBookViewModel addBookViewModel)
         {
 
             if (!ModelState.IsValid)
@@ -110,6 +113,7 @@ namespace SoftwareBookList.Controllers
 
                         _context.SaveChanges();
 
+                        await _context.RefreshBookRating(bookInList.BookID);
 
                         return RedirectToAction("Books");
                     }
@@ -124,7 +128,7 @@ namespace SoftwareBookList.Controllers
         }
 
         [HttpPost("EditBook")]
-        public IActionResult EditBook(EditBookViewModel editBookViewModel)
+        public async Task<IActionResult> EditBook(EditBookViewModel editBookViewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -158,6 +162,8 @@ namespace SoftwareBookList.Controllers
 
                     _context.SaveChanges();
 
+                    await _context.RefreshBookRating(newBookInList.BookID);
+
                     return Redirect("Account");
                 }
 
@@ -167,7 +173,7 @@ namespace SoftwareBookList.Controllers
         }
 
         [HttpPost("RemoveBook")]
-        public IActionResult RemoveBook(int bookID)
+        public async Task<IActionResult> RemoveBook(int bookID)
         {
             if (!ModelState.IsValid)
             {
@@ -183,6 +189,8 @@ namespace SoftwareBookList.Controllers
                     _context.BookInLists.Remove(bookInList);
 
                     _context.SaveChanges();
+
+                    await _context.RefreshBookRating(bookInList.BookID);
 
                     return Redirect("Account");
                 }
