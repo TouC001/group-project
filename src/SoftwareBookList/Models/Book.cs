@@ -45,7 +45,41 @@ namespace SoftwareBookList.Models
 
 		// One-to-Many Relationship with Discussion Table
 		public List<Discussion> Discussions { get; set; }
-	}
+
+        // This is the computer rating average. This is getting average of all ratings combined.
+        public double ComputerRating()
+        {
+            List<int> ratings = new List<int>();
+
+            // That is putting all the book in list ratings into that list.
+            ratings.AddRange(BookInLists.Select(b => b.RatingValue));
+
+            // This is putting the ratings from the book in list and appends the ratings from the reviews.
+            ratings.AddRange(Reviews.Select(r => r.RatingValue));
+
+            // if the rating count is 0 for a book, we will place it at the end.
+            if (ratings.Count > 0)
+            {
+                return ratings.Average();
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        // Getting the total number of ratings 
+        public int TotalNumberOfRatings()
+        {
+            return Reviews.Count + BookInLists.Count;
+        }
+
+        // Gives us the rating or score based on average rating compared against TotalNumberOfRatings.
+        public double TotalScore()
+        {
+            return ComputerRating() / TotalNumberOfRatings();
+        }
+    }
 
 }
 

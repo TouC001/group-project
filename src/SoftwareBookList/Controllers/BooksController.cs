@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SoftwareBookList.Data;
 using SoftwareBookList.GoogleBooks;
 using SoftwareBookList.Model_View;
@@ -36,10 +37,12 @@ namespace SoftwareBookList.Controllers
 
         public IActionResult Books(int page = 1)
         {
+
             int pageSize = 50; // Display 50 books per page
 
             IQueryable<Book> allBooksQuery = _context.Books.AsQueryable();
-
+            // This orders the book on the page by the ratings.
+            allBooksQuery = allBooksQuery.Include(b => b.BookInLists).Include(b => b.Reviews).OrderByDescending(b => b.TotalScore());
             // Apply any filtering or sorting operations you need here
             // Example: allBooksQuery = allBooksQuery.Where(b => b.Title.Contains("Software")).OrderBy(b => b.Title);
             // Create a paginated list
