@@ -73,7 +73,7 @@ namespace SoftwareBookList.Models
         // Getting the total number of ratings 
         public int TotalNumberOfRatings()
         {
-            return Reviews.Count + BookInLists.Count;
+            return Math.Max(1, Reviews.Count + BookInLists.Count);
         }
 
         // Gives us the rating or score based on average rating compared against TotalNumberOfRatings.

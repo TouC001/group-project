@@ -40,17 +40,15 @@ namespace SoftwareBookList.Controllers
 
             int pageSize = 50; // Display 50 books per page
 
-            IQueryable<Book> allBooksQuery = _context.Books.AsQueryable();
-            // This orders the book on the page by the ratings.
-            allBooksQuery = allBooksQuery.Include(b => b.BookInLists).Include(b => b.Reviews);
+            IQueryable<Book> allBooksQuery = _context.Books.AsQueryable().OrderByDescending(b => b.DbTotalScore);
+
+
             // Apply any filtering or sorting operations you need here
             // Example: allBooksQuery = allBooksQuery.Where(b => b.Title.Contains("Software")).OrderBy(b => b.Title);
             // Create a paginated list
             BookPaginatedList<Book> paginatedList = new BookPaginatedList<Book>(allBooksQuery, page, pageSize);
             // Get the list of books for the current page
             List<Book> books = paginatedList.Books.ToList();
-
-            books = books.OrderByDescending(b => b.TotalScore()).ToList();
 
             // Creating a Dictionary to store whether each book is already added
             Dictionary<int, bool> bookAlreadyAddedMap = new Dictionary<int, bool>();
