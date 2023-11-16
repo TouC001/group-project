@@ -85,5 +85,19 @@ namespace SoftwareBookList.Controllers
             return RedirectToAction("AdminPage"); // Redirect back to the Admin page
         }
 
+        [Authorize(Roles = "Admin")]
+        [Route("update-score")]
+        public async Task<IActionResult> PopulateRatings()
+        {
+            List<int> bookIds = _context.Books.Select(b => b.BookID).ToList();
+
+            foreach (var item in bookIds)
+            {
+                await _context.RefreshBookRating(item);
+
+            }
+
+            return RedirectToAction(nameof(Index)); 
+        }
     }
 }

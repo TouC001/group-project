@@ -157,5 +157,20 @@ namespace SoftwareBookList.Data
 			base.OnModelCreating(modelBuilder);
 
 		}
+
+		public async Task RefreshBookRating(int BookID)
+		{
+			Book? book = await this.Books.AsNoTracking().Include(b => b.BookInLists).Include(b => b.Reviews).FirstOrDefaultAsync(b => b.BookID == BookID);
+
+			if (book != null)
+			{
+				book.DbTotalScore = book.TotalScore();
+				book.Reviews = null;
+				book.BookInLists = null;
+
+				this.Books.Update(book);
+				await this.SaveChangesAsync();
+			}
+		}
 	}
 }

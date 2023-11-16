@@ -39,9 +39,10 @@ namespace SoftwareBookList.Controllers
 
         public async Task<IActionResult> Books(int page = 1)
         {
+
             int pageSize = 50; // Display 50 books per page
 
-            IQueryable<Book> allBooksQuery = _context.Books.AsQueryable();
+            IQueryable<Book> allBooksQuery = _context.Books.AsQueryable().OrderByDescending(b => b.DbTotalScore);
 
             // Create a paginated list
             BookPaginatedList<Book> paginatedList = new BookPaginatedList<Book>(allBooksQuery, page, pageSize);
@@ -120,6 +121,7 @@ namespace SoftwareBookList.Controllers
 
                         await _context.SaveChangesAsync();
 
+                        await _context.RefreshBookRating(bookInList.BookID);
 
                         return RedirectToAction("Books");
                     }
@@ -168,6 +170,8 @@ namespace SoftwareBookList.Controllers
 
                     await _context.SaveChangesAsync();
 
+                    await _context.RefreshBookRating(newBookInList.BookID);
+
                     return Redirect("Account");
                 }
 
@@ -193,6 +197,8 @@ namespace SoftwareBookList.Controllers
                     _context.BookInLists.Remove(bookInList);
 
                     await _context.SaveChangesAsync();
+
+                    await _context.RefreshBookRating(bookInList.BookID);
 
                     return Redirect("Account");
                 }
