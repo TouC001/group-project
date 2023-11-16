@@ -23,7 +23,7 @@
                     <td>Rank # Here</td>
                     <td>
                         <a href="@Url.Action("BookDetails", new { googleID = book.GoogleID })">
-                            <img src="@book.Thumbnail" alt="Thumbnail" />
+                            <img width="80" src="@book.Thumbnail" alt="Thumbnail" />
                             @book.Title
                         </a>
                     </td>
@@ -33,7 +33,7 @@
                         @* Checking if User is Logged in, if not, take them to the login view. *@
                         @if (!User.Identity.IsAuthenticated)
                         {
-                            <a href="@Url.Action("Login", "Account", new { ReturnUrl = Url.Action("Books", "Books") })" class="btn btn-primary">Login To Add Books</a>
+                            <a href="@Url.Action("Login", "Account", new { ReturnUrl = Url.Action("Books", "Books") })" class="btn btn-primary text-nowrap">Login To Add Books</a>
                         }
                         else
                         {
@@ -55,11 +55,11 @@
 
                             if (isBookAlreadyAdded)
                             {
-                                <div class="alert alert-info">Added</div>
+                                <div class="alert alert-info p-2">Added</div>
                             }
                             else
                             {
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addBookModal-@book.BookID">Add Book</button>
+                                <button type="button" class="btn btn-primary text-nowrap" data-toggle="modal" data-target="#addBookModal-@book.BookID">Add Book</button>
                             }
 
                         }
@@ -80,21 +80,22 @@
 
                             <form method="post" action="@Url.Action("AddBook", "Books", new {bookID = book.BookID})">
                                 <div class="modal-body">
-                                    <div class="form-group">
+                                    <div class="form-group pb-1">
                                         <label for="bookTitle">Book Title</label>
                                         <input type="text" class="form-control" id="bookTitle" placeholder="@book.Title" readonly>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group py-3">
                                         <label for="status">Status</label>
-                                        <select class="form-control" name="StatusID" required>
+                                        <select class="form-control" name="StatusID" id="statusDropdown" required>
                                             <option value="1">Read</option>
                                             <option value="2">Currently Reading</option>
                                             <option value="3">Plan to Read</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group pt-1">
                                         <label for="rating">Personal Rating</label>
-                                        <input type="number" class="form-control" name="RatingValue" min="1" max="10" required>
+                                        <input type="number" class="form-control" name="RatingValue" id="ratingInput" min="1" max="10" required>
+                                        <small class="form-text text-muted">Enter a value between 1-10</small>
                                     </div>
                                 </div>
                                 <div class="modal-footer">

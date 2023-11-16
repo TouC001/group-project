@@ -22,7 +22,7 @@ namespace SoftwareBookList.Services
             return bookInList;
         }
 
-        public int GetBookListIDForUser(int userID)
+        public async Task<int> GetBookListIDForUser(int userID)
         {
             var bookList = _dataContext.BookLists.FirstOrDefault(bl => bl.UserID == userID);
 

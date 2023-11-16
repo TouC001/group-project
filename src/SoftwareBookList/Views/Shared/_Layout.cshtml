@@ -2,7 +2,10 @@
 
 <html>
 <head>
-    <style>:root {--pathBase: "@Context.Request.PathBase";}</style> @* CSS path base variable: use var(--pathBase) when behind reverse proxy. *@
+    <style>
+        :root {
+            --pathBase: "@Context.Request.PathBase";
+        }</style> @* CSS path base variable: use var(--pathBase) when behind reverse proxy. *@
     <script>const pathBase = "@Context.Request.PathBase";</script> @* JavaScript path base variable: use pathBase when behind reverse proxy. *@
     <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/css/Site1.css" rel="stylesheet" type="text/css">
@@ -11,28 +14,24 @@
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-@*     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css" rel="stylesheet"> *@
-@*     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> *@
-@*     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css"> *@
-@*     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script> *@
-@*     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> *@
+    <script src="~/js/main.js" defer></script>
 
 </head>
-<body>
-    <div class="bg-secondary bg-opacity-25">
-        <header>
+<body class="bg-secondary bg-opacity-25 d-flex flex-column min-vh-100">
+    <header class="vh-30">
+        <div class="header-background">
+
             <div class="bg-black">
-                <div class="row">
+                <div class="row custom-row">
                     <div class="col">
-                        <h1 class="m-2 text-white text-start fst-italic fw-bold">MySoftwareBookList</h1>
+                        <h1 class="m-0 text-white text-start fst-italic fw-bold">MySoftwareBookList</h1>
                     </div>
-                    <div class="col text-end mt-2 ms-2 m-2 text-white fs-5 fw-bolder">
+                    <div class="col text-end py-2 ms-2 text-white fs-5 fw-bolder">
                         <partial name="_LoginPartial" />
                     </div>
                 </div>
             </div>
-        </header>
-        <header>
+
 
             <nav class="navbar navbar-expand-sm mb-4 bg-secondary bg-opacity-10">
                 <div class="container">
@@ -72,9 +71,10 @@
                     </div>
                 </div>
             </nav>
+        </div>
+    </header>
 
-        </header>
-
+    <main class="main flex-grow-1 vh-60 pb-3">
         <div class="container rounded bg-white">
             <div class="row">
                 <div class="col py-4">
@@ -82,11 +82,13 @@
                 </div>
             </div>
         </div>
+    </main>
 
-        <footer class="text-center bg-black text-white">
-            <hr>
-            © MySoftwareBookList @DateTime.Now.Year
-        </footer>
-    </div>
+
+    <footer id="footer" class="vh-10">
+        © MySoftwareBookList @DateTime.Now.Year
+    </footer>
+
+
 </body>
 </html>

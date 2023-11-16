@@ -11,22 +11,22 @@ public class HomeController : Controller
         _logger = logger;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
         return View();
     }
 
-    public IActionResult About()
+    public async Task<IActionResult> About()
     {
         return View();
     }
 
-    public IActionResult Account()
+public async Task<IActionResult> Account()
     {
         return View();
     }
 
-    public IActionResult Discussion()
+    public async Task<IActionResult> Discussion()
     {
         return View();
     }

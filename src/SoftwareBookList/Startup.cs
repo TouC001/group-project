@@ -22,6 +22,15 @@ namespace SoftwareBookList
 		// ConfigureServices is where application services are configured and added to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			// Add session configuration
+			services.AddSession(options =>
+			{
+				// Set a short timeout for easy testing.
+				options.IdleTimeout = TimeSpan.FromMinutes(30);
+				options.Cookie.HttpOnly = true;
+				options.Cookie.IsEssential = true;
+			});
+
 			// Configure services required by the application
 			services.AddControllersWithViews();
 
@@ -60,7 +69,8 @@ namespace SoftwareBookList
 
 			services.AddTransient<UserAccountServices>();
 			services.AddTransient<BookMappingService>();
-				
+			services.AddTransient<AddBooksService>();
+
 		}
 
 		// Configure is where the application's request pipeline and middleware are set up.
@@ -88,8 +98,11 @@ namespace SoftwareBookList
 
 			app.UseRouting();
 
+			// Use session
+			app.UseSession();
+
 			app.UseAuthentication();
-			app.UseAuthorization();
+			app.UseAuthorization();		
 
 			// Configure endpoints for controllers and actions
 			app.UseEndpoints(endpoints =>
@@ -97,11 +110,6 @@ namespace SoftwareBookList
 				endpoints.MapControllerRoute(
 					name: "default",
 					pattern: "{controller=Home}/{action=Index}/{id?}");
-
-				//endpoints.MapControllerRoute(
-				//	name: "books",
-				//	pattern: "Books/AddToList",
-				//	defaults: new { controller = "Books", action = "AddToList" });
 			});
 		}
 	}

@@ -40,7 +40,7 @@
                         @foreach (var bookInList in sortedModel)
                         {
                             <tr>
-                                <td><img width="100" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
+                                <td><img width="80" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
                                 <td>@bookInList.Book.Title</td>
                                 <td class="text-center">Score: @bookInList.RatingValue</td>
                                 <td class="text-center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editBookModal-@bookInList.BookID">Edit</button></td>
@@ -109,7 +109,7 @@
                         @foreach (var bookInList in sortedModel.Where(b => b.StatusID == 1))
                         {
                             <tr>
-                                <td><img width="100" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
+                                <td><img width="80" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
                                 <td>@bookInList.Book.Title</td>
                                 <td class="text-center">Score: @bookInList.RatingValue</td>
                                 <td class="text-center">
@@ -182,7 +182,7 @@
                         @foreach (var bookInList in sortedModel.Where(b => b.StatusID == 2))
                         {
                             <tr>
-                                <td><img width="100" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
+                                <td><img width="80" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
                                 <td>@bookInList.Book.Title</td>
                                 <td class="text-center">Score: @bookInList.RatingValue</td>
                                 <td class="text-center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#currentlyReadingEditBookModal-@bookInList.BookID">Edit</button></td>
@@ -251,7 +251,7 @@
                         @foreach (var bookInList in sortedModel.Where(b => b.StatusID == 3))
                         {
                             <tr>
-                                <td><img width="100" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
+                                <td><img width="80" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
                                 <td>@bookInList.Book.Title</td>
                                 <td class="text-center">Score: @bookInList.RatingValue</td>
                                 <td class="text-center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#planToReadEditBookModal-@bookInList.BookID">Edit</button></td>

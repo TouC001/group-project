@@ -1,3 +1,31 @@
-.carousel-inner {display:flex;flex-direction:row;}
+.custom-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 0; /* No margin on top */
+    margin-right: 0; /* No margin on right */
+    margin-left: 0; /* No margin on left */
+}
 
-.carousel-item {width:100%;}
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#footer {
+    background-color: black;
+    color: white;
+    text-align: center;
+    height: 30px;
+}
+
+.header-background {
+    background-color: #BFC7DE;
+}
+
+.main {
+    overflow-y: auto;
+}
+
