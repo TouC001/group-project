@@ -21,7 +21,7 @@ public class HomeController : Controller
         return View();
     }
 
-public async Task<IActionResult> Account()
+    public async Task<IActionResult> Account()
     {
         return View();
     }

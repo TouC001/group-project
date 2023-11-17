@@ -9,7 +9,11 @@
 
     <div class="row border-bottom">
         <div class="col text-black fw-bold fst-italic py-3">
-            <h3 class="text-decoration-underline">@Model.UserName's Profile</h3>
+            <h3 class="text-decoration-underline">
+                <text>
+                    @(User.FindFirst(x => x.Type == "userName").Value)'s Profile
+                </text>
+            </h3>
         </div>
         <div class="col text-end">
             <a asp-controller="UserProfile" asp-action="EditProfile" class="btn btn-primary">Edit Profile</a>

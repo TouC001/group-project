@@ -35,10 +35,11 @@ public class AccountController : Controller
 		}
 
 		User existingUser = _userAccountServices.GetUser(signUpViewModel.EmailAddress);
+
 		if (existingUser != null)
 		{
 			// Set email address already in use error message.
-			ModelState.AddModelError("Error", "An account already exists with that email address.");
+			ModelState.AddModelError("", "An account already exists with that email address.");
 
 			return View();
 		}
@@ -96,17 +97,12 @@ public class AccountController : Controller
 		if (user == null)
 		{
 			// Set email address not registered error message.
-			ModelState.AddModelError("Error", "An account does not exist with that email address.");
+			ModelState.AddModelError("", "Invalid Email.");
 
 			return View();
 		}
 
 		PasswordHasher<string> passwordHasher = new PasswordHasher<string>();
-
-		if (user.PasswordHash == "green")
-		{
-			user.PasswordHash = passwordHasher.HashPassword(null, user.PasswordHash);
-		}
 
 		PasswordVerificationResult passwordVerificationResult =
 			passwordHasher.VerifyHashedPassword(null, user.PasswordHash, loginViewModel.Password);
@@ -114,7 +110,7 @@ public class AccountController : Controller
 		if (passwordVerificationResult == PasswordVerificationResult.Failed)
 		{
 			// Set invalid password error message.
-			ModelState.AddModelError("Error", "Invalid password.");
+			ModelState.AddModelError("", "Invalid password.");
 
 			return View();
 		}

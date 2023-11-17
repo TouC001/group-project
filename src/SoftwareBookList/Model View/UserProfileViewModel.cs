@@ -5,12 +5,12 @@ namespace SoftwareBookList.Models
     public class UserProfileViewModel
     {
         [StringLength(50, ErrorMessage = "Username must be between 3 and 50 characters.", MinimumLength = 3)]
-        public string UserName { get; set; }
+        public string? UserName { get; set; }
 
         public string? ProfilePicture { get; set; }
 
         [StringLength(30000, ErrorMessage = "User Bio must be 30000 characters or less.")]
-        public string Bio { get; set; }
+        public string? Bio { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]

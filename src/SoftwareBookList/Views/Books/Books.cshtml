@@ -33,7 +33,7 @@
                     <td class="text-center">User's Score Here</td>
                     <td class="text-center">
                         @* Checking if User is Logged in, if not, take them to the login view. *@
-                        @if (!User.Identity.IsAuthenticated)
+                        @if (!User.Identity.IsAuthenticated)    
                         {
                             <a href="@Url.Action("Login", "Account", new { ReturnUrl = Url.Action("Books", "Books") })" class="btn btn-primary text-nowrap">Login To Add Books</a>
                         }
@@ -88,7 +88,7 @@
                                     </div>
                                     <div class="form-group py-3">
                                         <label for="status">Status</label>
-                                        <select class="form-control" name="StatusID" id="statusDropdown" required>
+                                        <select class="statusDropdown form-control" name="StatusID" required>
                                             <option value="1">Read</option>
                                             <option value="2">Currently Reading</option>
                                             <option value="3">Plan to Read</option>
@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="form-group pt-1">
                                         <label for="rating">Personal Rating</label>
-                                        <input type="number" class="form-control" name="RatingValue" id="ratingInput" min="1" max="10" required>
+                                        <input type="number" class="ratingInput form-control" name="RatingValue" min="0" max="10" required>
                                         <small class="form-text text-muted">Enter a value between 1-10</small>
                                     </div>
                                 </div>

@@ -52,47 +52,38 @@ namespace SoftwareBookList.Controllers
 			return View(userProfileView);
 		}
 
-		[HttpPost("EditProfile")]
-		public IActionResult EditProfile(UserProfileViewModel userProfileView)
-		{
+		//[HttpPost("EditProfile")]
+		//public IActionResult EditProfile(UserProfileViewModel userProfileView)
+		//{
 
-			int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-
-			if (!ModelState.IsValid)
-			{
-
-				return RedirectToAction("EditProfile", userProfileView);
-			}
+		//	int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 
-			UserAccount userAccount = _userProfileServices.UserProfile(UserID);
+		//	if (!ModelState.IsValid)
+		//	{
 
-			userAccount.Bio = userProfileView.Bio;
-			userAccount.UserName = userProfileView.UserName;
-			userAccount.Birthday = userProfileView.Birthday;
+		//		return RedirectToAction("EditProfile", userProfileView);
+		//	}
 
-			_userProfileServices.UpdateUserAccount(userAccount);
 
-			userProfileView.UserBookList = _userProfileServices.GetBookListForUser(UserID);
+		//	UserAccount userAccount = _userProfileServices.UserProfile(UserID);
 
-			return View("Account", userProfileView);
+		//	userAccount.Bio = userProfileView.Bio;
+		//	userAccount.UserName = userProfileView.UserName;
+		//	userAccount.Birthday = userProfileView.Birthday;
 
-		}
+		//	_userProfileServices.UpdateUserAccount(userAccount);
+
+		//	userProfileView.UserBookList = _userProfileServices.GetBookListForUser(UserID);
+
+		//	return View("Account", userProfileView);
+
+		//}
 
 		[HttpPost("update-profile")]
 		public async Task<IActionResult> UpdateProfile(UserProfileViewModel userProfile, IFormFile profilePicture)
 		{
-			if (!ModelState.IsValid)
-			{
-				return View("Account", userProfile);
-			}
-
-			int userID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-			bool updateSuccess = _userProfileServices.UpdateUserProfile(userID, userProfile);
-
-			if (profilePicture != null)
+			if (profilePicture != null && profilePicture.Length > 0)
 			{
 				// Extract the UserID from the current user's claims.
 				int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
@@ -128,6 +119,15 @@ namespace SoftwareBookList.Controllers
 				_userProfileServices.UpdateProfilePicture(userAccount, stringPath);
 			}
 
+			//if (!ModelState.IsValid)
+			//{
+			//	return View("Account", userProfile);
+			//}
+
+			int userID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+			bool updateSuccess = _userProfileServices.UpdateUserProfile(userID, userProfile);
+
 			await HttpContext.SignOutAsync(
 			CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -154,7 +154,6 @@ namespace SoftwareBookList.Controllers
 			}
 			else
 			{
-				ViewBag.ErrorMessage = "Failed to update profile. Please try again.";
 				return View("Account", userProfile);
 			}
 		}

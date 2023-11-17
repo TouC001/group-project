@@ -4,12 +4,12 @@ namespace SoftwareBookList.Models
 {
 	public class LoginViewModel
 	{
-		[Required]
+		[Required(ErrorMessage = "*This field is required")]
 		[DataType(DataType.EmailAddress)]
 		[Display(Name = "Email Address")]
 		public string EmailAddress { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "*This field is required")]
 		[DataType(DataType.Password)]
 		public string Password { get; set; }
 	}
