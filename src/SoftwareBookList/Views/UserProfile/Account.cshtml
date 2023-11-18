@@ -31,7 +31,7 @@
                 @if (!string.IsNullOrEmpty(Model.ProfilePicture))
                 {
                     @* Added a timestamp to make it so, when a user uploads a new image, it updates right away. *@
-                    <img width="200" src="@(Model.ProfilePicture.Replace("wwwroot", "") + "?timestamp=" + DateTime.Now.Ticks)" alt="Profile Picture" />
+                    <img width="230" height="250" src="@(Model.ProfilePicture.Replace("wwwroot", "") + "?timestamp=" + DateTime.Now.Ticks)" alt="Profile Picture" />
                 }
 
                 <div class="col-md-3 py-2">

@@ -18,6 +18,8 @@ namespace SoftwareBookList.Models
 
         public BookList? UserBookList { get; set; }
 
+        public string? EmailAddress { get; set; }
+
         public int UserID { get; set; }
     }
 }

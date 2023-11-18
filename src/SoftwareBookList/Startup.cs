@@ -41,7 +41,11 @@ namespace SoftwareBookList
 			services.AddHttpClient<GoogleBooksService>();
 
 			// Add other service configurations here, e.g., database, authentication
-			services.AddDbContext<DataContext>((d) => d.UseSqlServer(_configuration.GetConnectionString("DefaultConnection")));
+			services.AddDbContext<DataContext>((d) =>
+			{
+				d.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
+				d.EnableSensitiveDataLogging();
+			});
 
 			// Configure authentication services in the application.
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
