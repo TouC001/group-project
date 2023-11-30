@@ -15,14 +15,18 @@ body {
 }
 
 #footer {
-    background-color: black;
+    background-color: #2b4353;
     color: white;
     text-align: center;
     height: 30px;
 }
 
 .header-background {
-    background-color: #BFC7DE;
+    background-color: #a7bcb9;
+}
+
+div.bg-black {
+    background-color: #2b4353 !important; /* Change to your desired color */
 }
 
 .main {
