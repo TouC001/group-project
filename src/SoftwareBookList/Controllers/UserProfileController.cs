@@ -32,10 +32,16 @@ namespace SoftwareBookList.Controllers
 
 			userProfileView.UserBookList = _userProfileServices.GetBookListForUser(UserID);
 
+			userProfileView.EmailAddress = _userProfileServices.GetUserEmailAddress(UserID);
+
+			DateTime dateJoined = _userProfileServices.GetJoinedDate(UserID);
+
 			if (userProfileView == null)
 			{
 				return NotFound();
 			}
+
+			userProfileView.DateJoin = dateJoined;
 
 			return View(userProfileView);
 		}
@@ -52,51 +58,45 @@ namespace SoftwareBookList.Controllers
 			return View(userProfileView);
 		}
 
-		//[HttpPost("EditProfile")]
-		//public IActionResult EditProfile(UserProfileViewModel userProfileView)
-		//{
+		[HttpPost("EditProfile")]
+		public IActionResult EditProfile(UserProfileViewModel userProfileView)
+		{
 
-		//	int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-
-		//	if (!ModelState.IsValid)
-		//	{
-
-		//		return RedirectToAction("EditProfile", userProfileView);
-		//	}
+			int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
 
 
-		//	UserAccount userAccount = _userProfileServices.UserProfile(UserID);
+			if (!ModelState.IsValid)
+			{
 
-		//	userAccount.Bio = userProfileView.Bio;
-		//	userAccount.UserName = userProfileView.UserName;
-		//	userAccount.Birthday = userProfileView.Birthday;
+				return RedirectToAction("EditProfile", userProfileView);
+			}
 
-		//	_userProfileServices.UpdateUserAccount(userAccount);
 
-		//	userProfileView.UserBookList = _userProfileServices.GetBookListForUser(UserID);
+			UserAccount userAccount = _userProfileServices.UserProfile(UserID);
 
-		//	return View("Account", userProfileView);
+			User user = _userProfileServices.User(UserID);
 
-		//}
+			userAccount.Bio = userProfileView.Bio;
+			userAccount.UserName = userProfileView.UserName;
+			userAccount.Birthday = userProfileView.Birthday ?? DateTime.MinValue;
+			userAccount.EmailAddress = userProfileView.EmailAddress;
+
+			_userProfileServices.UpdateUserAccount(userAccount);
+
+			userProfileView.UserBookList = _userProfileServices.GetBookListForUser(UserID);
+
+			return View("Account", userProfileView);
+
+		}
 
 		[HttpPost("update-profile")]
 		public async Task<IActionResult> UpdateProfile(UserProfileViewModel userProfile, IFormFile profilePicture)
 		{
-			if (profilePicture != null && profilePicture.Length > 0)
+			int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+			UserAccount userAccount = _userProfileServices.UserProfile(UserID);
+
+			if (profilePicture != null)
 			{
-				// Extract the UserID from the current user's claims.
-				int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
-				// Retrieve the user's account information using the UserProfileService.
-				UserAccount userAccount = _userProfileServices.UserProfile(UserID);
-
-				// Check if the user's account doesn't exist. If so, add a model error and redirect to the "Account" action.
-				if (userAccount == null)
-				{
-					return RedirectToAction("Account");
-				}
-
 				// Get the file extension of the uploaded profile picture.
 				string fileExtension = System.IO.Path.GetExtension(profilePicture.FileName);
 
@@ -118,20 +118,33 @@ namespace SoftwareBookList.Controllers
 				// Use the UserProfileService to update the user's profile picture.
 				_userProfileServices.UpdateProfilePicture(userAccount, stringPath);
 			}
+			// Check if the user had an existing profile picture
+			else if (!string.IsNullOrEmpty(userAccount.ProfilePicture))
+			{
+				// Keep the existing profile picture
+				userProfile.ProfilePicture = userAccount.ProfilePicture;
+			}
+			else
+			{
+				if (userAccount != null && !string.IsNullOrEmpty(userAccount.ProfilePicture))
+				{
+					_userProfileServices.UpdateProfilePicture(userAccount, userAccount.ProfilePicture);
+				}
+			}
 
-			//if (!ModelState.IsValid)
-			//{
-			//	return View("Account", userProfile);
-			//}
+			ModelState.Remove("ProfilePicture");
 
-			int userID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+			if (!ModelState.IsValid)
+			{
+				return View("Account", userProfile);
+			}
 
-			bool updateSuccess = _userProfileServices.UpdateUserProfile(userID, userProfile);
+			bool updateSuccess = _userProfileServices.UpdateUserProfile(UserID, userProfile);
 
 			await HttpContext.SignOutAsync(
 			CookieAuthenticationDefaults.AuthenticationScheme);
 
-			var user = _userProfileServices.UserProfile(userID);
+			var user = _userProfileServices.UserProfile(UserID);
 
 			var claims = new List<Claim>
 			{
