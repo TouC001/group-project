@@ -26,9 +26,6 @@ namespace SoftwareBookList.Models
 		public string UserName { get; set; }
 
 		[Required]
-		public DateTime JoinDate { get; set; }
-
-		[Required]
 		public bool IsAdmin { get; set; }
 
 		[Required]

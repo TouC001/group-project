@@ -20,8 +20,13 @@
         <br />
         <strong>Published Date: </strong> @Model.VolumeInfo.PublishedDate
         <br />
-        <strong>Categories: </strong> @string.Join(", ", Model.VolumeInfo.Categories)
-        <br />
+
+        @if(Model.VolumeInfo.Categories != null)
+        {
+            <strong>Categories: </strong> @string.Join(", ", Model.VolumeInfo.Categories)
+            <br />
+        }
+
         <strong>PageCount: </strong>@Model.VolumeInfo.PageCount
         <br />
         <strong>ISBN</strong>
