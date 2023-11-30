@@ -55,11 +55,12 @@ namespace SoftwareBookList.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
+                int userID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+                int bookListID = await _addBooksService.GetBookListIDForUser(userID);
+
                 // Loop through the list of books and check if each one is already added to the user's list
                 foreach (var book in books)
                 {
-                    int userID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-                    int bookListID = await _addBooksService.GetBookListIDForUser(userID);
                     int bookID = book.BookID;
 
                     bool isBookAlreadyAdded = CheckIfBookIsAdded(bookID, bookListID);

@@ -6,18 +6,30 @@
     Layout = "_Layout";
 }
 
-<div class="container">
-    <h2>Book Details</h2>
-    <div>
-        <strong>Thumbnail:</strong> <img src="@Model.VolumeInfo.ImageLinks.Thumbnail" alt="Thumbnail" />
+<div class="container mt-4">
+    <div class="mb-4">
+        <img src="@Model.VolumeInfo.ImageLinks.Thumbnail" alt="Thumbnail" class="img-fluid" />
     </div>
-    <div>
-        <strong>Title:</strong> @Model.VolumeInfo.Title
+    <h2 class="mb-3">@Model.VolumeInfo.Title</h2>
+    <h3 class="mb-4">@Model.VolumeInfo.Subtitle</h3>
+    <div class="mb-4">
+        @string.Join(", ", Model.VolumeInfo.Authors)
     </div>
-    <div>
-        @Model.VolumeInfo.Subtitle
-        @Model.VolumeInfo.Authors
-        @Model.VolumeInfo.PublishedDate
-        @Model.VolumeInfo.Publisher
+    <div class="mb-4">
+        <strong>Publisher: </strong> @Model.VolumeInfo.Publisher
+        <br />
+        <strong>Published Date: </strong> @Model.VolumeInfo.PublishedDate
+        <br />
+        <strong>Categories: </strong> @string.Join(", ", Model.VolumeInfo.Categories)
+        <br />
+        <strong>PageCount: </strong>@Model.VolumeInfo.PageCount
+        <br />
+        <strong>ISBN</strong>
+        @Html.Raw(string.Join(", ", Model.VolumeInfo.IndustryIdentifiers.Select(i => $"{i.Identifier}")).TrimEnd(','))
+    </div>
+    <div class="mb-4">
+        <strong>Description:</strong>
+        <br />
+        @Html.Raw(Model.VolumeInfo.Description)
     </div>
 </div>
