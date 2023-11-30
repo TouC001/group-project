@@ -47,7 +47,7 @@ namespace SoftwareBookList.Models
 		// Represents a collection of Accounts a User can Create.
 		public List<UserAccount> UserAccounts { get; set; }
 
-
+		public List<Comment> UserComment { get; set; }
 
 		// Navigation property for the user's BookList
 		public BookList BookList { get; set; }
