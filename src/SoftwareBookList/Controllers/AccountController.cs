@@ -59,6 +59,8 @@ public class AccountController : Controller
 			isUniqueUsername = _userAccountServices.IsUserNameUnique(randomUsername);
 		}
 
+		DateTime dateJoined = DateTime.Now;
+
 		User user = new User()
 		{
 			FirstName = signUpViewModel.FirstName,
@@ -66,6 +68,7 @@ public class AccountController : Controller
 			EmailAddress = signUpViewModel.EmailAddress,
 			PasswordHash = passwordHasher.HashPassword(null, signUpViewModel.Password),
 			UserName = randomUsername,
+			DateJoin = dateJoined
 		};
 
 
@@ -76,14 +79,14 @@ public class AccountController : Controller
 		return RedirectToAction(nameof(LogIn));
 	}
 
-	[HttpGet("sign-in")]
+	[HttpGet("login")]
 	[AllowAnonymous]
 	public IActionResult LogIn()
 	{
 		return View();
 	}
 
-	[HttpPost("sign-in")]
+	[HttpPost("login")]
 	[AllowAnonymous]
 	public async Task<IActionResult> LogIn(LoginViewModel loginViewModel, string? returnUrl)
 	{

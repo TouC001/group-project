@@ -31,6 +31,9 @@ namespace SoftwareBookList.Models
 		[Required]
 		public bool IsAdmin { get; set; }
 
+		[Required]
+		public DateTime DateJoin { get; set; }
+
 		// Represents a collection of discussions associated with this user.
 		public List<Discussion> Discussions { get; set; }
 

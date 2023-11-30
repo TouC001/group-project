@@ -7,49 +7,80 @@
 
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-8 border border-5 rounded-3">
+        <div class="col-md-8 border border-dark border-3 rounded-3">
 
             <div class="col-md-9 container">
-                <div class="mb-3">
-                    <h5>Profile Picture</h5>
-                    <img width="230" height="250" src="@(Model.ProfilePicture.Replace("wwwroot", "") + "?timestamp=" + DateTime.Now.Ticks)" alt="Profile Picture" />
-                </div>
 
                 <div class="col-md-12">
 
                     <form method="post" enctype="multipart/form-data" asp-action="UpdateProfile" asp-controller="UserProfile">
 
-                        <div class="mb-3">
-                            <input asp-for="ProfilePicture" type="file" class="form-control" id="ProfilePicture" name="profilePicture" />
+                        <div class="mb-3 text-center">
+                            <h5>Profile Picture</h5>
+                            <img width="300" height="300" src="@(Model.ProfilePicture.Replace("wwwroot", "") + "?timestamp=" + DateTime.Now.Ticks)" alt="Profile Picture" id="a-img" />
                         </div>
+
+                        <div class="mb-3">
+                            <input asp-for="ProfilePicture" type="file" class="form-control border border-dark" id="ProfilePicture" name="profilePicture" />
+                        </div>
+
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                var fileInput = document.querySelector('input[type="file"]');
+                                var image = document.getElementById('a-img');
+
+                                fileInput.addEventListener('change', function (event) {
+                                    var file = event.target.files[0];
+                                    if (file) {
+                                        var reader = new FileReader();
+
+                                        reader.onload = function (e) {
+                                            image.src = e.target.result;
+                                        };
+
+                                        reader.readAsDataURL(file);
+                                    }
+                                });
+                            });
+                        </script>
 
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <label for="UserName" class="form-label">UserName</label>
-                                    <input asp-for="UserName" class="form-control" id="UserName" />
+                                    <label for="UserName" class="form-label fw-bold fst-italic">UserName</label>
+                                    <input asp-for="UserName" class="form-control border border-dark" id="UserName" />
                                     <span asp-validation-for="UserName" class="text-danger"></span>
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <label for="Bio" class="form-label">Bio</label>
-                                    <textarea asp-for="Bio" class="form-control" id="Bio" rows="6"></textarea>
+                                    <label for="Bio" class="form-label fw-bold fst-italic">Bio</label>
+                                    <textarea asp-for="Bio" class="form-control border border-dark" id="Bio" rows="6"></textarea>
                                     <span asp-validation-for="Bio" class="text-danger"></span>
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <div class="mb-3">
-                                    <label for="Birthday" class="form-label">Birthday</label>
-                                    <input asp-for="Birthday" class="form-control" id="Birthday" />
+                                    <label for="Birthday" class="form-label fw-bold fst-italic">Birthday</label>
+                                    <input asp-for="Birthday" class="form-control border border-dark" id="Birthday" />
                                     <span asp-validation-for="Birthday" class="text-danger"></span>
                                 </div>
                             </div>
-                        </div>
 
-                        <button type="submit" class="btn btn-primary">Save</button>
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="EmailAddress" class="form-label fw-bold fst-italic">Email Address</label>
+                                    <input asp-for="EmailAddress" class="form-control border border-dark" id="EmailAddress" />
+                                    <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <p>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <a asp-action="Account" asp-controller="UserProfile" class="btn btn-primary" role="button">Cancel</a>
+                        </p>
                     </form>
                 </div>
             </div>
