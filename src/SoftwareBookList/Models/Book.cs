@@ -72,7 +72,7 @@ namespace SoftwareBookList.Models
 		}
 
 		// Getting the total number of ratings 
-		public int TotalNumberOfRatings()
+		public float PossibleNumberRating()
 		{
 			return Math.Max(1, Reviews.Count + BookInLists.Count);
 		}
@@ -80,7 +80,8 @@ namespace SoftwareBookList.Models
 		// Gives us the rating or score based on average rating compared against TotalNumberOfRatings.
 		public double TotalScore()
 		{
-			return ComputerRating() / TotalNumberOfRatings();
+			// returns the correct average.
+			return ComputerRating();
 		}
 	}
 
