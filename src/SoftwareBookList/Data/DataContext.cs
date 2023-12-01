@@ -26,6 +26,7 @@ namespace SoftwareBookList.Data
 		public DbSet<User> Users { get; set; }
 		public DbSet<UserAccount> Accounts { get; set; }
 		public DbSet<BookInList> BookInLists { get; set; }
+		public DbSet<Comment> comments { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -51,10 +52,23 @@ namespace SoftwareBookList.Data
 				.WithMany(list => list.BookInLists)
 				.HasForeignKey(bil => bil.BookListID);
 
+			modelBuilder.Entity<Comment>()
+				.HasKey(comment => comment.CommentID);
 
+			modelBuilder.Entity<Comment>()
+				.HasOne(comment => comment.Commentor) // Configure the relationship for the 'User' navigation property in 'Comment'.
+				.WithMany(user => user.UserComment) // Indicates that a 'User' can have many Comments.
+				.HasForeignKey(comment => comment.UserID) // Specifies that the foreign key in the 'Comment' table is 'UserID'.
+				.OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete for this relationship.
 
 			modelBuilder.Entity<Book>()
 				.HasKey(book => book.BookID); // Specify the PK for Book
+
+			modelBuilder.Entity<Book>()
+				.HasMany(book => book.Comments) // A Book can have many Comments
+				.WithOne(comment => comment.CommentedBook) // A Comment is associated with one Book
+				.HasForeignKey(comment => comment.BookID) // The foreign key in Comment is BookID
+				.OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
 
 			modelBuilder.Entity<BookList>()
 				.HasKey(booklist => booklist.BookListID); // Specify the PK for BookList
@@ -64,6 +78,12 @@ namespace SoftwareBookList.Data
 				.HasOne(user => user.BookList)
 				.WithOne(bookList => bookList.User)
 				.HasForeignKey<BookList>(bookList => bookList.UserID);
+
+			modelBuilder.Entity<User>()
+				.HasMany(user => user.UserComment) // A User can have many Comments
+				.WithOne(comment => comment.Commentor) // A Comment is associated with one User
+				.HasForeignKey(comment => comment.UserID)
+				.OnDelete(DeleteBehavior.Restrict);
 
 			modelBuilder.Entity<BookListStatus>()
 				.HasKey(status => status.StatusID); // Specify the PK for BookTag

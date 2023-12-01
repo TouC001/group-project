@@ -44,6 +44,7 @@ namespace SoftwareBookList.Models
 		// One-to-Many Relationship with Review Table
 		public List<Review> Reviews { get; set; }
 
+		public List<Comment> Comments { get; set; }
 
 		// One-to-Many Relationship with Discussion Table
 		public List<Discussion> Discussions { get; set; }
