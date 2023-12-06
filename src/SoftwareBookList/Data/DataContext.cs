@@ -192,5 +192,26 @@ namespace SoftwareBookList.Data
 				await this.SaveChangesAsync();
 			}
 		}
+
+		public int GetBookIDByGoogleID(string googleID)
+		{
+			Book? book = this.Books.FirstOrDefault(google => google.GoogleID == googleID);
+
+			return book?.BookID ?? 0;
+		}
+
+		public List<Comment> GetCommentForBooks(string googleID)
+		{
+			int bookID = GetBookIDByGoogleID(googleID);
+
+			return this.comments
+				.Include(Comment => Comment.Commentor)
+				.Where(comment => comment.BookID == bookID).ToList();
+		}
+
+		public User GetUserNameFromId(int userId)
+		{
+			return this.Users.Find(userId);
+		}
 	}
 }

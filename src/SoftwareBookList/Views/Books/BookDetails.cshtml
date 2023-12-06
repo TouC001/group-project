@@ -1,6 +1,7 @@
-﻿@using SoftwareBookList.Models;
+﻿@using SoftwareBookList.Model_View
+@using SoftwareBookList.Models;
 @using SoftwareBookList.GoogleBooks;
-@model GoogleBook
+@model Book_CommentViewMmodel;
 
 @{
     Layout = "_Layout";
@@ -8,33 +9,77 @@
 
 <div class="container mt-4">
     <div class="mb-4">
-        <img src="@Model.VolumeInfo.ImageLinks.Thumbnail" alt="Thumbnail" class="img-fluid" />
+        <img src="@Model.googleBook.VolumeInfo.ImageLinks.Thumbnail" alt="Thumbnail" class="img-fluid" />
     </div>
-    <h2 class="mb-3">@Model.VolumeInfo.Title</h2>
-    <h3 class="mb-4">@Model.VolumeInfo.Subtitle</h3>
+    <h2 class="mb-3">@Model.googleBook.VolumeInfo.Title</h2>
+    <h3 class="mb-4">@Model.googleBook.VolumeInfo.Subtitle</h3>
     <div class="mb-4">
-        @string.Join(", ", Model.VolumeInfo.Authors)
+        @string.Join(", ", Model.googleBook.VolumeInfo.Authors)
     </div>
     <div class="mb-4">
-        <strong>Publisher: </strong> @Model.VolumeInfo.Publisher
+        <strong>Publisher: </strong> @Model.googleBook.VolumeInfo.Publisher
         <br />
-        <strong>Published Date: </strong> @Model.VolumeInfo.PublishedDate
+        <strong>Published Date: </strong> @Model.googleBook.VolumeInfo.PublishedDate
         <br />
 
-        @if(Model.VolumeInfo.Categories != null)
+        @if (Model.googleBook.VolumeInfo.Categories != null)
         {
-            <strong>Categories: </strong> @string.Join(", ", Model.VolumeInfo.Categories)
+            <strong>Categories: </strong> @string.Join(", ", Model.googleBook.VolumeInfo.Categories)
             <br />
         }
 
-        <strong>PageCount: </strong>@Model.VolumeInfo.PageCount
+        <strong>PageCount: </strong>@Model.googleBook.VolumeInfo.PageCount
         <br />
         <strong>ISBN</strong>
-        @Html.Raw(string.Join(", ", Model.VolumeInfo.IndustryIdentifiers.Select(i => $"{i.Identifier}")).TrimEnd(','))
+        @Html.Raw(string.Join(", ", Model.googleBook.VolumeInfo.IndustryIdentifiers.Select(i => $"{i.Identifier}")).TrimEnd(','))
     </div>
     <div class="mb-4">
         <strong>Description:</strong>
         <br />
-        @Html.Raw(Model.VolumeInfo.Description)
+        @Html.Raw(Model.googleBook.VolumeInfo.Description)
+    </div>
+</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div>
+        <form method="post" asp-action="AddComment" asp-controller="UserProfile">
+            @Html.AntiForgeryToken()
+            <div class="form-group">
+                <label for="comment" class="form-label fst-italic fw-bold">Add a comment:</label>
+                <textarea class="form-control" id="comment" name="TextContent" rows="3"></textarea>
+            </div>
+            <input type="hidden" name="UserID" value="@Model.addComment.UserID" />
+            <input type="hidden" name="BookID" value="@Model.addComment.BookID" />
+            <button type="submit" class="btn btn-primary mt-1">Submit Comment</button>
+        </form>
+    </div>
+}
+else
+{
+    <div class="form-group">
+        <label for="comment" class="form-label fst-italic fw-bold">Add a comment:</label>
+        <textarea class="form-control" id="comment" name="TextContent" rows="3"></textarea>
+    </div>
+    <a href="@Url.Action("Login", "Account", new { ReturnUrl = $"{Context.Request.Path}?googleID={Model.googleBook.Id}" })" class="btn btn-primary text-nowrap mt-1">Login To Comment</a>
+
+
+
+}
+
+<div>
+    <div>
+        @foreach (var comment in Model.comments)
+        {
+            <div class="card mt-2">
+                <div class="card-header bg-secondary bg-opacity-25">
+                    @comment.Commentor.UserName
+                </div>
+                <div class="card-body p-2">
+                    <p class="card-text mb-0">@comment.Content</p>
+                    <p class="small text-muted text-end mb-0">@comment.CreatedAt</p>
+                </div>
+            </div>
+        }
     </div>
 </div>
