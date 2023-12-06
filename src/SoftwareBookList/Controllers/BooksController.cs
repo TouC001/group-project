@@ -79,6 +79,14 @@ namespace SoftwareBookList.Controllers
 
         public async Task<IActionResult> BookDetails(string googleID)
         {
+            int UserID = 0;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+            }
+
             GoogleBook googleBook = await _googleBooksService.GetSingleBookAsync(googleID);
 
             if (googleBook == null)
@@ -86,7 +94,7 @@ namespace SoftwareBookList.Controllers
                 return NotFound();
             }
 
-            return View(googleBook);
+            return View(new Book_CommentViewMmodel() { googleBook = googleBook, addComment = new() { UserID = UserID, BookID = googleBook.Id}, comments = _context.GetCommentForBooks(googleID) });
         }
 
         [HttpPost("AddToList")]

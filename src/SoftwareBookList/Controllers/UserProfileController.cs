@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SoftwareBookList.Data;
+using SoftwareBookList.Model_View;
 using SoftwareBookList.Models;
 using SoftwareBookList.Services;
 using System.Security.Claims;
@@ -169,6 +170,31 @@ namespace SoftwareBookList.Controllers
 			{
 				return View("Account", userProfile);
 			}
+		}
+
+		[HttpPost("AddComment")]
+		public async Task<IActionResult> AddComment(AddCommentViewModel addComment)
+		{
+			if (!ModelState.IsValid)
+			{
+				return RedirectToAction("BookDetails");
+			}
+
+			int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+			Comment newComment = new Comment()
+			{
+				UserID = addComment.UserID,
+				Commentor = _context.GetUserNameFromId(UserID),
+				BookID = _context.GetBookIDByGoogleID(addComment.BookID),
+				Content = addComment.textContent,
+				CreatedAt = DateTime.Now
+			};
+
+			_context.comments.Add(newComment);
+			_context.SaveChanges();
+
+			return RedirectToAction("BookDetails", "Books", new { googleID = addComment.BookID});
 		}
 	}
 }
