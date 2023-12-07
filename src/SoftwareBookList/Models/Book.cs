@@ -63,7 +63,12 @@ namespace SoftwareBookList.Models
             // if the rating count is 0 for a book, we will place it at the end.
             if (ratings.Count > 0)
             {
-                return ratings.Average();
+                // return ratings.Average();
+
+                double averageRating = ratings.Average();
+
+                // Rounds the average rating to one decimal.
+                return Math.Round(averageRating, 1);
             }
             else
             {
@@ -89,7 +94,6 @@ namespace SoftwareBookList.Models
             return BookInLists.Count;
         }
     }
-
 }
 
 

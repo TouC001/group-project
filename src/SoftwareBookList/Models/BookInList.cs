@@ -28,10 +28,5 @@ namespace SoftwareBookList.Models
             BookListID = bookListID;
             RatingValue = ratingValue;
         }
-
-        public BookInList()
-        {
-
-        }
     }
 }
