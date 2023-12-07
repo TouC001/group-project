@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SoftwareBookList.Data;
 using SoftwareBookList.Model_View;
 using SoftwareBookList.Models;
@@ -24,7 +25,7 @@ namespace SoftwareBookList.Controllers
 		}
 
 		[HttpGet("Account")]
-		public IActionResult Account()
+		public IActionResult Account(int page = 1)
 		{
 
 			int UserID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
@@ -37,7 +38,7 @@ namespace SoftwareBookList.Controllers
 
 			DateTime dateJoined = _userProfileServices.GetJoinedDate(UserID);
 
-			if (userProfileView == null)
+            if (userProfileView == null)
 			{
 				return NotFound();
 			}

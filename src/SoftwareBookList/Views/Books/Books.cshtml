@@ -9,11 +9,11 @@
     <table class="table border border-2 border-dark">
         <thead>
             <tr>
-                <th scope="col">Rank</th>
-                <th scope="col">Image</th>
-                <th class="text-center" scope="col">Score</th>
-                <th class="text-center" scope="col">Your Score</th>
-                <th class="text-center" scope="col">Your Status</th>
+                <th scope="col" class="text-center col-1">Rank</th>
+                <th scope="col" class="col-9">Title</th>
+                <th class="text-center col-1" scope="col">Score</th>
+                <th class="text-center col-1" scope="col">Your Score</th>
+                <th class="text-center col-1" scope="col">Your Status</th>
             </tr>
         </thead>
         <tbody>
@@ -22,18 +22,18 @@
             {
                 var book = Model.Books.ToList()[i];
                 <tr>
-                    <td>@(i + 1 + (Model.PageSize * (Model.CurrentPage - 1)))</td>
+                    <td class="text-center fs-3">@(i + 1 + (Model.PageSize * (Model.CurrentPage - 1)))</td>
                     <td class="align-middle">
                         <a href="@Url.Action("BookDetails", new { googleID = book.GoogleID })" class="text-decoration-none text-dark">
                             <div class="d-flex align-items-center">
-                                <img width="80" src="@book.Thumbnail" alt="Thumbnail" class="rounded mr-2" />
-                                <h2 class="ms-4" style="flex-grow: 1;">@book.Title</h2>
+                                <img width="80" src="@book.Thumbnail" alt="Thumbnail" class="rounded border border-1 mr-2" />
+                                <h2 class="ms-4 fst-italic fs-3">@book.Title</h2>
                             </div>
                         </a>
                     </td>
 
-                    <td class="text-center">@book.DbTotalScore</td>
-                    <td class="text-center">User's Score Here</td>
+                    <td class="text-center fs-3">@book.DbTotalScore <span class="text-muted fs-3">(@book.NumberRating())</span></td>
+                    <td class="text-center fs-3">9.5</td>
                     <td class="text-center">
                         @* Checking if User is Logged in, if not, take them to the login view. *@
                         @if (!User.Identity.IsAuthenticated)    

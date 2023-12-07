@@ -42,7 +42,7 @@ namespace SoftwareBookList.Controllers
 
             int pageSize = 50; // Display 50 books per page
 
-            IQueryable<Book> allBooksQuery = _context.Books.AsQueryable().OrderByDescending(b => b.DbTotalScore);
+            IQueryable<Book> allBooksQuery = _context.Books.Include(b => b.BookInLists).AsQueryable().OrderByDescending(b => b.DbTotalScore);
 
             // Create a paginated list
             BookPaginatedList<Book> paginatedList = new BookPaginatedList<Book>(allBooksQuery, page, pageSize);
@@ -199,7 +199,13 @@ namespace SoftwareBookList.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                BookInList bookInList = await _context.BookInLists.FirstOrDefaultAsync(bil => bil.BookID == bookID);
+                int userID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+
+                int bookListID = await _addBooksService.GetBookListIDForUser(userID);
+
+                // Find the book in the user's list
+                BookInList bookInList = await _context.BookInLists.FirstOrDefaultAsync(bil => bil.BookID == bookID && bil.BookListID == bookListID);
+
 
                 if (bookInList != null)
                 {
