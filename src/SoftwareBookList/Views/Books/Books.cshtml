@@ -31,9 +31,16 @@
                             </div>
                         </a>
                     </td>
-
+                    @{
+                        Dictionary<int, double> userScores = ViewData["UserScore"] as Dictionary<int, double>;
+                    }
                     <td class="text-center fs-3">@book.DbTotalScore <span class="text-muted fs-3">(@book.NumberRating())</span></td>
-                    <td class="text-center fs-3">9.5</td>
+                    <td class="text-center fs-3">
+                        @if (userScores.ContainsKey(book.BookID))
+                        {
+                            <p>@userScores[book.BookID]</p>
+                        }
+                    </td>
                     <td class="text-center">
                         @* Checking if User is Logged in, if not, take them to the login view. *@
                         @if (!User.Identity.IsAuthenticated)    

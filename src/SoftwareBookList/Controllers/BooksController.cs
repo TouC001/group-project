@@ -42,6 +42,9 @@ namespace SoftwareBookList.Controllers
 
             int pageSize = 50; // Display 50 books per page
 
+            Dictionary<int, double> userScore = new Dictionary<int, double>();
+
+
             IQueryable<Book> allBooksQuery = _context.Books.Include(b => b.BookInLists).AsQueryable().OrderByDescending(b => b.DbTotalScore);
 
             // Create a paginated list
@@ -57,19 +60,32 @@ namespace SoftwareBookList.Controllers
             {
                 int userID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
                 int bookListID = await _addBooksService.GetBookListIDForUser(userID);
+                List<BookInList> bookInList = _context.BookInLists.Where(x => x.BookListID == bookListID).ToList();
+
+                List<int> addedBookIds = bookInList.Select(x => x.BookID).Distinct().ToList();
 
                 // Loop through the list of books and check if each one is already added to the user's list
                 foreach (var book in books)
                 {
                     int bookID = book.BookID;
 
-                    bool isBookAlreadyAdded = CheckIfBookIsAdded(bookID, bookListID);
+                    bool isBookAlreadyAdded = addedBookIds.Contains(bookID);
 
                     // Store the result in the dictionary, using the bookID as the key
                     bookAlreadyAddedMap[bookID] = isBookAlreadyAdded;
+
+                    var userBookInList = bookInList.FirstOrDefault(x => x.BookID == bookID);
+
+                    if (userBookInList != null)
+                    {
+                        userScore.Add(bookID, userBookInList.RatingValue);
+                    }
                 }
             }
-            
+
+            // grabs the user score. 
+            ViewData["UserScore"] = userScore;
+
             // Pass the dictionary to the view using ViewData, so it can be available in the Razor view
             ViewData["BookAlreadyAddedMap"] = bookAlreadyAddedMap;
 
