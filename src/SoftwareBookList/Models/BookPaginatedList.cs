@@ -9,6 +9,7 @@
         public BookPaginatedList(IQueryable<T> books, int currentPage, int pageSize)
         {
             CurrentPage = currentPage;
+            // TODO: performance hit here .Count()
             TotalPages = (int)Math.Ceiling(books.Count() / (double)pageSize);
             Books = books.Skip((currentPage - 1) * pageSize).Take(pageSize);
             this.PageSize = pageSize;

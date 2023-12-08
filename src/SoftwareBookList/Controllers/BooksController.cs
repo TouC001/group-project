@@ -7,6 +7,8 @@ using SoftwareBookList.GoogleBooks;
 using SoftwareBookList.Model_View;
 using SoftwareBookList.Models;
 using SoftwareBookList.Services;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Security.Claims;
 using System.Text;
@@ -40,18 +42,27 @@ namespace SoftwareBookList.Controllers
         public async Task<IActionResult> Books(int page = 1)
         {
 
-            int pageSize = 50; // Display 50 books per page
+            int pageSize = 30; // Display 30 books per page
 
             Dictionary<int, double> userScore = new Dictionary<int, double>();
 
+            Stopwatch sw1 = Stopwatch.StartNew();
+            // Stopwatch took 1.6 seconds here
+            IQueryable<Book> allBooksQuery = _context.Books.Include(b => b.BookInLists).OrderByDescending(b => b.DbTotalScore);
 
-            IQueryable<Book> allBooksQuery = _context.Books.Include(b => b.BookInLists).AsQueryable().OrderByDescending(b => b.DbTotalScore);
-
+            sw1.Stop();
+            Console.WriteLine(sw1.Elapsed.TotalSeconds);
+            Stopwatch sw2 = Stopwatch.StartNew();
             // Create a paginated list
             BookPaginatedList<Book> paginatedList = new BookPaginatedList<Book>(allBooksQuery, page, pageSize);
+            sw2.Stop();
+            Console.WriteLine(sw2.Elapsed.TotalSeconds);
+
 
             // Get the list of books for the current page
             List<Book> books = paginatedList.Books.ToList();
+
+
 
             // Creating a Dictionary to store whether each book is already added
             Dictionary<int, bool> bookAlreadyAddedMap = new Dictionary<int, bool>();
