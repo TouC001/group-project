@@ -55,10 +55,10 @@ namespace SoftwareBookList.Models
             List<int> ratings = new List<int>();
 
             // That is putting all the book in list ratings into that list.
-            ratings.AddRange(BookInLists.Select(b => b.RatingValue));
+            ratings.AddRange(BookInLists.Where(b => b.RatingValue != 0).Select(b => b.RatingValue));
 
             // This is putting the ratings from the book in list and appends the ratings from the reviews.
-            ratings.AddRange(Reviews.Select(r => r.RatingValue));
+            ratings.AddRange(Reviews.Where(b => b.RatingValue != 0).Select(r => r.RatingValue));
 
             // if the rating count is 0 for a book, we will place it at the end.
             if (ratings.Count > 0)
