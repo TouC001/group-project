@@ -154,16 +154,21 @@ namespace SoftwareBookList.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                BookInList oldBookInList = await _context.BookInLists.FirstOrDefaultAsync(bil => bil.BookID == editBookViewModel.BookID);
-
                 int userID = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-
                 int bookListID = await _addBooksService.GetBookListIDForUser(userID);
+
+                // Check if the user's profile is fully updated
+                if (bookListID == 0)
+                {
+                    // Return an error message if the user's profile is not fully updated
+                    ModelState.AddModelError("", "User's profile is not fully updated.");
+                    return View(editBookViewModel);
+                }
+
+                BookInList oldBookInList = await _context.BookInLists.FirstOrDefaultAsync(bil => bil.BookID == editBookViewModel.BookID && bil.BookListID == bookListID);
 
                 if (oldBookInList != null)
                 {
-                    await DeleteOldBookInList(oldBookInList);
-
                     //Creating a New BookInList Object with updated Status and RatingValue
                     BookInList newBookInList = new BookInList
                     (
@@ -171,26 +176,28 @@ namespace SoftwareBookList.Controllers
                         editBookViewModel.StatusID,
                         bookListID,
                         editBookViewModel.RatingValue
-
                     );
 
-                    _context.BookInLists.Add(newBookInList);
+                    _context.Entry(oldBookInList).State = EntityState.Deleted;
+                    await _context.SaveChangesAsync();
 
+                    _context.BookInLists.Add(newBookInList);
                     await _context.SaveChangesAsync();
 
                     await _context.RefreshBookRating(newBookInList.BookID);
 
                     return Redirect("Account");
                 }
-
             }
 
             return View(editBookViewModel);
         }
 
+
         private async Task DeleteOldBookInList(BookInList oldBookInList)
         {
             _context.BookInLists.Remove(oldBookInList);
+
             await _context.SaveChangesAsync();
         }
 
