@@ -162,6 +162,7 @@ namespace SoftwareBookList.Controllers
 
                 if (oldBookInList != null)
                 {
+                    await DeleteOldBookInList(oldBookInList);
 
                     //Creating a New BookInList Object with updated Status and RatingValue
                     BookInList newBookInList = new BookInList
@@ -172,8 +173,6 @@ namespace SoftwareBookList.Controllers
                         editBookViewModel.RatingValue
 
                     );
-
-                    _context.BookInLists.Remove(oldBookInList);
 
                     _context.BookInLists.Add(newBookInList);
 
@@ -188,6 +187,13 @@ namespace SoftwareBookList.Controllers
 
             return View(editBookViewModel);
         }
+
+        private async Task DeleteOldBookInList(BookInList oldBookInList)
+        {
+            _context.BookInLists.Remove(oldBookInList);
+            await _context.SaveChangesAsync();
+        }
+
 
         [HttpPost("RemoveBook")]
         public async Task<IActionResult> RemoveBook(int bookID)
