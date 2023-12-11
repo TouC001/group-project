@@ -35,10 +35,11 @@ public class AccountController : Controller
 		}
 
 		User existingUser = _userAccountServices.GetUser(signUpViewModel.EmailAddress);
+
 		if (existingUser != null)
 		{
 			// Set email address already in use error message.
-			ModelState.AddModelError("Error", "An account already exists with that email address.");
+			ModelState.AddModelError("", "An account already exists with that email address.");
 
 			return View();
 		}
@@ -58,6 +59,8 @@ public class AccountController : Controller
 			isUniqueUsername = _userAccountServices.IsUserNameUnique(randomUsername);
 		}
 
+		DateTime dateJoined = DateTime.Now;
+
 		User user = new User()
 		{
 			FirstName = signUpViewModel.FirstName,
@@ -65,6 +68,7 @@ public class AccountController : Controller
 			EmailAddress = signUpViewModel.EmailAddress,
 			PasswordHash = passwordHasher.HashPassword(null, signUpViewModel.Password),
 			UserName = randomUsername,
+			DateJoin = dateJoined
 		};
 
 
@@ -75,14 +79,14 @@ public class AccountController : Controller
 		return RedirectToAction(nameof(LogIn));
 	}
 
-	[HttpGet("sign-in")]
+	[HttpGet("login")]
 	[AllowAnonymous]
 	public IActionResult LogIn()
 	{
 		return View();
 	}
 
-	[HttpPost("sign-in")]
+	[HttpPost("login")]
 	[AllowAnonymous]
 	public async Task<IActionResult> LogIn(LoginViewModel loginViewModel, string? returnUrl)
 	{
@@ -96,17 +100,12 @@ public class AccountController : Controller
 		if (user == null)
 		{
 			// Set email address not registered error message.
-			ModelState.AddModelError("Error", "An account does not exist with that email address.");
+			ModelState.AddModelError("", "Invalid Email.");
 
 			return View();
 		}
 
 		PasswordHasher<string> passwordHasher = new PasswordHasher<string>();
-
-		if (user.PasswordHash == "green")
-		{
-			user.PasswordHash = passwordHasher.HashPassword(null, user.PasswordHash);
-		}
 
 		PasswordVerificationResult passwordVerificationResult =
 			passwordHasher.VerifyHashedPassword(null, user.PasswordHash, loginViewModel.Password);
@@ -114,7 +113,7 @@ public class AccountController : Controller
 		if (passwordVerificationResult == PasswordVerificationResult.Failed)
 		{
 			// Set invalid password error message.
-			ModelState.AddModelError("Error", "Invalid password.");
+			ModelState.AddModelError("", "Invalid password.");
 
 			return View();
 		}

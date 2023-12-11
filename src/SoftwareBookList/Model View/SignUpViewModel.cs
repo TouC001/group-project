@@ -4,28 +4,24 @@ namespace SoftwareBookList.Models
 {
 	public class SignUpViewModel
 	{
-		[Required]
-		[Display(Name = "First Name")]
+		[Required(ErrorMessage = "*This field is required")]
 		public string FirstName { get; set; }
 
-		[Required]
-		[Display(Name = "Last Name")]
+		[Required(ErrorMessage = "*This field is required")]
 		public string LastName { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "*This field is required")]
 		[DataType(DataType.EmailAddress)]
-		[Display(Name = "Email Address")]
 		public string EmailAddress { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "*This field is required")]
 		[DataType(DataType.Password)]
 		[StringLength(255, ErrorMessage = "Password must be between 5 and 255 characters", MinimumLength = 5)]
 		public string Password { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "*This field is required")]
 		[DataType(DataType.Password)]
 		[Compare(nameof(Password))]
-		[Display(Name = "Confirm your Password")]
 		public string PasswordConfirm { get; set; }
 	}
 }

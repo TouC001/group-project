@@ -5,83 +5,150 @@
     Layout = "_Layout";
 }
 
-<div class="container mt-5">
+<div class="container">
 
-    <div class="row">
-
-        <div class="col-md-3">
-
-            <h2>Profile Picture</h2>
-
-            @if (!string.IsNullOrEmpty(Model.ProfilePicture))
-            {
-                @* Added a timestamp to make it so, when a user uploads a new image, it updates right away. *@
-                <img width="200" src="@(Model.ProfilePicture.Replace("wwwroot", "") + "?timestamp=" + DateTime.Now.Ticks)" alt="Profile Picture" />
-            }
-
+    <div class="row border-bottom">
+        <div class="col text-black fw-bold fst-italic py-3">
+            <h3 class="text-decoration-underline">
+                <text>
+                    @(User.FindFirst(x => x.Type == "userName").Value)'s Profile
+                </text>
+            </h3>
         </div>
-
-        <div class="col-md-9">
-
-            <p><strong>UserName:</strong> @Model.UserName</p>
-
-
-            <p><strong>Bio:</strong> @Model.Bio</p>
-
-
-            <p><strong>Birthday:</strong> @Model.Birthday.ToShortDateString()</p>
-
+        <div class="col text-end">
             <a asp-controller="UserProfile" asp-action="EditProfile" class="btn btn-primary">Edit Profile</a>
-
         </div>
-
     </div>
 
-</div>
+    <div class="mt-3">
 
-<!-- Activity Feed Section -->
-<div class="container mt-5">
-    <h2>Activity Feed</h2>
-    <ul class="list-group">
-        <!-- Add user's activity feed items here -->
-        <li class="list-group-item">Activity 1</li>
-        <li class="list-group-item">Activity 2</li>
-    </ul>
-</div>
+        <div class="row pt-sm-4">
 
+            <div class="col-md-3">
 
-<div class="container mt-6">
+                <div class="mb-3">
 
-    <h2>Favorite Software Book</h2>
+                    <h5>Profile Picture:</h5>
 
-    <div class="row">
+                    @if (!string.IsNullOrEmpty(Model.ProfilePicture))
+                    {
+                        @* Added a timestamp to make it so, when a user uploads a new image, it updates right away. *@
+                        <img width="200" height="230" src="@(Model.ProfilePicture.Replace("wwwroot", "") + "?timestamp=" + DateTime.Now.Ticks)" alt="Profile Picture" />
+                    }
+                    else
+                    {
+                        @* Placeholder for the profile picture when no picture is uploaded. *@
+                        <div class="p-3 bg-secondary bg-opacity-10">
+                            <p class="text-muted">No Profile Picture</p>
+                        </div>
+                    }
 
-       @* Using the entire page with col-md-12 to make it full width *@
-        <div class="col-md-12 border border-2 mb-2">
-
-            <div id="carouselFade" class="carousel slide carousel-fade" data-ride="carousel">
-
-                <div class="carousel-inner">
-
-                   
                 </div>
 
-                @* The "Prev" Button to go back. *@
-                <button class="carousel-control-prev bg-dark" style="width: 30px;" type="button" data-bs-target="#carouselFade" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
+                <div class="col-md-9 py-2">
+                    <div class="card border-0">
+                        <div class="card-header bg-Secondary text-black">
+                            <h6 class="card-title fst-italic">Joined On:</h6>
+                        </div>
+                        <div class="card-body bg-Secondary bg-opacity-25 text-black">
+                            <h6 class="card-text">@Model.DateJoin.ToString("MM-dd-yyyy")</h6>
+                        </div>
+                    </div>
+                </div>
 
-                @* The "Next" Button to go to the next book in the carousel. *@
-                <button class="carousel-control-next bg-dark" style="width: 30px;" type="button" data-bs-target="#carouselFade" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+                <div class="col-md-9 py-2">
+                    <div class="card border-0">
+                        <div class="card-header bg-Secondary text-black">
+                            <h6 class="card-title fst-italic">Email Address:</h6>
+                        </div>
+                        <div class="card-body bg-Secondary bg-opacity-25 text-black">
+                            <h6 class="card-text">@Model.EmailAddress</h6>
+                        </div>
+                    </div>
+                </div>
 
+                <div class="col-md-9 py-2">
+                    <div class="card border-0">
+                        <div class="card-header bg-Secondary text-black">
+                            @if (Model.Birthday.HasValue)
+                            {
+                                <h6 class="fst-italic">Birthday:</h6>
+                            }
+                            else
+                            {
+                                <h6>No birthday specified</h6>
+                            }
+                        </div>
+
+                        <div class="card-body bg-Secondary bg-opacity-25 text-black">
+                            <h6 class="card-text">@Model.Birthday.Value.ToShortDateString()</h6>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-8">
+                <div class="card border border-3 rounded p-3">
+                    <p>@Model.Bio</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mt-5">
+                        <h2 class="text-center">Activity Feed</h2>
+                        <ul class="list-group">
+                            <li class="list-group-item">Activity 1</li>
+                            <li class="list-group-item">Activity 2</li>
+                            <li class="list-group-item">Activity 3</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mt-5">
+                        <h2 class="text-center">Blogs</h2>
+                        <ul class="list-group">
+                            <li class="list-group-item">Blog 1</li>
+                            <li class="list-group-item">Blog 2</li>
+                            <li class="list-group-item">Blog 3</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4 mt-5">
+                        <h2 class="text-center">Forums</h2>
+                        <ul class="list-group">
+                            <li class="list-group-item">Forums 1</li>
+                            <li class="list-group-item">Forums 2</li>
+                            <li class="list-group-item">Forums 3</li>
+                        </ul>
+                     </div>
+                </div>
             </div>
 
         </div>
 
     </div>
 
+
+
+
+    <div class="container mt-6">
+
+        <h2 class="text-center fst-italic fw-bold mt-3">Favorite Software Book</h2>
+
+        <div class="row">
+
+            @* Using the entire page with col-md-12 to make it full width *@
+            <div class="col-md-12 border border-2 mb-2 rounded p-2">
+
+                @if (Model.UserBookList != null && Model.UserBookList.BookInLists != null && Model.UserBookList.BookInLists.Count > 0)
+                {
+                    @Html.Partial("_BookListWithFilterPartial", Model.UserBookList.BookInLists)
+                }
+                else
+                {
+                    <p>No books to display.</p>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
 </div>
+

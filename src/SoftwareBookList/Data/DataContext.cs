@@ -21,12 +21,12 @@ namespace SoftwareBookList.Data
 		public DbSet<BookTag> BookTags { get; set; }
 		public DbSet<Discussion> Discussions { get; set; }
 		public DbSet<Message> Messages { get; set; }
-		public DbSet<Rating> Ratings { get; set; }	
 		public DbSet<Review> Reviews { get; set; }
 		public DbSet<Tag> Tags { get; set; }
 		public DbSet<User> Users { get; set; }
 		public DbSet<UserAccount> Accounts { get; set; }
 		public DbSet<BookInList> BookInLists { get; set; }
+		public DbSet<Comment> comments { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -52,9 +52,23 @@ namespace SoftwareBookList.Data
 				.WithMany(list => list.BookInLists)
 				.HasForeignKey(bil => bil.BookListID);
 
+			modelBuilder.Entity<Comment>()
+				.HasKey(comment => comment.CommentID);
+
+			modelBuilder.Entity<Comment>()
+				.HasOne(comment => comment.Commentor) // Configure the relationship for the 'User' navigation property in 'Comment'.
+				.WithMany(user => user.UserComment) // Indicates that a 'User' can have many Comments.
+				.HasForeignKey(comment => comment.UserID) // Specifies that the foreign key in the 'Comment' table is 'UserID'.
+				.OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete for this relationship.
 
 			modelBuilder.Entity<Book>()
 				.HasKey(book => book.BookID); // Specify the PK for Book
+
+			modelBuilder.Entity<Book>()
+				.HasMany(book => book.Comments) // A Book can have many Comments
+				.WithOne(comment => comment.CommentedBook) // A Comment is associated with one Book
+				.HasForeignKey(comment => comment.BookID) // The foreign key in Comment is BookID
+				.OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
 
 			modelBuilder.Entity<BookList>()
 				.HasKey(booklist => booklist.BookListID); // Specify the PK for BookList
@@ -65,8 +79,32 @@ namespace SoftwareBookList.Data
 				.WithOne(bookList => bookList.User)
 				.HasForeignKey<BookList>(bookList => bookList.UserID);
 
+			modelBuilder.Entity<User>()
+				.HasMany(user => user.UserComment) // A User can have many Comments
+				.WithOne(comment => comment.Commentor) // A Comment is associated with one User
+				.HasForeignKey(comment => comment.UserID)
+				.OnDelete(DeleteBehavior.Restrict);
+
 			modelBuilder.Entity<BookListStatus>()
 				.HasKey(status => status.StatusID); // Specify the PK for BookTag
+
+			modelBuilder.Entity<BookListStatus>().HasData(
+				new BookListStatus
+				{
+					StatusID = 1,
+					StatusName = "Read"
+				},
+				new BookListStatus
+				{
+					StatusID = 2,
+					StatusName = "Plan to Read"
+				},
+				new BookListStatus
+				{
+					StatusID = 3,
+					StatusName = "Currently Reading"
+				}
+				);
 
 
 			modelBuilder.Entity<BookTag>()
@@ -104,11 +142,10 @@ namespace SoftwareBookList.Data
 				.HasForeignKey(message => message.RecipientID) // The foreign key in Message is RecipientID
 				.OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete
 
-			modelBuilder.Entity<Rating>()
-				.HasKey(rating => rating.RatingID); // Specify the PK for BookTag
 
 			modelBuilder.Entity<Review>()
 				.HasKey(review => review.ReviewID); // Specify the PK for Review
+
 
 			modelBuilder.Entity<Review>()
 				.HasOne(u => u.User)
@@ -120,10 +157,6 @@ namespace SoftwareBookList.Data
 				.WithMany(b => b.Reviews)
 				.HasForeignKey(u => u.BookID);
 
-			modelBuilder.Entity<Review>()
-				.HasOne(r => r.Rating)
-				.WithMany(u => u.Reviews)
-				.HasForeignKey(u => u.RatingID);
 
 			modelBuilder.Entity<Tag>()
 				.HasKey(tag => tag.TagId); // Specify the PK for BookTag
@@ -143,6 +176,42 @@ namespace SoftwareBookList.Data
 
 			base.OnModelCreating(modelBuilder);
 
+		}
+
+		public async Task RefreshBookRating(int BookID)
+		{
+			Book? book = await this.Books.AsNoTracking().Include(b => b.BookInLists).Include(b => b.Reviews).FirstOrDefaultAsync(b => b.BookID == BookID);
+
+			if (book != null)
+			{
+				book.DbTotalScore = book.TotalScore();
+				book.Reviews = null;
+				book.BookInLists = null;
+
+				this.Books.Update(book);
+				await this.SaveChangesAsync();
+			}
+		}
+
+		public int GetBookIDByGoogleID(string googleID)
+		{
+			Book? book = this.Books.FirstOrDefault(google => google.GoogleID == googleID);
+
+			return book?.BookID ?? 0;
+		}
+
+		public List<Comment> GetCommentForBooks(string googleID)
+		{
+			int bookID = GetBookIDByGoogleID(googleID);
+
+			return this.comments
+				.Include(Comment => Comment.Commentor)
+				.Where(comment => comment.BookID == bookID).ToList();
+		}
+
+		public User GetUserNameFromId(int userId)
+		{
+			return this.Users.Find(userId);
 		}
 	}
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SoftwareBookList.Data;
 
@@ -11,9 +12,11 @@ using SoftwareBookList.Data;
 namespace SoftwareBookList.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231102013857_Sprint4Initial")]
+    partial class Sprint4Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,9 +32,6 @@ namespace SoftwareBookList.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookID"));
-
-                    b.Property<double>("DbTotalScore")
-                        .HasColumnType("float");
 
                     b.Property<string>("GoogleID")
                         .IsRequired()
@@ -50,8 +50,6 @@ namespace SoftwareBookList.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("BookID");
-
-                    b.HasIndex("BookID", "DbTotalScore");
 
                     b.ToTable("Books");
                 });
@@ -155,37 +153,6 @@ namespace SoftwareBookList.Migrations
                     b.HasIndex("TagID");
 
                     b.ToTable("BookTags");
-                });
-
-            modelBuilder.Entity("SoftwareBookList.Models.Comment", b =>
-                {
-                    b.Property<int>("CommentID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CommentID"));
-
-                    b.Property<int>("BookID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(5000)
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("UserID")
-                        .HasColumnType("int");
-
-                    b.HasKey("CommentID");
-
-                    b.HasIndex("BookID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("comments");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.Discussion", b =>
@@ -325,9 +292,6 @@ namespace SoftwareBookList.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
 
-                    b.Property<DateTime>("DateJoin")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -366,17 +330,14 @@ namespace SoftwareBookList.Migrations
 
                     b.Property<string>("Bio")
                         .IsRequired()
-                        .HasMaxLength(30000)
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
-                    b.Property<DateTime?>("Birthday")
+                    b.Property<DateTime>("Birthday")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("EmailAddress")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("ProfilePicture")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("UserID")
@@ -448,25 +409,6 @@ namespace SoftwareBookList.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("Tag");
-                });
-
-            modelBuilder.Entity("SoftwareBookList.Models.Comment", b =>
-                {
-                    b.HasOne("SoftwareBookList.Models.Book", "CommentedBook")
-                        .WithMany("Comments")
-                        .HasForeignKey("BookID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("SoftwareBookList.Models.User", "Commentor")
-                        .WithMany("UserComment")
-                        .HasForeignKey("UserID")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("CommentedBook");
-
-                    b.Navigation("Commentor");
                 });
 
             modelBuilder.Entity("SoftwareBookList.Models.Discussion", b =>
@@ -559,8 +501,6 @@ namespace SoftwareBookList.Migrations
 
                     b.Navigation("BookTags");
 
-                    b.Navigation("Comments");
-
                     b.Navigation("Discussions");
 
                     b.Navigation("Reviews");
@@ -600,8 +540,6 @@ namespace SoftwareBookList.Migrations
                     b.Navigation("SentMessages");
 
                     b.Navigation("UserAccounts");
-
-                    b.Navigation("UserComment");
                 });
 #pragma warning restore 612, 618
         }

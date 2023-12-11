@@ -1,0 +1,310 @@
+﻿@using SoftwareBookList.Models;
+@model List<BookInList>
+
+@{
+    // Sort the Model by RatingValue in descending order (highest rating first)
+    var sortedModel = Model.OrderByDescending(book => book.RatingValue);
+}
+
+<div class="container">
+    <ul class="nav nav-tabs" id="myTabs" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#all" role="tab" aria-controls="all" aria-selected="true">All</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#read" role="tab" aria-controls="read" aria-selected="false">Read</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#currently-reading" role="tab" aria-controls="currently-reading" aria-selected="false">Currently Reading</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#plan-to-read" role="tab" aria-controls="plan-to-read" aria-selected="false">Plan To Read</a>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="myTabsContent">
+        <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+            @if (sortedModel != null && sortedModel.Any())
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Thumbnail</th>
+                            <th>Title</th>
+                            <th class="text-center">Personal Score</th>
+                            <th class="text-center">Edit</th>
+                            <th class="text-center">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var bookInList in sortedModel)
+                        {
+                            <tr>
+                                <td><img width="80" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
+                                <td>@bookInList.Book.Title</td>
+                                <td class="text-center">Score: @bookInList.RatingValue</td>
+                                <td class="text-center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editBookModal-@bookInList.BookID">Edit</button></td>
+                                <td class="text-center">
+                                    <form method="post" action="@Url.Action("RemoveBook", "Books")">
+                                        <input type="hidden" name="bookID" value="@bookInList.BookID">
+                                        <button type="submit" class="btn btn-danger">Remove</button>
+
+                                    </form>
+                                </td>
+                            </tr>
+
+                            <div class="modal fade" id="editBookModal-@bookInList.BookID" tabindex="-1" role="dialog" aria-labelledby="editBookModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+
+                                            <form method="post" action="@Url.Action("EditBook", "Books", new { bookID = bookInList.BookID })">
+                                                <div class="modal-body">
+                                                    <div class="form-group pb-1">
+                                                        <label for="bookTitle">Book Title</label>
+                                                        <input type="text" class="form-control" id="bookTitle" placeholder="@bookInList.Book.Title" readonly>
+                                                    </div>
+                                                    <div class="form-group py-3">
+                                                        <label for="status">Status</label>
+                                                        <select class="form-control" name="StatusID" required>
+                                                            <option value="1" selected="@(bookInList.StatusID == 1)">Read</option>
+                                                            <option value="2" selected="@(bookInList.StatusID == 2)">Currently Reading</option>
+                                                            <option value="3" selected="@(bookInList.StatusID == 3)">Plan to Read</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group pt-1">
+                                                        <label for="rating">Personal Rating</label>
+                                                        <input type="number" class="form-control" name="RatingValue" min="1" max="10" value="@bookInList.RatingValue" required>
+                                                        <small class="form-text text-muted">Enter a value between 1-10</small>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+        <div class="tab-pane fade" id="read" role="tabpanel" aria-labelledby="read-tab">
+            @if (sortedModel != null && sortedModel.Any())
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Thumbnail</th>
+                            <th>Title</th>
+                            <th class="text-center">Personal Score</th>
+                            <th class="text-center">Edit</th>
+                            <th class="text-center">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var bookInList in sortedModel.Where(b => b.StatusID == 1))
+                        {
+                            <tr>
+                                <td><img width="80" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
+                                <td>@bookInList.Book.Title</td>
+                                <td class="text-center">Score: @bookInList.RatingValue</td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#readEditBookModal-@bookInList.BookID">Edit</button>
+
+                                </td>
+                                <td class="text-center">
+                                    <form method="post" action="@Url.Action("RemoveBook", "Books")">
+                                        <input type="hidden" name="bookID" value="@bookInList.BookID">
+                                        <button type="submit" class="btn btn-danger">Remove</button>
+
+                                    </form>
+                                </td>
+                            </tr>
+
+                            <div class="modal fade" id="readEditBookModal-@bookInList.BookID" tabindex="-1" role="dialog" aria-labelledby="readEditBookModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+
+                                            <form method="post" action="@Url.Action("EditBook", "Books", new { bookID = bookInList.BookID })">
+                                                <div class="modal-body">
+                                                    <div class="form-group pb-1">
+                                                        <label for="bookTitle">Book Title</label>
+                                                        <input type="text" class="form-control" id="bookTitle" placeholder="@bookInList.Book.Title" readonly>
+                                                    </div>
+                                                    <div class="form-group py-3">
+                                                        <label for="status">Status</label>
+                                                        <select class="form-control" name="StatusID" required>
+                                                            <option value="1" selected="@(bookInList.StatusID == 1)">Read</option>
+                                                            <option value="2" selected="@(bookInList.StatusID == 2)">Currently Reading</option>
+                                                            <option value="3" selected="@(bookInList.StatusID == 3)">Plan to Read</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group pt-1">
+                                                        <label for="rating">Personal Rating</label>
+                                                        <input type="number" class="form-control" name="RatingValue" min="1" max="10" value="@bookInList.RatingValue" required>
+                                                        <small class="form-text text-muted">Enter a value between 1-10</small>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </tbody>
+                </table>
+
+            }
+        </div>
+
+        <div class="tab-pane fade" id="currently-reading" role="tabpanel" aria-labelledby="currently-reading-tab">
+            @if (sortedModel != null && sortedModel.Any())
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Thumbnail</th>
+                            <th>Title</th>
+                            <th class="text-center">Personal Score</th>
+                            <th class="text-center">Edit</th>
+                            <th class="text-center">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var bookInList in sortedModel.Where(b => b.StatusID == 2))
+                        {
+                            <tr>
+                                <td><img width="80" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
+                                <td>@bookInList.Book.Title</td>
+                                <td class="text-center">Score: @bookInList.RatingValue</td>
+                                <td class="text-center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#currentlyReadingEditBookModal-@bookInList.BookID">Edit</button></td>
+                                <td class="text-center">
+                                    <form method="post" action="@Url.Action("RemoveBook", "Books")">
+                                        <input type="hidden" name="bookID" value="@bookInList.BookID">
+                                        <button type="submit" class="btn btn-danger">Remove</button>
+
+                                    </form>
+                                </td>
+                            </tr>
+
+                            <div class="modal fade" id="currentlyReadingEditBookModal-@bookInList.BookID" tabindex="-1" role="dialog" aria-labelledby="currentlyReadingEditBookModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+
+                                            <form method="post" action="@Url.Action("EditBook", "Books", new { bookID = bookInList.BookID })">
+                                                <div class="modal-body">
+                                                    <div class="form-group pb-1">
+                                                        <label for="bookTitle">Book Title</label>
+                                                        <input type="text" class="form-control" id="bookTitle" placeholder="@bookInList.Book.Title" readonly>
+                                                    </div>
+                                                    <div class="form-group py-3">
+                                                        <label for="status">Status</label>
+                                                        <select class="form-control" name="StatusID" required>
+                                                            <option value="1" selected="@(bookInList.StatusID == 1)">Read</option>
+                                                            <option value="2" selected="@(bookInList.StatusID == 2)">Currently Reading</option>
+                                                            <option value="3" selected="@(bookInList.StatusID == 3)">Plan to Read</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group pt-1">
+                                                        <label for="rating">Personal Rating</label>
+                                                        <input type="number" class="form-control" name="RatingValue" min="1" max="10" value="@bookInList.RatingValue" required>
+                                                        <small class="form-text text-muted">Enter a value between 1-10</small>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+
+        <div class="tab-pane fade" id="plan-to-read" role="tabpanel" aria-labelledby="plan-to-read-tab">
+            @if (sortedModel != null && sortedModel.Any())
+            {
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Thumbnail</th>
+                            <th>Title</th>
+                            <th class="text-center">Personal Score</th>
+                            <th class="text-center">Edit</th>
+                            <th class="text-center">Remove</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var bookInList in sortedModel.Where(b => b.StatusID == 3))
+                        {
+                            <tr>
+                                <td><img width="80" src="@bookInList.Book.SmallThumbnail" alt="Book Thumbnail" /></td>
+                                <td>@bookInList.Book.Title</td>
+                                <td class="text-center">Score: @bookInList.RatingValue</td>
+                                <td class="text-center"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#planToReadEditBookModal-@bookInList.BookID">Edit</button></td>
+                                <td class="text-center">
+                                    <form method="post" action="@Url.Action("RemoveBook", "Books")">
+                                        <input type="hidden" name="bookID" value="@bookInList.BookID">
+                                        <button type="submit" class="btn btn-danger">Remove</button>
+
+                                    </form>
+                                </td>
+                            </tr>
+
+                            <div class="modal fade" id="planToReadEditBookModal-@bookInList.BookID" tabindex="-1" role="dialog" aria-labelledby="planToReadEditBookModalLabel">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+
+                                            <form method="post" action="@Url.Action("EditBook", "Books", new { bookID = bookInList.BookID })">
+                                                <div class="modal-body">
+                                                    <div class="form-group pb-1">
+                                                        <label for="bookTitle">Book Title</label>
+                                                        <input type="text" class="form-control" id="bookTitle" placeholder="@bookInList.Book.Title" readonly>
+                                                    </div>
+                                                    <div class="form-group py-3">
+                                                        <label for="status">Status</label>
+                                                        <select class="form-control" name="StatusID" required>
+                                                            <option value="1" selected="@(bookInList.StatusID == 1)">Read</option>
+                                                            <option value="2" selected="@(bookInList.StatusID == 2)">Currently Reading</option>
+                                                            <option value="3" selected="@(bookInList.StatusID == 3)">Plan to Read</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group pt-1">
+                                                        <label for="rating">Personal Rating</label>
+                                                        <input type="number" class="form-control" name="RatingValue" min="1" max="10" value="@bookInList.RatingValue" required>
+                                                        <small class="form-text text-muted">Enter a value between 1-10</small>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

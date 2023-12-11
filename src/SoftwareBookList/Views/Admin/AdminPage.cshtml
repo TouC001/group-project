@@ -6,8 +6,13 @@
 @if (User.IsInRole("Admin"))
 {
     <form method="post" asp-action="PopulateBookData">
-        <button type="submit" class="btn btn-primary">Populate Book Data</button>
+        <div class="form-group">
+            <input type="text" name="keyword" placeholder="Enter a phrase for the books. (C#, JavaScript, Design Patterns, Data Structures, etc.)" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Populate Book Data</button>
     </form>
+
+    <a asp-action="PopulateRatings" class="btn btn-primary">Update Book Rating</a>
 }
 else
 {

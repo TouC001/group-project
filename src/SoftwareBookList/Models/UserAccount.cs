@@ -13,13 +13,16 @@ namespace SoftwareBookList.Models
 
 		public string UserName { get; set; }
 
-		public string ProfilePicture { get; set; }
+		public string? ProfilePicture { get; set; }
 
-		[StringLength(200)]
+		[StringLength(30000)]
 		public string Bio {  get; set; }
 
+		[DataType(DataType.EmailAddress)]
+		public string EmailAddress { get; set; }
+
 		[DataType(DataType.Date)]
-		public DateTime Birthday { get; set; }
+		public DateTime? Birthday { get; set; }
 
 		public User User { get; set; }
 

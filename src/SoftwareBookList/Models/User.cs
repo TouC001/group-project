@@ -28,6 +28,9 @@ namespace SoftwareBookList.Models
 		[Required]
 		public bool IsAdmin { get; set; }
 
+		[Required]
+		public DateTime DateJoin { get; set; }
+
 		// Represents a collection of discussions associated with this user.
 		public List<Discussion> Discussions { get; set; }
 
@@ -44,7 +47,7 @@ namespace SoftwareBookList.Models
 		// Represents a collection of Accounts a User can Create.
 		public List<UserAccount> UserAccounts { get; set; }
 
-
+		public List<Comment> UserComment { get; set; }
 
 		// Navigation property for the user's BookList
 		public BookList BookList { get; set; }
