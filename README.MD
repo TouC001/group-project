@@ -3,9 +3,9 @@ This repository contains the work from a Software Architecture class project, wh
 
 What We Did:
 
--Developed a Web Application: Implemented a fully functional website with features designed to meet the project requirements.
+-Developed a Web Application: Implemented a fully functional website with features designed that met the project requirements.
 -Used ASP.NET MVC: Leveraged the ASP.NET MVC framework for building the backend and managing the application's data and logic.
--Designed the Frontend: Created the user interface using HTML and CSS, ensuring a responsive and user-friendly experience.
+-Designed the Frontend: Created the user interface using HTML and CSS.
 
 What I Learned:
 
@@ -16,8 +16,8 @@ What I Learned:
 This project was a valuable learning experience, providing insights into both the technical and collaborative aspects of software development.
 
 ## Members
-Kennen Her
+Kennen
 
-Shaun Bohan
+Shaun
 
-Tou Chang
+Tou
